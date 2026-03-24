@@ -1,0 +1,431 @@
+import type { Locale } from "@/lib/db/types";
+
+/**
+ * Translation dictionary — flat key-value structure.
+ * Organized by feature area with dot-separated keys.
+ * Supports placeholder interpolation: "Hello {name}" → t("greeting", { name: "Max" })
+ */
+
+export type TranslationKey = keyof typeof translations.de;
+
+const de = {
+  // ─── Common / Navigation ────────────────────────────────────────────────
+  "common.appName": "Skillmapper",
+  "common.dashboard": "Dashboard",
+  "common.projects": "Projekte",
+  "common.candidates": "Kandidaten",
+  "common.matching": "Matching",
+  "common.settings": "Einstellungen",
+  "common.help": "Hilfe",
+  "common.faq": "FAQ",
+  "common.admin": "Administration",
+  "common.logout": "Abmelden",
+  "common.login": "Anmelden",
+  "common.register": "Registrieren",
+  "common.save": "Speichern",
+  "common.cancel": "Abbrechen",
+  "common.delete": "Löschen",
+  "common.edit": "Bearbeiten",
+  "common.create": "Erstellen",
+  "common.search": "Suchen",
+  "common.back": "Zurück",
+  "common.next": "Weiter",
+  "common.loading": "Laden...",
+  "common.noResults": "Keine Ergebnisse",
+  "common.confirm": "Bestätigen",
+  "common.yes": "Ja",
+  "common.no": "Nein",
+  "common.or": "oder",
+  "common.language": "Sprache",
+  "common.german": "Deutsch",
+  "common.english": "Englisch",
+  "common.mock": "Mock",
+  "common.home": "Startseite",
+
+  // ─── Breadcrumbs ────────────────────────────────────────────────────────
+  "breadcrumb.home": "Startseite",
+  "breadcrumb.dashboard": "Dashboard",
+  "breadcrumb.projects": "Projekte",
+  "breadcrumb.candidates": "Kandidaten",
+  "breadcrumb.matching": "Matching",
+  "breadcrumb.settings": "Einstellungen",
+  "breadcrumb.admin": "Administration",
+  "breadcrumb.users": "Benutzerverwaltung",
+  "breadcrumb.licenses": "Lizenzen",
+  "breadcrumb.help": "Hilfe",
+  "breadcrumb.faq": "FAQ",
+  "breadcrumb.legal": "Rechtliches",
+  "breadcrumb.agb": "AGB",
+  "breadcrumb.datenschutz": "Datenschutz",
+  "breadcrumb.impressum": "Impressum",
+  "breadcrumb.login": "Anmelden",
+  "breadcrumb.register": "Registrieren",
+  "breadcrumb.newProject": "Neues Projekt",
+
+  // ─── Auth ───────────────────────────────────────────────────────────────
+  "auth.loginTitle": "Anmelden",
+  "auth.loginSubtitle": "Melden Sie sich mit Ihren Zugangsdaten an",
+  "auth.registerTitle": "Registrieren",
+  "auth.registerSubtitle": "Erstellen Sie Ihr Skillmapper-Konto",
+  "auth.email": "E-Mail-Adresse",
+  "auth.password": "Passwort",
+  "auth.passwordConfirm": "Passwort bestätigen",
+  "auth.fullName": "Vollständiger Name",
+  "auth.phone": "Telefonnummer",
+  "auth.phonePlaceholder": "+49 170 1234567",
+  "auth.verifyPhone": "Telefon verifizieren",
+  "auth.verificationMethod": "Verifizierungsmethode",
+  "auth.whatsapp": "WhatsApp",
+  "auth.sms": "SMS",
+  "auth.verificationCode": "Verifizierungscode",
+  "auth.sendCode": "Code senden",
+  "auth.verifyCode": "Code bestätigen",
+  "auth.acceptTerms": "Ich akzeptiere die {link_agb}",
+  "auth.acceptPrivacy": "Ich habe die {link_datenschutz} gelesen und akzeptiert",
+  "auth.acceptMarketing": "Ich möchte über Neuigkeiten informiert werden (optional)",
+  "auth.termsRequired": "Sie müssen die AGB akzeptieren",
+  "auth.privacyRequired": "Sie müssen die Datenschutzerklärung akzeptieren",
+  "auth.noAccount": "Noch kein Konto?",
+  "auth.hasAccount": "Bereits registriert?",
+  "auth.forgotPassword": "Passwort vergessen?",
+
+  // ─── Dashboard ──────────────────────────────────────────────────────────
+  "dashboard.title": "Dashboard",
+  "dashboard.welcome": "Willkommen, {name}",
+  "dashboard.projectsCount": "{count} Projekte",
+  "dashboard.candidatesCount": "{count} Kandidaten",
+  "dashboard.matchesCount": "{count} Matches",
+  "dashboard.recentActivity": "Letzte Aktivitäten",
+  "dashboard.quickActions": "Schnellaktionen",
+
+  // ─── Projects ───────────────────────────────────────────────────────────
+  "projects.title": "Projekte",
+  "projects.subtitle": "Verwalten Sie Ihre Projekte und Ausschreibungen",
+  "projects.new": "Neues Projekt",
+  "projects.name": "Projektname",
+  "projects.description": "Beschreibung",
+  "projects.sourceType": "Quelltyp",
+  "projects.tender": "Ausschreibung",
+  "projects.brief": "Projektbeschreibung",
+  "projects.status": "Status",
+  "projects.draft": "Entwurf",
+  "projects.active": "Aktiv",
+  "projects.archived": "Archiviert",
+  "projects.noProjects": "Noch keine Projekte vorhanden",
+  "projects.createFirst": "Erstellen Sie Ihr erstes Projekt",
+
+  // ─── Candidates ─────────────────────────────────────────────────────────
+  "candidates.title": "Kandidaten",
+  "candidates.subtitle": "Bewerberprofile verwalten",
+  "candidates.new": "Neuer Kandidat",
+  "candidates.name": "Name",
+  "candidates.email": "E-Mail",
+  "candidates.uploadCv": "CV hochladen",
+  "candidates.noCandidates": "Noch keine Kandidaten vorhanden",
+
+  // ─── Matching ───────────────────────────────────────────────────────────
+  "matching.title": "Matching",
+  "matching.subtitle": "Projekt-Kandidaten-Matching durchführen",
+  "matching.selectProject": "Projekt auswählen",
+  "matching.selectCandidate": "Kandidat auswählen",
+  "matching.runMatching": "Matching starten",
+  "matching.score": "Score",
+  "matching.recommendation": "Empfehlung",
+  "matching.suitable": "Geeignet",
+  "matching.partiallySuitable": "Bedingt geeignet",
+  "matching.notSuitable": "Nicht geeignet",
+
+  // ─── Admin ──────────────────────────────────────────────────────────────
+  "admin.title": "Administration",
+  "admin.users": "Benutzerverwaltung",
+  "admin.usersSubtitle": "Benutzer verwalten, Rollen zuweisen",
+  "admin.licenses": "Lizenzverwaltung",
+  "admin.licensesSubtitle": "Lizenzen und Abonnements verwalten",
+  "admin.role": "Rolle",
+  "admin.status": "Status",
+  "admin.lastLogin": "Letzte Anmeldung",
+  "admin.actions": "Aktionen",
+  "admin.changeRole": "Rolle ändern",
+  "admin.suspendUser": "Benutzer sperren",
+  "admin.activateUser": "Benutzer aktivieren",
+  "admin.inviteUser": "Benutzer einladen",
+  "admin.noUsers": "Keine Benutzer gefunden",
+
+  // ─── Notifications ────────────────────────────────────────────────────
+  "notifications.title": "Benachrichtigungen",
+  "notifications.empty": "Keine neuen Benachrichtigungen",
+  "notifications.markRead": "Als gelesen markieren",
+  "notifications.markAllRead": "Alle als gelesen markieren",
+  "notifications.clearAll": "Alle löschen",
+
+  // ─── Licensing ──────────────────────────────────────────────────────────
+  "licensing.title": "Lizenzen & Abonnements",
+  "licensing.currentPlan": "Aktueller Plan",
+  "licensing.free": "Kostenlos",
+  "licensing.starter": "Starter",
+  "licensing.professional": "Professional",
+  "licensing.enterprise": "Enterprise",
+  "licensing.usersIncluded": "{count} Benutzer inklusive",
+  "licensing.projectsIncluded": "{count} Projekte inklusive",
+  "licensing.upgrade": "Upgrade",
+  "licensing.manage": "Verwalten",
+  "licensing.validUntil": "Gültig bis {date}",
+
+  // ─── Settings ───────────────────────────────────────────────────────────
+  "settings.title": "Einstellungen",
+  "settings.profile": "Profil",
+  "settings.language": "Spracheinstellungen",
+  "settings.languageDescription": "Wählen Sie Ihre bevorzugte Sprache",
+  "settings.notifications": "Benachrichtigungen",
+  "settings.saved": "Einstellungen gespeichert",
+
+  // ─── Legal ──────────────────────────────────────────────────────────────
+  "legal.agb": "Allgemeine Geschäftsbedingungen",
+  "legal.datenschutz": "Datenschutzerklärung",
+  "legal.impressum": "Impressum",
+  "legal.lastUpdated": "Zuletzt aktualisiert: {date}",
+
+  // ─── Help / FAQ ─────────────────────────────────────────────────────────
+  "help.title": "Hilfe & Support",
+  "help.subtitle": "Finden Sie Antworten auf häufige Fragen",
+  "help.faqTitle": "Häufig gestellte Fragen",
+  "help.contactTitle": "Kontakt",
+  "help.contactText": "Haben Sie weitere Fragen? Kontaktieren Sie uns unter support@skillmapper.dev",
+  "help.guideTitle": "Nutzungsanleitung",
+  "help.guideSubtitle": "So nutzen Sie Skillmapper",
+
+  // ─── FAQ Items ──────────────────────────────────────────────────────────
+  "faq.q1": "Was ist Skillmapper?",
+  "faq.a1": "Skillmapper ist eine Plattform für automatisiertes Skill-Matching zwischen Projekten und Kandidaten.",
+  "faq.q2": "Wie funktioniert das Matching?",
+  "faq.a2": "Nach der Projektwahl können Sie zwischen Einzelmatching und Mehrfach-Matching wechseln. Das System analysiert Projektanforderungen und Kandidatenprofile, erstellt ein Mapping und berechnet erklärbare Matching-Scores.",
+  "faq.q3": "Welche Dateiformate werden unterstützt?",
+  "faq.a3": "Aktuell werden TXT, MD, CSV unterstützt. PDF, DOCX und XLSX Unterstützung wird in einer zukünftigen Version hinzugefügt.",
+  "faq.q4": "Wie sicher sind meine Daten?",
+  "faq.a4": "Alle Daten werden verschlüsselt gespeichert und sind durch Row-Level-Security auf Mandantenebene geschützt.",
+  "faq.q5": "Kann ich die Sprache ändern?",
+  "faq.a5": "Ja, unter Einstellungen können Sie zwischen Deutsch und Englisch wechseln.",
+  "faq.q6": "Wie funktioniert die Lizenzierung?",
+  "faq.a6": "Skillmapper bietet verschiedene Lizenzmodelle: Kostenlos, Starter, Professional und Enterprise mit unterschiedlichen Benutzer- und Projektlimits.",
+  "faq.q7": "Wo finde ich die Batch-Funktion?",
+  "faq.a7": "Die Batch-Funktion ist im Matching Hub als Mehrfach-Matching verfügbar. Sie erreichen sie direkt über Projekte, Projektdetails, Dashboard-Schnellaktionen oder die Matching-Seite selbst.",
+} as const;
+
+const en: Record<keyof typeof de, string> = {
+  // ─── Common / Navigation ────────────────────────────────────────────────
+  "common.appName": "Skillmapper",
+  "common.dashboard": "Dashboard",
+  "common.projects": "Projects",
+  "common.candidates": "Candidates",
+  "common.matching": "Matching",
+  "common.settings": "Settings",
+  "common.help": "Help",
+  "common.faq": "FAQ",
+  "common.admin": "Administration",
+  "common.logout": "Logout",
+  "common.login": "Login",
+  "common.register": "Register",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "common.delete": "Delete",
+  "common.edit": "Edit",
+  "common.create": "Create",
+  "common.search": "Search",
+  "common.back": "Back",
+  "common.next": "Next",
+  "common.loading": "Loading...",
+  "common.noResults": "No results",
+  "common.confirm": "Confirm",
+  "common.yes": "Yes",
+  "common.no": "No",
+  "common.or": "or",
+  "common.language": "Language",
+  "common.german": "German",
+  "common.english": "English",
+  "common.mock": "Mock",
+  "common.home": "Home",
+
+  // ─── Breadcrumbs ────────────────────────────────────────────────────────
+  "breadcrumb.home": "Home",
+  "breadcrumb.dashboard": "Dashboard",
+  "breadcrumb.projects": "Projects",
+  "breadcrumb.candidates": "Candidates",
+  "breadcrumb.matching": "Matching",
+  "breadcrumb.settings": "Settings",
+  "breadcrumb.admin": "Administration",
+  "breadcrumb.users": "User Management",
+  "breadcrumb.licenses": "Licenses",
+  "breadcrumb.help": "Help",
+  "breadcrumb.faq": "FAQ",
+  "breadcrumb.legal": "Legal",
+  "breadcrumb.agb": "Terms of Service",
+  "breadcrumb.datenschutz": "Privacy Policy",
+  "breadcrumb.impressum": "Imprint",
+  "breadcrumb.login": "Login",
+  "breadcrumb.register": "Register",
+  "breadcrumb.newProject": "New Project",
+
+  // ─── Auth ───────────────────────────────────────────────────────────────
+  "auth.loginTitle": "Login",
+  "auth.loginSubtitle": "Sign in with your credentials",
+  "auth.registerTitle": "Register",
+  "auth.registerSubtitle": "Create your Skillmapper account",
+  "auth.email": "Email address",
+  "auth.password": "Password",
+  "auth.passwordConfirm": "Confirm password",
+  "auth.fullName": "Full name",
+  "auth.phone": "Phone number",
+  "auth.phonePlaceholder": "+49 170 1234567",
+  "auth.verifyPhone": "Verify phone",
+  "auth.verificationMethod": "Verification method",
+  "auth.whatsapp": "WhatsApp",
+  "auth.sms": "SMS",
+  "auth.verificationCode": "Verification code",
+  "auth.sendCode": "Send code",
+  "auth.verifyCode": "Verify code",
+  "auth.acceptTerms": "I accept the {link_agb}",
+  "auth.acceptPrivacy": "I have read and accept the {link_datenschutz}",
+  "auth.acceptMarketing": "I would like to receive news and updates (optional)",
+  "auth.termsRequired": "You must accept the terms of service",
+  "auth.privacyRequired": "You must accept the privacy policy",
+  "auth.noAccount": "Don't have an account?",
+  "auth.hasAccount": "Already registered?",
+  "auth.forgotPassword": "Forgot password?",
+
+  // ─── Dashboard ──────────────────────────────────────────────────────────
+  "dashboard.title": "Dashboard",
+  "dashboard.welcome": "Welcome, {name}",
+  "dashboard.projectsCount": "{count} Projects",
+  "dashboard.candidatesCount": "{count} Candidates",
+  "dashboard.matchesCount": "{count} Matches",
+  "dashboard.recentActivity": "Recent Activity",
+  "dashboard.quickActions": "Quick Actions",
+
+  // ─── Projects ───────────────────────────────────────────────────────────
+  "projects.title": "Projects",
+  "projects.subtitle": "Manage your projects and tenders",
+  "projects.new": "New Project",
+  "projects.name": "Project Name",
+  "projects.description": "Description",
+  "projects.sourceType": "Source Type",
+  "projects.tender": "Tender",
+  "projects.brief": "Project Brief",
+  "projects.status": "Status",
+  "projects.draft": "Draft",
+  "projects.active": "Active",
+  "projects.archived": "Archived",
+  "projects.noProjects": "No projects yet",
+  "projects.createFirst": "Create your first project",
+
+  // ─── Candidates ─────────────────────────────────────────────────────────
+  "candidates.title": "Candidates",
+  "candidates.subtitle": "Manage candidate profiles",
+  "candidates.new": "New Candidate",
+  "candidates.name": "Name",
+  "candidates.email": "Email",
+  "candidates.uploadCv": "Upload CV",
+  "candidates.noCandidates": "No candidates yet",
+
+  // ─── Matching ───────────────────────────────────────────────────────────
+  "matching.title": "Matching",
+  "matching.subtitle": "Run project-candidate matching",
+  "matching.selectProject": "Select project",
+  "matching.selectCandidate": "Select candidate",
+  "matching.runMatching": "Run Matching",
+  "matching.score": "Score",
+  "matching.recommendation": "Recommendation",
+  "matching.suitable": "Suitable",
+  "matching.partiallySuitable": "Partially suitable",
+  "matching.notSuitable": "Not suitable",
+
+  // ─── Admin ──────────────────────────────────────────────────────────────
+  "admin.title": "Administration",
+  "admin.users": "User Management",
+  "admin.usersSubtitle": "Manage users and assign roles",
+  "admin.licenses": "License Management",
+  "admin.licensesSubtitle": "Manage licenses and subscriptions",
+  "admin.role": "Role",
+  "admin.status": "Status",
+  "admin.lastLogin": "Last Login",
+  "admin.actions": "Actions",
+  "admin.changeRole": "Change Role",
+  "admin.suspendUser": "Suspend User",
+  "admin.activateUser": "Activate User",
+  "admin.inviteUser": "Invite User",
+  "admin.noUsers": "No users found",
+
+  // ─── Notifications ────────────────────────────────────────────────────
+  "notifications.title": "Notifications",
+  "notifications.empty": "No new notifications",
+  "notifications.markRead": "Mark as read",
+  "notifications.markAllRead": "Mark all as read",
+  "notifications.clearAll": "Clear all",
+
+  // ─── Licensing ──────────────────────────────────────────────────────────
+  "licensing.title": "Licenses & Subscriptions",
+  "licensing.currentPlan": "Current Plan",
+  "licensing.free": "Free",
+  "licensing.starter": "Starter",
+  "licensing.professional": "Professional",
+  "licensing.enterprise": "Enterprise",
+  "licensing.usersIncluded": "{count} users included",
+  "licensing.projectsIncluded": "{count} projects included",
+  "licensing.upgrade": "Upgrade",
+  "licensing.manage": "Manage",
+  "licensing.validUntil": "Valid until {date}",
+
+  // ─── Settings ───────────────────────────────────────────────────────────
+  "settings.title": "Settings",
+  "settings.profile": "Profile",
+  "settings.language": "Language Settings",
+  "settings.languageDescription": "Choose your preferred language",
+  "settings.notifications": "Notifications",
+  "settings.saved": "Settings saved",
+
+  // ─── Legal ──────────────────────────────────────────────────────────────
+  "legal.agb": "Terms of Service",
+  "legal.datenschutz": "Privacy Policy",
+  "legal.impressum": "Imprint",
+  "legal.lastUpdated": "Last updated: {date}",
+
+  // ─── Help / FAQ ─────────────────────────────────────────────────────────
+  "help.title": "Help & Support",
+  "help.subtitle": "Find answers to common questions",
+  "help.faqTitle": "Frequently Asked Questions",
+  "help.contactTitle": "Contact",
+  "help.contactText": "Have additional questions? Contact us at support@skillmapper.dev",
+  "help.guideTitle": "User Guide",
+  "help.guideSubtitle": "How to use Skillmapper",
+
+  // ─── FAQ Items ──────────────────────────────────────────────────────────
+  "faq.q1": "What is Skillmapper?",
+  "faq.a1": "Skillmapper is a platform for automated skill matching between projects and candidates.",
+  "faq.q2": "How does matching work?",
+  "faq.a2": "After selecting a project, you can switch between single matching and batch matching. The system analyzes project requirements and candidate profiles, creates a mapping, and calculates explainable matching scores.",
+  "faq.q3": "Which file formats are supported?",
+  "faq.a3": "Currently TXT, MD, CSV are supported. PDF, DOCX and XLSX support will be added in a future version.",
+  "faq.q4": "How secure is my data?",
+  "faq.a4": "All data is stored encrypted and protected by row-level security at the tenant level.",
+  "faq.q5": "Can I change the language?",
+  "faq.a5": "Yes, you can switch between German and English in Settings.",
+  "faq.q6": "How does licensing work?",
+  "faq.a6": "Skillmapper offers different license models: Free, Starter, Professional, and Enterprise with varying user and project limits.",
+  "faq.q7": "Where can I find the batch function?",
+  "faq.a7": "The batch function is available in the Matching Hub as batch matching. You can open it from projects, project details, dashboard quick actions, or from the matching page itself.",
+};
+
+export const translations = { de, en } as const;
+
+/**
+ * Get a translated string with optional parameter interpolation.
+ * Usage: t("de", "dashboard.welcome", { name: "Max" }) => "Willkommen, Max"
+ */
+export function t(locale: Locale, key: TranslationKey, params?: Record<string, string | number>): string {
+  let text = translations[locale]?.[key] ?? translations.de[key] ?? key;
+  if (params) {
+    for (const [k, v] of Object.entries(params)) {
+      text = text.replace(new RegExp(`\\{${k}\\}`, "g"), String(v));
+    }
+  }
+  return text;
+}
