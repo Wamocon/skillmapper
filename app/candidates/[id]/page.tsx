@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, UserCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SkillTree, mapCandidateSkillNodes } from "@/components/skill-tree";
 import { analyzeCandidate } from "@/lib/mock-skillmapper";
-import { getMockCandidateById } from "@/lib/mock-records";
+import { fetchCandidateById } from "@/lib/db/service";
+import type { DbCandidate } from "@/lib/db/types";
 
 export default function CandidateDetailPage() {
   const { t, locale } = useI18n();
@@ -16,7 +18,24 @@ export default function CandidateDetailPage() {
   const router = useRouter();
   const candidateId = params.id as string;
 
-  const candidate = getMockCandidateById(candidateId);
+  const [candidate, setCandidate] = useState<DbCandidate | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCandidateById(candidateId)
+      .then(setCandidate)
+      .finally(() => setLoading(false));
+  }, [candidateId]);
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-24 rounded-3xl bg-ink/5" />
+        <div className="h-56 rounded-3xl bg-ink/5" />
+      </div>
+    );
+  }
+
   const profile = candidate ? analyzeCandidate(candidate.full_name, candidate.cv_raw_text ?? "", candidate.extension_mode) : null;
 
   if (!candidate || !profile) {

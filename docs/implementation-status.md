@@ -3,7 +3,7 @@
 ## Last update
 
 - Date: 2026-03-25
-- Stage: Local workflow prototype with roles, postings, and posting-centric matching
+- Stage: Supabase-connected MVP with schema strategy, RLS and seeded test data pipeline
 - Stack: Next.js, Tailwind, Supabase, Vercel-ready
 
 ## Current implementation state
@@ -35,17 +35,22 @@
 - Matching hub with posting-first selection and explicit mode switch.
 - Batch matching with filterable multiselect, sortable results, drilldown.
 - Extension workflow implemented in mock.
-- Supabase schema extended with project_roles and job_postings tables.
+- Supabase schema extended with `project_roles` and `job_postings` tables.
+- Domain fields (`duration_months`, `industry`, `maturity`, `phase`, `constraints`, `additional_attributes`) added for projects/candidates/postings.
+- RLS moved from placeholder policies to tenant-based policies using `auth.uid()` helpers.
+- `test` schema created for local development and seeded workflow.
+- DB service layer implemented in `lib/db/service.ts`.
+- Auth context switched to Supabase auth sessions (`signInWithPassword`, `signUp`, `signOut`).
+- Major UI routes switched from mock-records to DB reads (projects, candidates, postings, matching, admin users).
 
 ### In progress
 
 - API route design for project ingestion and candidate ingestion.
-- Tenant membership data model and strict RLS policy model.
-- Transition plan from mock extraction to real parser/services.
+- Tightening RLS for cross-tenant edge cases and write operations.
+- Persisting generated interview question sets in dedicated DB tables.
 
 ### Not started
 
-- Authentication flow.
 - Requirement extraction pipeline (non-mock).
 - CV/Onepager extraction pipeline (non-mock).
 - Matching scorecard service (non-mock).

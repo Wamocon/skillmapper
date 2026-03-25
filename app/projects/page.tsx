@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { Plus, FolderOpen, MoreHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MOCK_PROJECTS, type MockProjectRecord } from "@/lib/mock-records";
+import { fetchProjects } from "@/lib/db/service";
+import type { DbProject } from "@/lib/db/types";
 
 const STATUS_VARIANTS: Record<string, "success" | "warning" | "default"> = {
   active: "success",
@@ -17,7 +18,25 @@ const STATUS_VARIANTS: Record<string, "success" | "warning" | "default"> = {
 
 export default function ProjectsPage() {
   const { t, locale } = useI18n();
-  const [projects] = useState<MockProjectRecord[]>(MOCK_PROJECTS);
+  const [projects, setProjects] = useState<DbProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProjects()
+      .then(setProjects)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-32 rounded-3xl bg-ink/5" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => <div key={i} className="h-48 rounded-3xl bg-ink/5" />)}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

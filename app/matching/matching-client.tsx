@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronRight, CircleDot, FolderOpen, Layers3, UserRound, Users, Zap } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
@@ -26,12 +26,12 @@ import {
   type PostingAnalysis,
 } from "@/lib/mock-skillmapper";
 import {
-  MOCK_CANDIDATES,
-  MOCK_JOB_POSTINGS,
-  getMockProjectById,
-  getMockRoleById,
-  type MockJobPostingRecord,
-} from "@/lib/mock-records";
+  fetchActivePostings,
+  fetchCandidates,
+  fetchProjectById,
+  fetchRoleById,
+} from "@/lib/db/service";
+import type { DbCandidate, DbJobPosting, DbProject, DbProjectRole } from "@/lib/db/types";
 
 type MatchMode = "single" | "batch";
 type View = "setup" | "single-results" | "batch-results";
@@ -223,10 +223,44 @@ export default function MatchingPage() {
   const [batchPostingAnalysis, setBatchPostingAnalysis] = useState<PostingAnalysis | null>(null);
   const [batchResults, setBatchResults] = useState<BatchMatchEntry[]>([]);
 
-  const activePostings = MOCK_JOB_POSTINGS.filter((p) => p.status === "active");
-  const selectedPosting: MockJobPostingRecord | null = MOCK_JOB_POSTINGS.find((p) => p.id === selectedPostingId) ?? null;
-  const selectedRole = selectedPosting ? getMockRoleById(selectedPosting.role_id) ?? null : null;
-  const selectedCandidate = MOCK_CANDIDATES.find((candidate) => candidate.id === selectedCandidateId) ?? null;
+  const [activePostings, setActivePostings] = useState<DbJobPosting[]>([]);
+  const [candidates, setCandidates] = useState<DbCandidate[]>([]);
+  const [projectById, setProjectById] = useState<Record<string, DbProject>>({});
+  const [roleById, setRoleById] = useState<Record<string, DbProjectRole>>({});
+
+  useEffect(() => {
+    Promise.all([fetchActivePostings(), fetchCandidates()]).then(async ([postings, dbCandidates]) => {
+      setActivePostings(postings);
+      setCandidates(dbCandidates);
+
+      const projectIds = [...new Set(postings.map((p) => p.project_id))];
+      const roleIds = [...new Set(postings.map((p) => p.role_id))];
+
+      const [projects, roles] = await Promise.all([
+        Promise.all(projectIds.map((id) => fetchProjectById(id))),
+        Promise.all(roleIds.map((id) => fetchRoleById(id))),
+      ]);
+
+      const pMap: Record<string, DbProject> = {};
+      const rMap: Record<string, DbProjectRole> = {};
+      projects.forEach((p) => {
+        if (p) pMap[p.id] = p;
+      });
+      roles.forEach((r) => {
+        if (r) rMap[r.id] = r;
+      });
+
+      setProjectById(pMap);
+      setRoleById(rMap);
+    });
+  }, []);
+
+  const selectedPosting: DbJobPosting | null = useMemo(
+    () => activePostings.find((p) => p.id === selectedPostingId) ?? null,
+    [activePostings, selectedPostingId],
+  );
+  const selectedRole = selectedPosting ? roleById[selectedPosting.role_id] ?? null : null;
+  const selectedCandidate = candidates.find((candidate) => candidate.id === selectedCandidateId) ?? null;
 
   const canRunSingle = Boolean(selectedPosting && selectedCandidate);
   const canRunBatch = Boolean(selectedPosting) && selectedCandidateIds.size > 0;
@@ -275,24 +309,24 @@ export default function MatchingPage() {
     if (!selectedPosting || !selectedRole) return;
 
     setLoading(true);
-    const candidates = MOCK_CANDIDATES.filter((candidate) => selectedCandidateIds.has(candidate.id)).map((candidate) => ({
+    const candidatesForBatch = candidates.filter((candidate) => selectedCandidateIds.has(candidate.id)).map((candidate) => ({
       id: candidate.id,
       name: candidate.full_name,
-      location: candidate.location,
+      location: candidate.location ?? "Unknown",
       availabilityWeeks: candidate.availability_weeks,
       totalProjectMonths: candidate.total_project_months,
       cvText: candidate.cv_raw_text ?? "",
       extensionMode: candidate.extension_mode,
     }));
 
-    await new Promise((resolve) => setTimeout(resolve, Math.min(1200, candidates.length * 70)));
+    await new Promise((resolve) => setTimeout(resolve, Math.min(1200, candidatesForBatch.length * 70)));
 
     const result = runBatchMatchForPosting(
       selectedPosting.title,
       selectedPosting.raw_text ?? selectedPosting.description ?? "",
       selectedRole.title,
       selectedPosting.extension_mode,
-      candidates,
+      candidatesForBatch,
     );
 
     setBatchPostingAnalysis(result.postingAnalysis);
@@ -362,7 +396,7 @@ export default function MatchingPage() {
           <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {activePostings.map((posting) => {
               const isActive = posting.id === selectedPostingId;
-              const project = getMockProjectById(posting.project_id);
+              const project = projectById[posting.project_id];
 
               return (
                 <button
@@ -471,7 +505,7 @@ export default function MatchingPage() {
                 onChange={(event) => setSelectedCandidateId(event.target.value)}
               >
                 <option value="">{locale === "de" ? "-- Kandidat auswählen --" : "-- Select candidate --"}</option>
-                {MOCK_CANDIDATES.map((candidate) => (
+                {candidates.map((candidate) => (
                   <option key={candidate.id} value={candidate.id}>
                     {candidate.full_name} · {candidate.location}
                   </option>
@@ -521,7 +555,7 @@ export default function MatchingPage() {
           />
           <div className="mt-5">
             <CandidatePicker
-              candidates={MOCK_CANDIDATES}
+              candidates={candidates}
               selectedIds={selectedCandidateIds}
               onSelectionChange={setSelectedCandidateIds}
               disabled={loading}

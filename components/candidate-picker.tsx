@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Search, X, MapPin, Clock, Briefcase, Check } from "lucide-react";
 import { clsx } from "clsx";
 import { useI18n } from "@/lib/i18n/context";
-import type { MockCandidateRecord } from "@/lib/mock-records";
+import type { DbCandidate } from "@/lib/db/types";
 
 const SKILL_KEYWORDS = [
   "React",
@@ -40,7 +40,7 @@ interface CandidateFilters {
 }
 
 interface CandidatePickerProps {
-  candidates: MockCandidateRecord[];
+  candidates: DbCandidate[];
   selectedIds: Set<string>;
   onSelectionChange: (ids: Set<string>) => void;
   disabled?: boolean;
@@ -55,13 +55,16 @@ export function CandidatePicker({ candidates, selectedIds, onSelectionChange, di
     minProjectMonths: null,
   });
 
-  const allLocations = useMemo(() => [...new Set(candidates.map((c) => c.location))].sort(), [candidates]);
+  const allLocations = useMemo(
+    () => [...new Set(candidates.map((c) => c.location).filter((loc): loc is string => Boolean(loc)))].sort(),
+    [candidates],
+  );
 
   const filtered = useMemo(
     () =>
       candidates.filter((c) => {
         if (filters.query && !c.full_name.toLowerCase().includes(filters.query.toLowerCase())) return false;
-        if (filters.locations.length > 0 && !filters.locations.includes(c.location)) return false;
+        if (filters.locations.length > 0 && !filters.locations.includes(c.location ?? "")) return false;
         if (filters.maxAvailabilityWeeks !== null && c.availability_weeks > filters.maxAvailabilityWeeks) return false;
         if (filters.minProjectMonths !== null && c.total_project_months < filters.minProjectMonths) return false;
         return true;

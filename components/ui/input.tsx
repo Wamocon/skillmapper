@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes, ReactNode } from "react";
+import { useId, type InputHTMLAttributes, type TextareaHTMLAttributes, type SelectHTMLAttributes, type ReactNode } from "react";
 
 // ─── Text Input ────────────────────────────────────────────────────────────
 
@@ -105,7 +105,8 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "typ
 }
 
 export function Checkbox({ label, error, className, id, ...props }: CheckboxProps) {
-  const checkboxId = id ?? `checkbox-${Math.random().toString(36).slice(2, 8)}`;
+  const generatedId = useId();
+  const checkboxId = id ?? `checkbox-${generatedId}`;
   return (
     <div className="space-y-1">
       <div className="flex items-start gap-2">

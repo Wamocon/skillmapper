@@ -47,12 +47,7 @@ function Toast({ notification, onDismiss }: { notification: AppNotification; onD
 
 export function NotificationToasts() {
   const { notifications, remove } = useNotifications();
-  const [visible, setVisible] = useState<AppNotification[]>([]);
-
-  useEffect(() => {
-    // Show only most recent 3 unread notifications as toasts
-    setVisible(notifications.filter((n) => !n.read).slice(0, 3));
-  }, [notifications]);
+  const visible = notifications.filter((n) => !n.read).slice(0, 3);
 
   if (visible.length === 0) return null;
 

@@ -179,17 +179,21 @@ alter table public.licenses enable row level security;
 alter table public.notifications enable row level security;
 
 -- Tenants: users can see their own tenant
-create policy if not exists "tenants_select_own" on public.tenants
+drop policy if exists "tenants_select_own" on public.tenants;
+create policy "tenants_select_own" on public.tenants
 for select using (true); -- Placeholder: replace with tenant membership check
 
 -- Users: users in same tenant can see each other
-create policy if not exists "users_select_tenant" on public.users
+drop policy if exists "users_select_tenant" on public.users;
+create policy "users_select_tenant" on public.users
 for select using (true); -- Placeholder: replace with tenant check
 
 -- Notifications: users can only see their own
-create policy if not exists "notifications_select_own" on public.notifications
+drop policy if exists "notifications_select_own" on public.notifications;
+create policy "notifications_select_own" on public.notifications
 for select using (true); -- Placeholder: replace with user_id = auth.uid() mapping
 
 -- Licenses: tenant members can view
-create policy if not exists "licenses_select_tenant" on public.licenses
+drop policy if exists "licenses_select_tenant" on public.licenses;
+create policy "licenses_select_tenant" on public.licenses
 for select using (true); -- Placeholder

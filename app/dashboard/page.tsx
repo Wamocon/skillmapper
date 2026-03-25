@@ -2,25 +2,30 @@
 
 import Link from "next/link";
 import { Briefcase, FolderOpen, Users, Zap, Plus, Settings, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PERMISSIONS } from "@/lib/auth/roles";
-import { getActivePostings } from "@/lib/mock-records";
+import { fetchDashboardCounts } from "@/lib/db/service";
 
 export default function DashboardPage() {
   const { t, locale } = useI18n();
   const { user, can } = useAuth();
 
-  const activePostingCount = getActivePostings().length;
+  const [counts, setCounts] = useState({ projects: 0, candidates: 0, activePostings: 0, recentMatches: 0 });
+
+  useEffect(() => {
+    fetchDashboardCounts().then(setCounts).catch(() => {});
+  }, []);
 
   const stats = [
-    { icon: FolderOpen, label: t("dashboard.projectsCount", { count: 3 }), href: "/projects", color: "text-moss" },
-    { icon: Briefcase, label: locale === "de" ? `${activePostingCount} aktive Ausschreibungen` : `${activePostingCount} active postings`, href: "/postings", color: "text-indigo-600" },
-    { icon: Users, label: t("dashboard.candidatesCount", { count: 7 }), href: "/candidates", color: "text-rust" },
-    { icon: Zap, label: t("dashboard.matchesCount", { count: 12 }), href: "/matching", color: "text-amber-600" },
+    { icon: FolderOpen, label: t("dashboard.projectsCount", { count: counts.projects }), href: "/projects", color: "text-moss" },
+    { icon: Briefcase, label: locale === "de" ? `${counts.activePostings} aktive Ausschreibungen` : `${counts.activePostings} active postings`, href: "/postings", color: "text-indigo-600" },
+    { icon: Users, label: t("dashboard.candidatesCount", { count: counts.candidates }), href: "/candidates", color: "text-rust" },
+    { icon: Zap, label: t("dashboard.matchesCount", { count: counts.recentMatches }), href: "/matching", color: "text-amber-600" },
   ];
 
   return (

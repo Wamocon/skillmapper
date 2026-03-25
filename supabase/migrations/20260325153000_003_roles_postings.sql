@@ -45,5 +45,7 @@ create index if not exists idx_match_runs_posting on public.match_runs (posting_
 alter table public.project_roles enable row level security;
 alter table public.job_postings enable row level security;
 
-create policy if not exists "project_roles_read_placeholder" on public.project_roles for select using (true);
-create policy if not exists "job_postings_read_placeholder" on public.job_postings for select using (true);
+drop policy if exists "project_roles_read_placeholder" on public.project_roles;
+create policy "project_roles_read_placeholder" on public.project_roles for select using (true);
+drop policy if exists "job_postings_read_placeholder" on public.job_postings;
+create policy "job_postings_read_placeholder" on public.job_postings for select using (true);

@@ -2,15 +2,32 @@
 
 import Link from "next/link";
 import { Plus, UserCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MOCK_CANDIDATES, type MockCandidateRecord } from "@/lib/mock-records";
+import { fetchCandidates } from "@/lib/db/service";
+import type { DbCandidate } from "@/lib/db/types";
 
 export default function CandidatesPage() {
   const { t, locale } = useI18n();
-  const [candidates] = useState<MockCandidateRecord[]>(MOCK_CANDIDATES);
+  const [candidates, setCandidates] = useState<DbCandidate[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCandidates()
+      .then(setCandidates)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-3 animate-pulse">
+        <div className="h-32 rounded-3xl bg-ink/5" />
+        {[1, 2, 3, 4].map((i) => <div key={i} className="h-20 rounded-2xl bg-ink/5" />)}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

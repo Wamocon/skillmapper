@@ -1,11 +1,6 @@
 # Kompetenzkompass
 
-Lightweight MVP foundation for Kompetenzkompass with:
-
-- Next.js App Router
-- Tailwind CSS
-- Supabase integration scaffolding
-- Vercel-ready deployment setup
+Kompetenzkompass ist jetzt auf eine echte Supabase-Datenbank angebunden (inkl. RLS, Rollenmodell, Rollen/Ausschreibungen, Matching-Daten).
 
 ## Quick start
 
@@ -16,9 +11,9 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Local mock workflow (current)
+## Current workflow
 
-The app now provides a fully local, visible workflow with a structured schema for project requirements and candidate profiles:
+Der aktuelle Workflow läuft datenbankgestützt (kein reiner Mock-Modus mehr in den Kernseiten):
 
 - Project upload/input with header mapping:
   - duration
@@ -44,9 +39,7 @@ The app now provides a fully local, visible workflow with a structured schema fo
 - Matching hub with two execution modes:
   - single matching for one candidate in one project context
   - batch matching for multiple candidates in the same project context
-- Extension mode for attributes and user data:
-  - `mock`
-  - `manual-ai-assisted`
+- Extension mode for attributes and user data: `mock` und `manual-ai-assisted`
 
 Batch matching can be opened from project cards, project detail pages, dashboard quick actions, and the matching page itself.
 
@@ -59,6 +52,13 @@ Copy `.env.example` to `.env.local` and fill:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_DB_SCHEMA`
+
+Schema policy:
+
+- `test`: lokale Entwicklung und Seeding
+- `public`: Vercel-Testumgebung
+- `public`: Production (nach produktiver Domain/URL-Freigabe)
 
 ## Supabase
 
@@ -66,8 +66,22 @@ Migrations:
 
 - `supabase/migrations/20260323_001_init.sql`
 - `supabase/migrations/20260324_002_users_roles_licensing.sql`
+- `supabase/migrations/20260325_003_roles_postings.sql`
+- `supabase/migrations/20260325_004_extend_domain_fields.sql`
+- `supabase/migrations/20260325_005_rls_policies.sql`
+- `supabase/migrations/20260325_006_test_schema.sql`
 
-The second migration now includes extensible mapping fields (`extension_mode`, `custom_attributes`, `mapped_profile`) on `projects` and `candidates`.
+Seed data:
+
+- SQL seed: `supabase/seed.sql`
+- Script seed: `scripts/seed.mjs`
+
+Run seed scripts:
+
+```bash
+npm run db:seed:test
+npm run db:seed:public
+```
 
 ## Deployment
 

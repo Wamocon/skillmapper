@@ -4,6 +4,12 @@
 **Version:** 1.0  
 **Sprache:** Deutsch (Eingabe + Ausgabe)
 
+## DB Zielstruktur (aktueller Stand)
+
+- `match_runs`: `id`, `tenant_id`, `project_id`, `posting_id`, `candidate_id`, `score`, `summary`, `created_at`
+- `job_postings`: Quelle für Ausschreibungs-Kontext und Status (`active`, `draft`, `paused`, `closed`, `filled`)
+- `candidates`: Quelle für Kandidaten-Profile (inkl. `experiences`, `availability_weeks`, `total_project_months`)
+
 ---
 
 ## Systeminstruktion

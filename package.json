@@ -6,13 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "db:seed": "node scripts/seed.mjs",
+    "db:seed:test": "set SEED_SCHEMA=test&& node scripts/seed.mjs",
+    "db:seed:public": "set SEED_SCHEMA=public&& node scripts/seed.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.49.4",
     "clsx": "^2.1.1",
+    "dotenv": "^17.3.1",
     "lucide-react": "^0.510.0",
     "next": "^16.2.1",
     "react": "19.0.0",
@@ -26,6 +30,7 @@
     "eslint": "^9.22.0",
     "eslint-config-next": "^16.2.1",
     "postcss": "^8.5.3",
+    "supabase": "^2.84.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2"
   }

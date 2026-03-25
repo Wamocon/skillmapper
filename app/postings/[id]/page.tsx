@@ -3,6 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Briefcase, FileText, FolderOpen, Zap } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { MockBadge } from "@/components/mock-badge";
 import { SkillTree, mapRequirementNodes } from "@/components/skill-tree";
 import { analyzePosting } from "@/lib/mock-skillmapper";
-import { getMockPostingById, getMockProjectById, getMockRoleById } from "@/lib/mock-records";
+import { fetchPostingById, fetchProjectById, fetchRoleById } from "@/lib/db/service";
+import type { DbJobPosting, DbProject, DbProjectRole } from "@/lib/db/types";
 
 const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
   active: "success",
@@ -34,9 +36,34 @@ export default function PostingDetailPage() {
   const router = useRouter();
   const postingId = params.id as string;
 
-  const posting = getMockPostingById(postingId);
-  const project = posting ? getMockProjectById(posting.project_id) : null;
-  const role = posting ? getMockRoleById(posting.role_id) : null;
+  const [posting, setPosting] = useState<DbJobPosting | null>(null);
+  const [project, setProject] = useState<DbProject | null>(null);
+  const [role, setRole] = useState<DbProjectRole | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPostingById(postingId)
+      .then(async (p) => {
+        setPosting(p);
+        if (!p) return;
+        const [proj, roleData] = await Promise.all([
+          fetchProjectById(p.project_id),
+          fetchRoleById(p.role_id),
+        ]);
+        setProject(proj);
+        setRole(roleData);
+      })
+      .finally(() => setLoading(false));
+  }, [postingId]);
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-24 rounded-3xl bg-ink/5" />
+        <div className="h-64 rounded-3xl bg-ink/5" />
+      </div>
+    );
+  }
 
   const analysis = posting && role
     ? analyzePosting(posting.title, posting.raw_text ?? posting.description ?? "", role.title, posting.extension_mode)

@@ -3,13 +3,20 @@
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, FileText, Users, Briefcase, CircleDot } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SkillTree, mapRequirementNodes } from "@/components/skill-tree";
 import { analyzeProject } from "@/lib/mock-skillmapper";
-import { getMockProjectById, getMockRolesForProject, getMockPostingsForRole, getMockCandidateById } from "@/lib/mock-records";
+import {
+  fetchProjectById,
+  fetchRolesForProject,
+  fetchPostingsForRole,
+  fetchCandidateById,
+} from "@/lib/db/service";
+import type { DbProject, DbProjectRole, DbJobPosting, DbCandidate } from "@/lib/db/types";
 
 const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
   active: "success",
@@ -25,9 +32,62 @@ export default function ProjectDetailPage() {
   const router = useRouter();
   const projectId = params.id as string;
 
-  const project = getMockProjectById(projectId);
-  const analysis = project ? analyzeProject(project.title, project.raw_text ?? project.description ?? "", project.extension_mode) : null;
-  const roles = getMockRolesForProject(projectId);
+  const [project, setProject] = useState<DbProject | null>(null);
+  const [roles, setRoles] = useState<DbProjectRole[]>([]);
+  const [postingsByRole, setPostingsByRole] = useState<Record<string, DbJobPosting[]>>({});
+  const [candidateById, setCandidateById] = useState<Record<string, DbCandidate>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([fetchProjectById(projectId), fetchRolesForProject(projectId)])
+      .then(async ([projectData, roleData]) => {
+        setProject(projectData);
+        setRoles(roleData);
+
+        const postingResults = await Promise.all(
+          roleData.map(async (role) => ({
+            roleId: role.id,
+            postings: await fetchPostingsForRole(role.id),
+          })),
+        );
+
+        const map: Record<string, DbJobPosting[]> = {};
+        postingResults.forEach((r) => {
+          map[r.roleId] = r.postings;
+        });
+        setPostingsByRole(map);
+
+        const candidateIds = [...new Set(roleData.map((r) => r.assigned_candidate_id).filter(Boolean))] as string[];
+        const candidates = await Promise.all(candidateIds.map((id) => fetchCandidateById(id)));
+        const candidateMap: Record<string, DbCandidate> = {};
+        candidates.forEach((candidate) => {
+          if (candidate) candidateMap[candidate.id] = candidate;
+        });
+        setCandidateById(candidateMap);
+      })
+      .finally(() => setLoading(false));
+  }, [projectId]);
+
+  const analysis = useMemo(
+    () =>
+      project
+        ? analyzeProject(
+            project.title,
+            project.raw_text ?? project.description ?? "",
+            project.extension_mode,
+          )
+        : null,
+    [project],
+  );
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-24 rounded-3xl bg-ink/5" />
+        <div className="h-64 rounded-3xl bg-ink/5" />
+      </div>
+    );
+  }
 
   if (!project || !analysis) {
     return (
@@ -86,8 +146,8 @@ export default function ProjectDetailPage() {
         ) : (
           <div className="mt-4 space-y-4">
             {roles.map((role) => {
-              const postings = getMockPostingsForRole(role.id);
-              const assignedCandidate = role.assigned_candidate_id ? getMockCandidateById(role.assigned_candidate_id) : null;
+              const postings = postingsByRole[role.id] ?? [];
+              const assignedCandidate = role.assigned_candidate_id ? candidateById[role.assigned_candidate_id] : null;
 
               return (
                 <div key={role.id} className="rounded-xl border border-ink/10 bg-fog/25 p-4">

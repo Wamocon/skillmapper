@@ -4,6 +4,12 @@
 **Version:** 1.0  
 **Sprache:** Deutsch (Eingabe + Ausgabe)
 
+## DB Zielstruktur (aktueller Stand)
+
+- `projects`: `id`, `tenant_id`, `title`, `description`, `source_type`, `raw_text`, `status`, `created_by`, `extension_mode`, `custom_attributes`, `duration_months`, `industry`, `maturity`, `phase`, `constraints`, `additional_attributes`, `created_at`, `updated_at`
+- `job_postings`: `id`, `project_id`, `role_id`, `tenant_id`, `title`, `description`, `raw_text`, `status`, `extension_mode`, `custom_attributes`, `created_by`, `duration_months`, `industry`, `maturity`, `phase`, `constraints`, `additional_attributes`, `created_at`, `updated_at`
+- `project_roles`: `id`, `project_id`, `tenant_id`, `title`, `description`, `fill_status`, `assigned_candidate_id`, `sort_order`, `created_at`, `updated_at`
+
 ---
 
 ## Systeminstruktion

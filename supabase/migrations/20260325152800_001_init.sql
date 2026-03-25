@@ -37,11 +37,14 @@ alter table public.candidates enable row level security;
 alter table public.match_runs enable row level security;
 
 -- Placeholder RLS policies. Replace auth.uid() mapping once tenant-membership model is implemented.
-create policy if not exists "projects_read_placeholder" on public.projects
+drop policy if exists "projects_read_placeholder" on public.projects;
+create policy "projects_read_placeholder" on public.projects
 for select using (true);
 
-create policy if not exists "candidates_read_placeholder" on public.candidates
+drop policy if exists "candidates_read_placeholder" on public.candidates;
+create policy "candidates_read_placeholder" on public.candidates
 for select using (true);
 
-create policy if not exists "match_runs_read_placeholder" on public.match_runs
+drop policy if exists "match_runs_read_placeholder" on public.match_runs;
+create policy "match_runs_read_placeholder" on public.match_runs
 for select using (true);

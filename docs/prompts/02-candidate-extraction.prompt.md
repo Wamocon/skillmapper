@@ -4,6 +4,11 @@
 **Version:** 1.0  
 **Sprache:** Deutsch (Eingabe + Ausgabe)
 
+## DB Zielstruktur (aktueller Stand)
+
+- `candidates`: `id`, `tenant_id`, `full_name`, `email`, `cv_raw_text`, `created_by`, `extension_mode`, `custom_attributes`, `mapped_profile`, `location`, `availability_weeks`, `experiences`, `total_project_months`, `additional_attributes`, `created_at`
+- `users`: `id`, `auth_uid`, `email`, `full_name`, `phone`, `phone_verified`, `role`, `status`, `locale`, `tenant_id`, `accepted_terms_at`, `accepted_privacy_at`, `created_at`, `updated_at`
+
 ---
 
 ## Systeminstruktion

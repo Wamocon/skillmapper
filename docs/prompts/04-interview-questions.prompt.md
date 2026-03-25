@@ -4,6 +4,11 @@
 **Version:** 1.0  
 **Sprache:** Deutsch (Eingabe + Ausgabe)
 
+## DB Zielstruktur (aktueller Stand)
+
+- Interview-Fragen werden derzeit im Prozess erzeugt und an `match_runs.summary` gekoppelt.
+- Geplante Persistenz (nächster Schritt): `interview_sets` + `interview_questions` Tabellen mit Bezug auf `match_runs`, `job_postings` und `candidates`.
+
 ---
 
 ## Systeminstruktion

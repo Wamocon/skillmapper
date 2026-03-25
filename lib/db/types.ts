@@ -20,7 +20,10 @@ export type Locale = "de" | "en";
 export type AttributeExtensionMode = "mock" | "manual-ai-assisted";
 
 // ─── User & Auth ────────────────────────────────────────────────────────────
+export type ProjectMaturity = "idea" | "pilot" | "rollout" | "scale";
+export type ProjectPhase = "discovery" | "delivery" | "stabilization";
 
+// ─── User & Auth ────────────────────────────────────────────────────────────
 export interface DbUser {
   id: string;
   email: string;
@@ -65,6 +68,13 @@ export interface DbProject {
   mapped_profile: Record<string, unknown> | null;
   created_at: string;
   updated_at: string;
+  // Domain-specific fields (migration 004)
+  duration_months: number;
+  industry: string;
+  maturity: ProjectMaturity;
+  phase: ProjectPhase;
+  constraints: string[];
+  additional_attributes: string[];
 }
 
 // ─── Candidates ─────────────────────────────────────────────────────────────
@@ -80,6 +90,12 @@ export interface DbCandidate {
   custom_attributes: Record<string, string> | null;
   mapped_profile: Record<string, unknown> | null;
   created_at: string;
+  // Domain-specific fields (migration 004)
+  location: string | null;
+  availability_weeks: number;
+  experiences: Array<{ project_name: string; duration_months: number; role: string }>;
+  total_project_months: number;
+  additional_attributes: string[];
 }
 
 // ─── Project Roles ──────────────────────────────────────────────────────────
@@ -118,7 +134,14 @@ export interface DbJobPosting {
   created_by: string;
   created_at: string;
   updated_at: string;
-}
+    // Domain-specific fields (migration 004)
+    duration_months: number;
+    industry: string;
+    maturity: ProjectMaturity;
+    phase: ProjectPhase;
+    constraints: string[];
+    additional_attributes: string[];
+  }
 
 // ─── Match Runs ─────────────────────────────────────────────────────────────
 

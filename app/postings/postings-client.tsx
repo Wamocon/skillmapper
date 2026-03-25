@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { Briefcase, CircleDot, FolderOpen } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MockBadge } from "@/components/mock-badge";
-import { MOCK_JOB_POSTINGS, getMockProjectById, getMockRoleById } from "@/lib/mock-records";
+import { fetchPostings, fetchProjectById, fetchRoleById } from "@/lib/db/service";
+import type { DbJobPosting, DbProject, DbProjectRole } from "@/lib/db/types";
 
 const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
   active: "success",
@@ -23,11 +25,49 @@ export function PostingsClientPage() {
   const searchParams = useSearchParams();
   const filterProjectId = searchParams.get("project");
 
-  const postings = filterProjectId
-    ? MOCK_JOB_POSTINGS.filter((p) => p.project_id === filterProjectId)
-    : MOCK_JOB_POSTINGS;
+  const [postings, setPostings] = useState<DbJobPosting[]>([]);
+  const [filterProject, setFilterProject] = useState<DbProject | null>(null);
+  const [projectCache, setProjectCache] = useState<Record<string, DbProject>>({});
+  const [roleCache, setRoleCache] = useState<Record<string, DbProjectRole>>({});
+  const [loading, setLoading] = useState(true);
 
-  const filterProject = filterProjectId ? getMockProjectById(filterProjectId) : null;
+  useEffect(() => {
+    Promise.all([
+      fetchPostings(filterProjectId ?? undefined),
+      filterProjectId ? fetchProjectById(filterProjectId) : Promise.resolve(null),
+    ]).then(([data, proj]) => {
+      setPostings(data);
+      setFilterProject(proj);
+      // Pre-fetch project and role details for cards
+      const uniqueProjectIds = [...new Set(data.map((p) => p.project_id))];
+      const uniqueRoleIds = [...new Set(data.map((p) => p.role_id))];
+      Promise.all([
+        ...uniqueProjectIds.map((id) => fetchProjectById(id)),
+        ...uniqueRoleIds.map((id) => fetchRoleById(id)),
+      ]).then((results) => {
+        const pCache: Record<string, DbProject> = {};
+        const rCache: Record<string, DbProjectRole> = {};
+        results.forEach((item) => {
+          if (!item) return;
+          if ("source_type" in item) pCache[item.id] = item as DbProject;
+          else rCache[item.id] = item as DbProjectRole;
+        });
+        setProjectCache(pCache);
+        setRoleCache(rCache);
+      });
+    }).finally(() => setLoading(false));
+  }, [filterProjectId]);
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-32 rounded-3xl bg-ink/5" />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {[1, 2, 3].map((i) => <div key={i} className="h-40 rounded-2xl bg-ink/5" />)}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -66,8 +106,8 @@ export function PostingsClientPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {postings.map((posting) => {
-            const project = getMockProjectById(posting.project_id);
-            const role = getMockRoleById(posting.role_id);
+            const project = projectCache[posting.project_id] ?? null;
+            const role = roleCache[posting.role_id] ?? null;
 
             return (
               <Link key={posting.id} href={`/postings/${posting.id}`}>

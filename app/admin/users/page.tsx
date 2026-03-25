@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { useNotifications } from "@/lib/notifications/context";
@@ -10,73 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select } from "@/components/ui/input";
 import type { DbUser, UserRole } from "@/lib/db/types";
-
-const MOCK_USERS: DbUser[] = [
-  {
-    id: "mock-user-001",
-    email: "admin@kompetenzkompass.de",
-    full_name: "Demo Admin",
-    phone: "+49 170 1234567",
-    phone_verified: true,
-    role: "admin",
-    status: "active",
-    locale: "de",
-    avatar_url: null,
-    tenant_id: "mock-tenant-001",
-    accepted_terms_at: "2026-01-01T00:00:00Z",
-    accepted_privacy_at: "2026-01-01T00:00:00Z",
-    created_at: "2026-01-01T00:00:00Z",
-    updated_at: "2026-01-01T00:00:00Z",
-  },
-  {
-    id: "mock-user-002",
-    email: "manager@kompetenzkompass.de",
-    full_name: "Petra Manager",
-    phone: "+49 170 2345678",
-    phone_verified: true,
-    role: "manager",
-    status: "active",
-    locale: "de",
-    avatar_url: null,
-    tenant_id: "mock-tenant-001",
-    accepted_terms_at: "2026-02-01T00:00:00Z",
-    accepted_privacy_at: "2026-02-01T00:00:00Z",
-    created_at: "2026-02-01T00:00:00Z",
-    updated_at: "2026-02-01T00:00:00Z",
-  },
-  {
-    id: "mock-user-003",
-    email: "user@kompetenzkompass.de",
-    full_name: "Karl Nutzer",
-    phone: "+49 170 3456789",
-    phone_verified: false,
-    role: "user",
-    status: "active",
-    locale: "en",
-    avatar_url: null,
-    tenant_id: "mock-tenant-001",
-    accepted_terms_at: "2026-03-01T00:00:00Z",
-    accepted_privacy_at: "2026-03-01T00:00:00Z",
-    created_at: "2026-03-01T00:00:00Z",
-    updated_at: "2026-03-01T00:00:00Z",
-  },
-  {
-    id: "mock-user-004",
-    email: "invited@kompetenzkompass.de",
-    full_name: "Eingeladener Benutzer",
-    phone: null,
-    phone_verified: false,
-    role: "user",
-    status: "invited",
-    locale: "de",
-    avatar_url: null,
-    tenant_id: "mock-tenant-001",
-    accepted_terms_at: null,
-    accepted_privacy_at: null,
-    created_at: "2026-03-20T00:00:00Z",
-    updated_at: "2026-03-20T00:00:00Z",
-  },
-];
+import { fetchUsersInTenant, updateUserRole, updateUserStatus } from "@/lib/db/service";
 
 const STATUS_MAP: Record<string, "success" | "warning" | "error"> = {
   active: "success",
@@ -88,23 +22,24 @@ export default function AdminUsersPage() {
   const { t, locale } = useI18n();
   const { can } = useAuth();
   const { push } = useNotifications();
-  const [users, setUsers] = useState<DbUser[]>(MOCK_USERS);
+  const [users, setUsers] = useState<DbUser[]>([]);
 
-  function handleRoleChange(userId: string, newRole: UserRole) {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u)),
-    );
+  useEffect(() => {
+    fetchUsersInTenant().then(setUsers).catch(() => {});
+  }, []);
+
+  async function handleRoleChange(userId: string, newRole: UserRole) {
+    await updateUserRole(userId, newRole);
+    setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u)));
     push("success", t("admin.changeRole"), `Rolle geändert zu ${ROLE_LABELS[newRole][locale]}`);
   }
 
-  function handleToggleStatus(userId: string) {
-    setUsers((prev) =>
-      prev.map((u) => {
-        if (u.id !== userId) return u;
-        const newStatus = u.status === "active" ? "suspended" : "active";
-        return { ...u, status: newStatus };
-      }),
-    );
+  async function handleToggleStatus(userId: string) {
+    const current = users.find((u) => u.id === userId);
+    if (!current) return;
+    const newStatus = current.status === "active" ? "suspended" : "active";
+    await updateUserStatus(userId, newStatus);
+    setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u)));
     push("info", t("admin.users"), "Benutzerstatus geändert");
   }
 
