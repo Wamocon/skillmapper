@@ -13,9 +13,7 @@ export interface MockProjectRecord extends DbProject {
   additional_attributes: string[];
 }
 
-export interface MockProjectRoleRecord extends DbProjectRole {
-  // placeholder for future extensions
-}
+export type MockProjectRoleRecord = DbProjectRole;
 
 export type PostingStatus = "draft" | "active" | "paused" | "closed" | "filled";
 
@@ -46,7 +44,7 @@ export const MOCK_PROJECTS: MockProjectRecord[] = [
   {
     id: "proj-001",
     tenant_id: "mock-tenant-001",
-    title: "Skillmapper MVP Ausschreibung",
+    title: "Kompetenzkompass MVP Ausschreibung",
     description: "Next.js + TypeScript + Supabase Plattform mit Skill-Matching",
     source_type: "tender",
     raw_text:
@@ -331,7 +329,7 @@ export function getMockCandidateById(id: string): MockCandidateRecord | undefine
 // ─── Project Roles ──────────────────────────────────────────────────────────
 
 export const MOCK_PROJECT_ROLES: MockProjectRoleRecord[] = [
-  // Roles for proj-001 (Skillmapper MVP)
+  // Roles for proj-001 (Kompetenzkompass MVP)
   {
     id: "role-001",
     project_id: "proj-001",
@@ -404,7 +402,7 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     project_id: "proj-001",
     role_id: "role-001",
     tenant_id: "mock-tenant-001",
-    title: "Lead Frontend Engineer – Skillmapper MVP",
+    title: "Lead Frontend Engineer – Kompetenzkompass MVP",
     description: "Wir suchen einen erfahrenen Frontend-Entwickler mit Fokus auf Next.js und TypeScript.",
     raw_text:
       "Dauer 9 Monate, Branche HR-Tech, Reifegrad Pilot, Projektphase Delivery. Rahmenbedingungen: Remote first, DSGVO, enge Abstimmung mit Fachbereich. Muss: Next.js, React, TypeScript, Architektur, Kommunikation, Scrum, AWS Certified. Kann: Tailwind, Supabase, Testing.",
@@ -427,7 +425,7 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     project_id: "proj-001",
     role_id: "role-002",
     tenant_id: "mock-tenant-001",
-    title: "Backend Developer – Skillmapper MVP",
+    title: "Backend Developer – Kompetenzkompass MVP",
     description: "API-Entwicklung mit Supabase und TypeScript, Schwerpunkt Datenmodellierung.",
     raw_text:
       "Dauer 9 Monate, Branche HR-Tech, Reifegrad Pilot, Projektphase Delivery. Rahmenbedingungen: Remote first, DSGVO. Muss: TypeScript, Supabase, Datenmodellierung, SQL, Testing. Kann: Next.js, Redis, Observability.",
@@ -496,7 +494,7 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     project_id: "proj-001",
     role_id: "role-003",
     tenant_id: "mock-tenant-001",
-    title: "QA Engineer – Skillmapper MVP",
+    title: "QA Engineer – Kompetenzkompass MVP",
     description: "Testautomatisierung und Qualitätssicherung für die Matching-Plattform.",
     raw_text:
       "Dauer 9 Monate, Branche HR-Tech, Reifegrad Pilot, Projektphase Delivery. Rahmenbedingungen: Remote first, DSGVO. Muss: Testing, TypeScript, Scrum. Kann: Playwright, Jest.",

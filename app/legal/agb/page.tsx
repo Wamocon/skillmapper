@@ -17,7 +17,7 @@ export default function AGBPage() {
           {locale === "de" ? (
             <>
               <h3>§ 1 Geltungsbereich</h3>
-              <p>Diese Allgemeinen Geschäftsbedingungen gelten für die Nutzung der Skillmapper-Plattform (nachfolgend &quot;Plattform&quot;) durch den Nutzer. Die Plattform wird von der Skillmapper GmbH betrieben.</p>
+              <p>Diese Allgemeinen Geschäftsbedingungen gelten für die Nutzung der Kompetenzkompass-Plattform (nachfolgend &quot;Plattform&quot;) durch den Nutzer. Die Plattform wird von der Kompetenzkompass GmbH betrieben.</p>
 
               <h3>§ 2 Vertragsgegenstand</h3>
               <p>Die Plattform stellt Werkzeuge zur automatisierten Kompetenzanalyse und zum Matching von Projekten und Kandidaten bereit. Der Funktionsumfang richtet sich nach dem gewählten Lizenzmodell.</p>
@@ -43,7 +43,7 @@ export default function AGBPage() {
           ) : (
             <>
               <h3>Section 1 Scope</h3>
-              <p>These Terms of Service apply to the use of the Skillmapper platform (hereinafter referred to as the &quot;platform&quot;) by the user. The platform is operated by Skillmapper GmbH.</p>
+              <p>These Terms of Service apply to the use of the Kompetenzkompass platform (hereinafter referred to as the &quot;platform&quot;) by the user. The platform is operated by Kompetenzkompass GmbH.</p>
 
               <h3>Section 2 Subject Matter</h3>
               <p>The platform provides tools for automated competency analysis and matching between projects and candidates. The available functionality depends on the selected license plan.</p>
@@ -52,7 +52,7 @@ export default function AGBPage() {
               <p>Registration is required to use the platform. The user must provide truthful information and protect their access credentials against unauthorized access. Phone verification is part of the registration process.</p>
 
               <h3>Section 4 License Plans and Payment Terms</h3>
-              <p>The platform offers various license plans (Free, Starter, Professional, Enterprise) with different feature scopes. Billing is monthly. Price changes will be announced with 30 days' notice.</p>
+              <p>The platform offers various license plans (Free, Starter, Professional, Enterprise) with different feature scopes. Billing is monthly. Price changes will be announced with 30 days&apos; notice.</p>
 
               <h3>Section 5 Data Protection</h3>
               <p>Personal data is processed in accordance with our Privacy Policy and applicable data protection laws.</p>

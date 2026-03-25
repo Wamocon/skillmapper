@@ -17,7 +17,7 @@ export default function DatenschutzPage() {
           {locale === "de" ? (
             <>
               <h3>1. Verantwortlicher</h3>
-              <p>Verantwortlicher im Sinne der DSGVO ist die Skillmapper GmbH, Musterstraße 1, 12345 Berlin, E-Mail: datenschutz@skillmapper.dev</p>
+              <p>Verantwortlicher im Sinne der DSGVO ist die Kompetenzkompass GmbH, Musterstraße 1, 12345 Berlin, E-Mail: datenschutz@kompetenzkompass.de</p>
 
               <h3>2. Erhobene Daten</h3>
               <p>Wir verarbeiten folgende personenbezogene Daten:</p>
@@ -46,7 +46,7 @@ export default function DatenschutzPage() {
               <p>Wir setzen technische und organisatorische Maßnahmen ein, um Ihre Daten zu schützen. Dazu gehören Verschlüsselung, Row-Level Security auf Datenbankebene und regelmäßige Sicherheitsaudits.</p>
 
               <h3>7. Ihre Rechte</h3>
-              <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Wenden Sie sich an datenschutz@skillmapper.dev.</p>
+              <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Wenden Sie sich an datenschutz@kompetenzkompass.de.</p>
 
               <h3>8. Cookies</h3>
               <p>Die Plattform verwendet technisch notwendige Cookies für die Session-Verwaltung. Analytische Cookies werden nur mit Ihrer Einwilligung eingesetzt.</p>
@@ -54,7 +54,7 @@ export default function DatenschutzPage() {
           ) : (
             <>
               <h3>1. Data Controller</h3>
-              <p>The controller within the meaning of GDPR is Skillmapper GmbH, Musterstraße 1, 12345 Berlin, email: datenschutz@skillmapper.dev</p>
+              <p>The controller within the meaning of GDPR is Kompetenzkompass GmbH, Musterstraße 1, 12345 Berlin, email: datenschutz@kompetenzkompass.de</p>
 
               <h3>2. Collected Data</h3>
               <p>We process the following personal data:</p>
@@ -83,7 +83,7 @@ export default function DatenschutzPage() {
               <p>We implement technical and organizational measures to protect your data. These include encryption, row-level security at database level, and regular security audits.</p>
 
               <h3>7. Your Rights</h3>
-              <p>You have the right to access, rectification, deletion, restriction of processing, data portability, and objection. Please contact datenschutz@skillmapper.dev.</p>
+              <p>You have the right to access, rectification, deletion, restriction of processing, data portability, and objection. Please contact datenschutz@kompetenzkompass.de.</p>
 
               <h3>8. Cookies</h3>
               <p>The platform uses technically necessary cookies for session management. Analytical cookies are only used with your consent.</p>

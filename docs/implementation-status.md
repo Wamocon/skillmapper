@@ -1,4 +1,4 @@
-# Skillmapper Implementation Status
+# Kompetenzkompass Implementation Status
 
 ## Last update
 
@@ -61,6 +61,7 @@
 - Keep mapping schema extensible via JSON attributes and mode switching.
 - Matching operates at the posting level, not the project level.
 - Postings inherit project context but own their skill requirements.
+- Branding decision: product name changed to Kompetenzkompass (DACH-first positioning).
 
 ### Pending decisions
 
@@ -70,6 +71,7 @@
 
 ## Change log
 
+- 2026-03-24: Rebranding rollout to Kompetenzkompass and landingpage briefing bundle added.
 - 2026-03-25: Roles and postings model implemented. Matching rewired to postings.
 - 2026-03-24: Matching hub with single and batch flows added across app navigation and docs.
 - 2026-03-24: Structured project/candidate mapping and skill tree enhancement implemented.
@@ -81,3 +83,4 @@
 - Delivery roadmap: `docs/implementation-roadmap.md`
 - Local mock workflow: `docs/local-mock-workflow.md`
 - Mocked feature register: `docs/mocked-features.md`
+- Landingpage briefing bundle: `docs/landingpage/README.md`

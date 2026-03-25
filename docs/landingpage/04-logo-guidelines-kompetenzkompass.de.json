@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "document_type": "logo_guidelines",
+    "brand_name": "Kompetenzkompass",
+    "language": "de",
+    "version": "1.0.0"
+  },
+  "logo_concept": {
+    "name": "Kompass-Radar",
+    "idea": "Eine Kompassnadel ueber einem reduzierten Radar-Kreis steht fuer Richtung, Passung und evidenzbasiertes Matching.",
+    "symbol_components": [
+      "aussenkreis als Orientierungsrahmen",
+      "radiale Achsen fuer Skills",
+      "Nadelspitze als Entscheidungsfokus",
+      "punktuelle Marker fuer Evidenzen"
+    ],
+    "semantics": {
+      "kompass": "Orientierung in komplexen Entscheidungen",
+      "radar": "mehrdimensionale Skillbewertung",
+      "marker": "nachvollziehbare Datenpunkte"
+    }
+  },
+  "variants": {
+    "primary": "Symbol links, Wortmarke rechts",
+    "stacked": "Symbol oben, Wortmarke darunter",
+    "icon_only": "nur Symbol fuer Favicon/App-Icon"
+  },
+  "color_usage": {
+    "primary": [
+      "ink",
+      "moss"
+    ],
+    "accent": [
+      "rust"
+    ],
+    "background": [
+      "canvas",
+      "fog",
+      "white"
+    ],
+    "forbidden": [
+      "neonfarben",
+      "reine schwarz-auf-rot warnoptik",
+      "niedriger kontrast"
+    ]
+  },
+  "clearspace_rule": {
+    "definition": "Mindestens die Hoehe des Buchstabens K um das gesamte Logo freihalten.",
+    "minimum_size": {
+      "digital_horizontal_px": 140,
+      "digital_icon_px": 24
+    }
+  },
+  "dos": [
+    "Logo auf ruhigen Hintergruenden verwenden",
+    "Vektorform unverzerrt einsetzen",
+    "Kontrast zwischen Wortmarke und Hintergrund sichern"
+  ],
+  "donts": [
+    "Logo kippen oder verzerren",
+    "Schatteneffekte auf Wortmarke legen",
+    "Farben ausserhalb des Brand-Systems nutzen"
+  ],
+  "asset_export_spec": {
+    "formats": [
+      "svg",
+      "png",
+      "webp"
+    ],
+    "required_files": [
+      "logo-primary-light",
+      "logo-primary-dark",
+      "logo-icon-light",
+      "logo-icon-dark",
+      "favicon-32",
+      "favicon-16"
+    ]
+  }
+}

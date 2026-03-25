@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, FileText, Users, Zap, Briefcase, CircleDot } from "lucide-react";
+import { ArrowLeft, FileText, Users, Briefcase, CircleDot } from "lucide-react";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";

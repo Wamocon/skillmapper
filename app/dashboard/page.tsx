@@ -105,7 +105,7 @@ export default function DashboardPage() {
         <div className="mt-4 space-y-3">
           <ActivityItem
             icon={<Zap className="h-4 w-4 text-amber-600" />}
-            text={locale === "de" ? "Mehrfach-Matching: 10 Bewerber für Skillmapper MVP" : "Batch matching: 10 candidates for Skillmapper MVP"}
+            text={locale === "de" ? "Mehrfach-Matching: 10 Bewerber für Kompetenzkompass MVP" : "Batch matching: 10 candidates for Kompetenzkompass MVP"}
             detail={locale === "de" ? "3 geeignet, 4 bedingt geeignet - vor 2 Stunden" : "3 suitable, 4 partially suitable - 2 hours ago"}
           />
           <ActivityItem

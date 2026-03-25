@@ -13,7 +13,7 @@ export interface Session {
 
 const MOCK_USER: DbUser = {
   id: "mock-user-001",
-  email: "demo@skillmapper.dev",
+  email: "demo@kompetenzkompass.de",
   full_name: "Demo Benutzer",
   phone: "+49 170 1234567",
   phone_verified: true,
@@ -28,7 +28,7 @@ const MOCK_USER: DbUser = {
   updated_at: "2026-01-01T00:00:00Z",
 };
 
-const SESSION_STORAGE_KEY = "skillmapper-session-v1";
+const SESSION_STORAGE_KEY = "kompetenzkompass-session-v1";
 
 export function getMockSession(): Session {
   return {

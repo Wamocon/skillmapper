@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "document_type": "landingpage_strategy_bundle",
+    "language": "de",
+    "version": "1.0.0",
+    "brand_name": "Kompetenzkompass",
+    "region": "DACH",
+    "updated_at": "2026-03-24"
+  },
+  "product_context": {
+    "category": "B2B SaaS",
+    "core_problem": "Unstrukturierte Ausschreibungen und heterogene Kandidatenunterlagen erschweren nachvollziehbare Besetzungsentscheidungen.",
+    "solution": "Kompetenzkompass strukturiert Anforderungen, mappt Kandidatenprofile, berechnet erklaerbare Matchings und unterstuetzt Interviewvalidierung.",
+    "non_goal": "Keine autonome Zu-/Absage und keine Blackbox-Entscheidungen ohne menschliche Ueberpruefung."
+  },
+  "icp_segments": [
+    {
+      "name": "Personalberatung_Staffing",
+      "pain_points": [
+        "Hoher Aufwand bei Longlist- und Shortlist-Bildung",
+        "Uneinheitliche Kundenanforderungen",
+        "Druck auf schnelle, belegbare Vorschlaege"
+      ],
+      "value_messages": [
+        "Schnellere Kandidatenbewertung",
+        "Erklaerbare Empfehlung pro Kandidat",
+        "Bessere Gespraechsvorbereitung"
+      ]
+    },
+    {
+      "name": "Interne_Recruiting_Teams",
+      "pain_points": [
+        "Hohe Volumina mit variierender Qualitaet",
+        "Abstimmungsprobleme mit Fachbereichen",
+        "Nachweispflicht bei sensiblen Entscheidungen"
+      ],
+      "value_messages": [
+        "Standardisierte Bewertung",
+        "Gemeinsame Datenbasis fuer HR und Fachbereich",
+        "Auditierbare Entscheidungsvorlage"
+      ]
+    },
+    {
+      "name": "Fachbereiche_Projektleitung",
+      "pain_points": [
+        "Unklare Skilltiefe in Lebenslaeufen",
+        "Subjektive Einschaetzungen im Interview",
+        "Fehlbesetzungsrisiken"
+      ],
+      "value_messages": [
+        "Kontextbezogene Skill-Passung",
+        "Klarer Gap-Nachweis",
+        "Gezielte Interviewfragen"
+      ]
+    }
+  ],
+  "positioning": {
+    "one_liner": "Kompetenzkompass macht Skill-Matching nachvollziehbar und entscheidbar.",
+    "positioning_statement": "Fuer Recruiting- und Projektteams in DACH, die Ausschreibungen und Bewerberdaten strukturiert auswerten wollen, ist Kompetenzkompass die Explainable-Decision-Support-Plattform, die Anforderungsanalyse, Matching und Interviewvalidierung mit Evidenz vereint.",
+    "differentiators": [
+      "Erklaerbare Teil-Scores statt Blackbox-Gesamtnote",
+      "Evidenzbasierte Match-Begruendung",
+      "Human-in-the-loop als Pflichtpfad",
+      "DACH-konforme Trust- und Compliance-Positionierung"
+    ]
+  },
+  "messaging_framework": {
+    "brand_tone": [
+      "praezise",
+      "vertrauensvoll",
+      "sachlich",
+      "entscheidungsorientiert"
+    ],
+    "core_claims": [
+      "Passung mit Nachweis",
+      "Weniger Bauchgefuehl, mehr Begruendung",
+      "Entscheidungen mit Klarheit"
+    ],
+    "proof_points": [
+      "Anforderungs- und Skill-Mapping in strukturierter Form",
+      "Matching mit Ueberschneidungen, Luecken und Begruendung",
+      "Interviewleitfaden aus identifizierten Gaps",
+      "Transparenter Mock-/Produktionsstatus je Funktion"
+    ],
+    "forbidden_claims": [
+      "Vollautomatische Kandidatenauswahl ohne menschliche Pruefung",
+      "Garantierte Einstellungsqualitaet",
+      "Emotionserkennung im Interview als Entscheidungsgrundlage"
+    ]
+  },
+  "compliance_messages": {
+    "trust_blocks": [
+      "Human-in-the-loop",
+      "Erklaerbarkeit der Bewertung",
+      "Klare Grenzen automatisierter Auswertung",
+      "Datenschutz- und Auditfaehigkeit"
+    ],
+    "ui_requirements": [
+      "Deutliche Kennzeichnung von Mock-Ergebnissen",
+      "Hinweis auf evidenzbasierte Interpretation",
+      "Klare Trennung zwischen Daten und Empfehlung"
+    ]
+  },
+  "funnel_strategy": {
+    "top_of_funnel": [
+      "Fachartikel: Erklaerbares Matching statt Blackbox",
+      "Checkliste: Ausschreibung in strukturierte Anforderungen ueberfuehren",
+      "LinkedIn Thought Leadership fuer DACH"
+    ],
+    "middle_of_funnel": [
+      "Produktdemo mit Ausschreibung-zu-Kandidatenflow",
+      "Scorecard-Beispiel mit Gaps und Interviewfragen",
+      "Vergleich: manuelle Bewertung vs. strukturierte Auswertung"
+    ],
+    "bottom_of_funnel": [
+      "Live-Demo Terminbuchung",
+      "Pilotangebot fuer Team-Workflows",
+      "Use-Case Mapping pro Kundenprozess"
+    ]
+  },
+  "kpis": {
+    "marketing": [
+      "Landingpage_to_Demo_Request_Rate",
+      "MQL_Rate",
+      "Cost_per_Qualified_Lead",
+      "Content_Assisted_Pipeline"
+    ],
+    "product_value": [
+      "Time_to_Longlist",
+      "Time_to_Shortlist",
+      "Top5_Match_Relevance",
+      "Review_Correction_Rate"
+    ]
+  }
+}

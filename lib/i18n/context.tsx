@@ -12,7 +12,7 @@ interface I18nContextValue {
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
-const LOCALE_STORAGE_KEY = "skillmapper-locale";
+const LOCALE_STORAGE_KEY = "kompetenzkompass-locale";
 
 function getInitialLocale(): Locale {
   if (typeof window === "undefined") return "de";

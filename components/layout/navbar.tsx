@@ -30,7 +30,7 @@ export function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
         {/* Logo */}
         <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2">
-          <span className="font-heading text-2xl text-ink">Skillmapper</span>
+          <span className="font-heading text-2xl text-ink">Kompetenzkompass</span>
           <Badge variant="mock">Mock</Badge>
         </Link>
 

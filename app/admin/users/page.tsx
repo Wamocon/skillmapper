@@ -14,7 +14,7 @@ import type { DbUser, UserRole } from "@/lib/db/types";
 const MOCK_USERS: DbUser[] = [
   {
     id: "mock-user-001",
-    email: "admin@skillmapper.dev",
+    email: "admin@kompetenzkompass.de",
     full_name: "Demo Admin",
     phone: "+49 170 1234567",
     phone_verified: true,
@@ -30,7 +30,7 @@ const MOCK_USERS: DbUser[] = [
   },
   {
     id: "mock-user-002",
-    email: "manager@skillmapper.dev",
+    email: "manager@kompetenzkompass.de",
     full_name: "Petra Manager",
     phone: "+49 170 2345678",
     phone_verified: true,
@@ -46,7 +46,7 @@ const MOCK_USERS: DbUser[] = [
   },
   {
     id: "mock-user-003",
-    email: "user@skillmapper.dev",
+    email: "user@kompetenzkompass.de",
     full_name: "Karl Nutzer",
     phone: "+49 170 3456789",
     phone_verified: false,
@@ -62,7 +62,7 @@ const MOCK_USERS: DbUser[] = [
   },
   {
     id: "mock-user-004",
-    email: "invited@skillmapper.dev",
+    email: "invited@kompetenzkompass.de",
     full_name: "Eingeladener Benutzer",
     phone: null,
     phone_verified: false,

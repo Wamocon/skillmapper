@@ -10,7 +10,7 @@ export type TranslationKey = keyof typeof translations.de;
 
 const de = {
   // ─── Common / Navigation ────────────────────────────────────────────────
-  "common.appName": "Skillmapper",
+  "common.appName": "Kompetenzkompass",
   "common.dashboard": "Dashboard",
   "common.projects": "Projekte",
   "common.candidates": "Kandidaten",
@@ -66,7 +66,7 @@ const de = {
   "auth.loginTitle": "Anmelden",
   "auth.loginSubtitle": "Melden Sie sich mit Ihren Zugangsdaten an",
   "auth.registerTitle": "Registrieren",
-  "auth.registerSubtitle": "Erstellen Sie Ihr Skillmapper-Konto",
+  "auth.registerSubtitle": "Erstellen Sie Ihr Kompetenzkompass-Konto",
   "auth.email": "E-Mail-Adresse",
   "auth.password": "Passwort",
   "auth.passwordConfirm": "Passwort bestätigen",
@@ -190,13 +190,13 @@ const de = {
   "help.subtitle": "Finden Sie Antworten auf häufige Fragen",
   "help.faqTitle": "Häufig gestellte Fragen",
   "help.contactTitle": "Kontakt",
-  "help.contactText": "Haben Sie weitere Fragen? Kontaktieren Sie uns unter support@skillmapper.dev",
+  "help.contactText": "Haben Sie weitere Fragen? Kontaktieren Sie uns unter support@kompetenzkompass.de",
   "help.guideTitle": "Nutzungsanleitung",
-  "help.guideSubtitle": "So nutzen Sie Skillmapper",
+  "help.guideSubtitle": "So nutzen Sie Kompetenzkompass",
 
   // ─── FAQ Items ──────────────────────────────────────────────────────────
-  "faq.q1": "Was ist Skillmapper?",
-  "faq.a1": "Skillmapper ist eine Plattform für automatisiertes Skill-Matching zwischen Projekten und Kandidaten.",
+  "faq.q1": "Was ist Kompetenzkompass?",
+  "faq.a1": "Kompetenzkompass ist eine Plattform für automatisiertes Skill-Matching zwischen Projekten und Kandidaten.",
   "faq.q2": "Wie funktioniert das Matching?",
   "faq.a2": "Nach der Projektwahl können Sie zwischen Einzelmatching und Mehrfach-Matching wechseln. Das System analysiert Projektanforderungen und Kandidatenprofile, erstellt ein Mapping und berechnet erklärbare Matching-Scores.",
   "faq.q3": "Welche Dateiformate werden unterstützt?",
@@ -206,14 +206,14 @@ const de = {
   "faq.q5": "Kann ich die Sprache ändern?",
   "faq.a5": "Ja, unter Einstellungen können Sie zwischen Deutsch und Englisch wechseln.",
   "faq.q6": "Wie funktioniert die Lizenzierung?",
-  "faq.a6": "Skillmapper bietet verschiedene Lizenzmodelle: Kostenlos, Starter, Professional und Enterprise mit unterschiedlichen Benutzer- und Projektlimits.",
+  "faq.a6": "Kompetenzkompass bietet verschiedene Lizenzmodelle: Kostenlos, Starter, Professional und Enterprise mit unterschiedlichen Benutzer- und Projektlimits.",
   "faq.q7": "Wo finde ich die Batch-Funktion?",
   "faq.a7": "Die Batch-Funktion ist im Matching Hub als Mehrfach-Matching verfügbar. Sie erreichen sie direkt über Projekte, Projektdetails, Dashboard-Schnellaktionen oder die Matching-Seite selbst.",
 } as const;
 
 const en: Record<keyof typeof de, string> = {
   // ─── Common / Navigation ────────────────────────────────────────────────
-  "common.appName": "Skillmapper",
+  "common.appName": "Kompetenzkompass",
   "common.dashboard": "Dashboard",
   "common.projects": "Projects",
   "common.candidates": "Candidates",
@@ -269,7 +269,7 @@ const en: Record<keyof typeof de, string> = {
   "auth.loginTitle": "Login",
   "auth.loginSubtitle": "Sign in with your credentials",
   "auth.registerTitle": "Register",
-  "auth.registerSubtitle": "Create your Skillmapper account",
+  "auth.registerSubtitle": "Create your Kompetenzkompass account",
   "auth.email": "Email address",
   "auth.password": "Password",
   "auth.passwordConfirm": "Confirm password",
@@ -393,13 +393,13 @@ const en: Record<keyof typeof de, string> = {
   "help.subtitle": "Find answers to common questions",
   "help.faqTitle": "Frequently Asked Questions",
   "help.contactTitle": "Contact",
-  "help.contactText": "Have additional questions? Contact us at support@skillmapper.dev",
+  "help.contactText": "Have additional questions? Contact us at support@kompetenzkompass.de",
   "help.guideTitle": "User Guide",
-  "help.guideSubtitle": "How to use Skillmapper",
+  "help.guideSubtitle": "How to use Kompetenzkompass",
 
   // ─── FAQ Items ──────────────────────────────────────────────────────────
-  "faq.q1": "What is Skillmapper?",
-  "faq.a1": "Skillmapper is a platform for automated skill matching between projects and candidates.",
+  "faq.q1": "What is Kompetenzkompass?",
+  "faq.a1": "Kompetenzkompass is a platform for automated skill matching between projects and candidates.",
   "faq.q2": "How does matching work?",
   "faq.a2": "After selecting a project, you can switch between single matching and batch matching. The system analyzes project requirements and candidate profiles, creates a mapping, and calculates explainable matching scores.",
   "faq.q3": "Which file formats are supported?",
@@ -409,7 +409,7 @@ const en: Record<keyof typeof de, string> = {
   "faq.q5": "Can I change the language?",
   "faq.a5": "Yes, you can switch between German and English in Settings.",
   "faq.q6": "How does licensing work?",
-  "faq.a6": "Skillmapper offers different license models: Free, Starter, Professional, and Enterprise with varying user and project limits.",
+  "faq.a6": "Kompetenzkompass offers different license models: Free, Starter, Professional, and Enterprise with varying user and project limits.",
   "faq.q7": "Where can I find the batch function?",
   "faq.a7": "The batch function is available in the Matching Hub as batch matching. You can open it from projects, project details, dashboard quick actions, or from the matching page itself.",
 };

@@ -1,6 +1,6 @@
-# Skillmapper
+# Kompetenzkompass
 
-Lightweight MVP foundation for Skillmapper with:
+Lightweight MVP foundation for Kompetenzkompass with:
 
 - Next.js App Router
 - Tailwind CSS
@@ -91,3 +91,8 @@ Additional docs:
 - `docs/mocked-features.md`
 - `docs/skills-inventory.md`
 - `docs/github-migration-plan.md`
+- `docs/landingpage/README.md`
+- `docs/landingpage/01-strategie-fachlich-marketing.de.json`
+- `docs/landingpage/02-copydeck-landingpage.de.json`
+- `docs/landingpage/03-brand-system-kompetenzkompass.de.json`
+- `docs/landingpage/04-logo-guidelines-kompetenzkompass.de.json`

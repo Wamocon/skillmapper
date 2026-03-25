@@ -2,9 +2,9 @@
 
 ## Ziel / Goal
 
-Ein lokal lauffähiger End-to-End-Prototyp, der den kompletten Skillmapper-Ablauf sichtbar macht, auch ohne Supabase-Anbindung.
+Ein lokal lauffähiger End-to-End-Prototyp, der den kompletten Kompetenzkompass-Ablauf sichtbar macht, auch ohne Supabase-Anbindung.
 
-A locally runnable end-to-end prototype that demonstrates the full Skillmapper workflow, even without Supabase.
+A locally runnable end-to-end prototype that demonstrates the full Kompetenzkompass workflow, even without Supabase.
 
 ## Aktueller Ablauf / Current workflow
 

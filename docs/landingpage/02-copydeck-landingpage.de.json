@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "document_type": "landingpage_copydeck",
+    "language": "de",
+    "brand_name": "Kompetenzkompass",
+    "version": "1.0.0"
+  },
+  "hero": {
+    "eyebrow": "Kompetenzkompass",
+    "headline": "Passung mit Nachweis.",
+    "subheadline": "Kompetenzkompass analysiert Anforderungen und Kandidatenprofile, erstellt erklaerbare Matchings und liefert gezielte Interviewleitfaeden.",
+    "cta_primary": "Demo anfragen",
+    "cta_secondary": "Workflow ansehen",
+    "trust_hint": "Entscheidungsunterstuetzung mit menschlicher Ueberpruefung"
+  },
+  "problem_section": {
+    "title": "Warum Besetzungen oft scheitern",
+    "bullets": [
+      "Ausschreibungen sind textlich uneinheitlich und schwer vergleichbar.",
+      "Bewerberprofile enthalten implizite statt strukturierte Skillnachweise.",
+      "Interviews pruefen oft nicht die kritischen Luecken.",
+      "Entscheidungen bleiben schwer belegbar."
+    ]
+  },
+  "solution_section": {
+    "title": "So arbeitet Kompetenzkompass",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Anforderungen strukturieren",
+        "text": "Projekttexte und Ausschreibungen werden in ein standardisiertes Anforderungsprofil ueberfuehrt."
+      },
+      {
+        "step": 2,
+        "title": "Kandidatenprofile mappen",
+        "text": "Lebenslaeufe und Onepager werden in vergleichbare Skill- und Evidenzstrukturen uebersetzt."
+      },
+      {
+        "step": 3,
+        "title": "Erklaerbar matchen",
+        "text": "Scorecards zeigen Ueberschneidungen, Gaps und begruendete Empfehlungen."
+      },
+      {
+        "step": 4,
+        "title": "Interview gezielt fuehren",
+        "text": "Frageleitfaeden priorisieren die wirklich kritischen Punkte aus dem Matching."
+      }
+    ]
+  },
+  "feature_section": {
+    "title": "Kernfunktionen",
+    "items": [
+      {
+        "name": "Anforderungsanalyse",
+        "benefit": "Aus Freitexten werden vergleichbare Anforderungskriterien."
+      },
+      {
+        "name": "Skill-Mapping",
+        "benefit": "Kandidatenprofile werden in ein einheitliches Schema ueberfuehrt."
+      },
+      {
+        "name": "Matching-Scorecard",
+        "benefit": "Teilbewertungen, Gaps und Evidenzen sind transparent nachvollziehbar."
+      },
+      {
+        "name": "Interview-Leitfaden",
+        "benefit": "Fragen entstehen aus den identifizierten Luecken und Unsicherheiten."
+      }
+    ]
+  },
+  "trust_section": {
+    "title": "Vertrauen durch Klarheit",
+    "points": [
+      "Human-in-the-loop statt autonomer Entscheidungen",
+      "Erklaerbare Bewertung mit Teil-Scores",
+      "Klare Trennung zwischen Fakt und Interpretation",
+      "Nachvollziehbarer Workflow vom Eingangstext bis zur Empfehlung"
+    ]
+  },
+  "social_proof_section": {
+    "title": "Einsatzszenarien",
+    "cards": [
+      {
+        "segment": "Personalberatung",
+        "value": "Schnellere, begruendete Vorschlaege fuer Kundenprojekte"
+      },
+      {
+        "segment": "Recruiting-Team",
+        "value": "Standardisierte Bewertung und bessere Abstimmung mit Fachbereichen"
+      },
+      {
+        "segment": "Fachbereich",
+        "value": "Klare Sicht auf echte Skillpassung statt Lebenslauf-Rauschen"
+      }
+    ]
+  },
+  "faq_section": {
+    "title": "Hauefige Fragen",
+    "items": [
+      {
+        "q": "Trefft ihr automatische Zu- oder Absagen?",
+        "a": "Nein. Kompetenzkompass unterstuetzt Entscheidungen, ersetzt sie aber nicht."
+      },
+      {
+        "q": "Sind Ergebnisse immer produktiv?",
+        "a": "Im aktuellen Stand sind Teile des Workflows sichtbar als Mock gekennzeichnet."
+      },
+      {
+        "q": "Funktioniert das auch fuer mehrere Kandidaten?",
+        "a": "Ja, der Workflow unterstuetzt Einzel- und Mehrfach-Matching."
+      }
+    ]
+  },
+  "final_cta": {
+    "headline": "Besetzungen begruenden statt nur bewerten.",
+    "subheadline": "Starte mit Kompetenzkompass und mache Matching-Entscheidungen nachvollziehbar.",
+    "cta_primary": "Jetzt Demo anfragen",
+    "cta_secondary": "Produktdokumentation ansehen"
+  }
+}

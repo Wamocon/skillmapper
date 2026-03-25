@@ -16,7 +16,7 @@ export default function ImpressumPage() {
         <article className="prose prose-sm mt-6 max-w-none text-ink/80">
           <h3>{locale === "de" ? "Angaben gemäß § 5 TMG" : "Information pursuant to Section 5 TMG"}</h3>
           <p>
-            Skillmapper GmbH<br />
+            Kompetenzkompass GmbH<br />
             Musterstraße 1<br />
             12345 Berlin<br />
             {locale === "de" ? "Deutschland" : "Germany"}
@@ -28,7 +28,7 @@ export default function ImpressumPage() {
           <h3>{locale === "de" ? "Kontakt" : "Contact"}</h3>
           <p>
             {locale === "de" ? "Telefon" : "Phone"}: +49 (0) 30 12345678<br />
-            Email: info@skillmapper.dev
+            Email: info@kompetenzkompass.de
           </p>
 
           <h3>{locale === "de" ? "Registereintrag" : "Commercial register entry"}</h3>
@@ -46,7 +46,7 @@ export default function ImpressumPage() {
           <h3>{locale === "de" ? "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV" : "Responsible for content pursuant to Section 55 para. 2 RStV"}</h3>
           <p>
             Max Mustermann<br />
-            Skillmapper GmbH<br />
+            Kompetenzkompass GmbH<br />
             Musterstraße 1<br />
             12345 Berlin
           </p>

@@ -28,7 +28,7 @@ export default function AnleitungPage() {
     <main className="mx-auto max-w-6xl px-6 py-10 md:px-10">
       <section className="rounded-3xl border border-ink/10 bg-fog/70 p-8 shadow-panel md:p-12">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-rust">{locale === "de" ? "Nutzungsanleitung" : "User guide"}</p>
-        <h1 className="mt-3 font-heading text-5xl text-ink md:text-6xl">{locale === "de" ? "So nutzt du Skillmapper mit strukturiertem Mapping" : "How to use Skillmapper with structured mapping"}</h1>
+        <h1 className="mt-3 font-heading text-5xl text-ink md:text-6xl">{locale === "de" ? "So nutzt du Kompetenzkompass mit strukturiertem Mapping" : "How to use Kompetenzkompass with structured mapping"}</h1>
         <p className="mt-4 max-w-3xl text-lg text-ink/80">
           {locale === "de"
             ? "Diese Seite zeigt den lokalen Workflow mit Projekt-, Rollen- und Ausschreibungs-Schema, Kompetenzrad-Visualisierung sowie begründetem Score-Matching (Pflicht/Optional-Logik). Kandidaten werden gegen einzelne Ausschreibungen gematcht, die ihrerseits Projektkontext erben. Einzelmatching und Mehrfach-Matching teilen sich denselben Ausschreibungskontext. Alle Ergebnisse sind derzeit simuliert (Mock), aber der Prozess ist bereits produktnah aufgebaut."

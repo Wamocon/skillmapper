@@ -7,8 +7,8 @@ import { Footer } from "@/components/layout/footer";
 import { NotificationToasts } from "@/components/layout/notification-toasts";
 
 export const metadata: Metadata = {
-  title: "Skillmapper",
-  description: "Skillmapper – Skill-Matching-Plattform für Projekte und Kandidaten.",
+  title: "Kompetenzkompass",
+  description: "Kompetenzkompass – Skill-Matching-Plattform für Projekte und Kandidaten.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

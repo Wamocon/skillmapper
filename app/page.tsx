@@ -27,8 +27,8 @@ export default function HomePage() {
         </h1>
         <p className="mt-5 max-w-3xl text-lg leading-relaxed text-ink/80">
           {locale === "de"
-            ? "Skillmapper analysiert Projektanforderungen und Kandidatenprofile, erstellt automatische Mappings und liefert datenbasierte Matching-Scores inklusive Interviewleitfaden."
-            : "Skillmapper analyzes project requirements and candidate profiles, builds automated mappings, and delivers data-driven matching scores including interview guidance."}
+            ? "Kompetenzkompass analysiert Projektanforderungen und Kandidatenprofile, erstellt automatische Mappings und liefert datenbasierte Matching-Scores inklusive Interviewleitfaden."
+            : "Kompetenzkompass analyzes project requirements and candidate profiles, builds automated mappings, and delivers data-driven matching scores including interview guidance."}
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/register">

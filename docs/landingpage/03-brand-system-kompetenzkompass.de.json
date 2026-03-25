@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "document_type": "brand_system",
+    "brand_name": "Kompetenzkompass",
+    "language": "de",
+    "version": "1.0.0"
+  },
+  "brand_core": {
+    "essence": "Klarheit in Besetzungsentscheidungen",
+    "promise": "Kompetenzkompass liefert begruendete Passung statt Blackbox-Ergebnis.",
+    "personality": [
+      "kompetent",
+      "vertrauenswuerdig",
+      "methodisch",
+      "nah am Arbeitsalltag"
+    ]
+  },
+  "naming_rules": {
+    "primary_name": "Kompetenzkompass",
+    "short_name": "Kompass",
+    "descriptor": "Die Explainable-Matching-Plattform fuer Recruiting und Projektbesetzung",
+    "usage": {
+      "headline": "Kompetenzkompass",
+      "ui_label": "Kompetenzkompass",
+      "first_mention_long": "Kompetenzkompass, die Explainable-Matching-Plattform",
+      "avoid": [
+        "KK",
+        "K-Kompass",
+        "Kompetenz Compass"
+      ]
+    }
+  },
+  "verbal_style": {
+    "do": [
+      "aktiv formulieren",
+      "konkreten Nutzen nennen",
+      "begriffe wie Evidenz, Passung, Klarheit verwenden",
+      "fachlich praezise bleiben"
+    ],
+    "dont": [
+      "ueberzogene AI-Versprechen",
+      "autonome Entscheidungsrhetorik",
+      "unklare Buzzwords ohne Nutzenbezug"
+    ],
+    "tagline_options": [
+      "Passung mit Nachweis",
+      "Entscheidungen mit Klarheit",
+      "Kompetenzen sichtbar machen"
+    ]
+  },
+  "visual_language": {
+    "style_direction": "Evidence Compass",
+    "principles": [
+      "strukturiert statt verspielt",
+      "warm-serioese Farbwelt",
+      "datennahe Visualisierungen",
+      "hohe Lesbarkeit in Dashboards"
+    ],
+    "palette": {
+      "canvas": "#f5f0e7",
+      "ink": "#122620",
+      "rust": "#9a3412",
+      "moss": "#294f3f",
+      "fog": "#e9dfcf"
+    },
+    "typography": {
+      "display": "DM Serif Display",
+      "body": "Source Sans 3",
+      "usage": "Display fuer Leitbotschaften, Sans fuer Daten und UI"
+    },
+    "iconography": {
+      "motifs": [
+        "kompassnadel",
+        "radar-achsen",
+        "evidenz-linien",
+        "score-segmente"
+      ],
+      "stroke_style": "klar, mittlere Strichstaerke, keine cartoonhaften Rundungen"
+    },
+    "motion": {
+      "principles": [
+        "ruhige Uebergaenge",
+        "staggered reveal fuer datenlogik",
+        "keine nervoesen mikroeffekte"
+      ]
+    }
+  },
+  "ui_requirements": {
+    "mandatory_elements": [
+      "Mock-Kennzeichnung wo relevant",
+      "Score-Erklaerung in jedem Ergebnis",
+      "sichtbare Trennung Pflicht vs Optional",
+      "klare CTA-Hierarchie"
+    ],
+    "accessibility": [
+      "Kontrast mind. 4.5:1 bei Text",
+      "sichtbarer Fokuszustand",
+      "mindestens 16px Fliesstext auf Mobile"
+    ]
+  }
+}

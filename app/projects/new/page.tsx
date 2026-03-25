@@ -64,7 +64,7 @@ export default function NewProjectPage() {
             required
             value={form.title}
             onChange={(e) => update("title", e.target.value)}
-            placeholder={locale === "de" ? "z.B. Skillmapper MVP Ausschreibung" : "e.g. Skillmapper MVP tender"}
+            placeholder={locale === "de" ? "z.B. Kompetenzkompass MVP Ausschreibung" : "e.g. Kompetenzkompass MVP tender"}
           />
 
           <Select label={t("projects.sourceType")} value={form.sourceType} onChange={(e) => update("sourceType", e.target.value)}>

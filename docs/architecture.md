@@ -1,4 +1,4 @@
-# Skillmapper Architecture (Lean + Free-Tier First)
+# Kompetenzkompass Architecture (Lean + Free-Tier First)
 
 ## Goals
 

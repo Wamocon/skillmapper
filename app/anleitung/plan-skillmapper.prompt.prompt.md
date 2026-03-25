@@ -1,6 +1,6 @@
-## Plan: Skillmapper Konzept
+## Plan: Kompetenzkompass Konzept
 
-Skillmapper wird als dokumenten- und interviewzentrierte Matching-Plattform konzipiert, die Ausschreibungen, Projektbeschreibungen und Bewerbungsunterlagen in ein standardisiertes Anforderungs- und Skillmodell überführt. Empfohlen ist ein modularer Greenfield-Aufbau mit Hybrid-Taxonomie, nachvollziehbarer KI-Extraktion, human-in-the-loop Freigaben und einer Architektur, die zunächst cloud- bzw. EU-hosted arbeiten kann, aber später on-prem optional bleibt.
+Kompetenzkompass wird als dokumenten- und interviewzentrierte Matching-Plattform konzipiert, die Ausschreibungen, Projektbeschreibungen und Bewerbungsunterlagen in ein standardisiertes Anforderungs- und Skillmodell überführt. Empfohlen ist ein modularer Greenfield-Aufbau mit Hybrid-Taxonomie, nachvollziehbarer KI-Extraktion, human-in-the-loop Freigaben und einer Architektur, die zunächst cloud- bzw. EU-hosted arbeiten kann, aber später on-prem optional bleibt.
 
 **Steps**
 1. Phase 1: Fachliches Zielmodell definieren. Gemeinsames kanonisches Datenmodell für Anforderungen, Skills, Evidenzen, Kandidatenprofile, Interviewfragen und Interviewbewertungen festlegen. Diese Phase blockiert alle Folgephasen, weil Extraktion, Matching und UI dieselbe Struktur nutzen müssen.
@@ -21,13 +21,13 @@ Skillmapper wird als dokumenten- und interviewzentrierte Matching-Plattform konz
 16. Phase 6: Delivery-Roadmap planen. MVP, Erweiterung, Enterprise-Härtung und On-prem-Option in getrennte Releases schneiden. Nur nach abgeschlossener Test- und Governance-Definition priorisieren.
 
 **Relevant files**
-- d:/Testprojekt/Skillmapper/docs/product-concept.md — Zieldokument für Fachkonzept, Rollen, Prozesse, Business-Regeln und Scope.
-- d:/Testprojekt/Skillmapper/docs/domain-model.md — Kanonisches Datenmodell für Anforderungen, Skills, Evidenzen, Matches und Interviewbewertungen.
-- d:/Testprojekt/Skillmapper/docs/scoring-model.md — Matchinglogik, Gewichtung, Nutzwertanalyse, Explainability und Score-Zerlegung.
-- d:/Testprojekt/Skillmapper/docs/interview-framework.md — Fragebogengenerierung, Bewertungsrubriken, Consent-Regeln, Auswertungslogik.
-- d:/Testprojekt/Skillmapper/docs/architecture.md — Zielarchitektur, Pipeline-Stufen, Schnittstellen, Speicher- und Betriebsmodell.
-- d:/Testprojekt/Skillmapper/docs/privacy-and-governance.md — Datenschutz, Rollenmodell, Audit, Bias- und Retention-Regeln.
-- d:/Testprojekt/Skillmapper/docs/mvp-roadmap.md — Lieferphasen, Abhängigkeiten, Risiken und Verifikationspunkte.
+- d:/Testprojekt/Kompetenzkompass/docs/product-concept.md — Zieldokument für Fachkonzept, Rollen, Prozesse, Business-Regeln und Scope.
+- d:/Testprojekt/Kompetenzkompass/docs/domain-model.md — Kanonisches Datenmodell für Anforderungen, Skills, Evidenzen, Matches und Interviewbewertungen.
+- d:/Testprojekt/Kompetenzkompass/docs/scoring-model.md — Matchinglogik, Gewichtung, Nutzwertanalyse, Explainability und Score-Zerlegung.
+- d:/Testprojekt/Kompetenzkompass/docs/interview-framework.md — Fragebogengenerierung, Bewertungsrubriken, Consent-Regeln, Auswertungslogik.
+- d:/Testprojekt/Kompetenzkompass/docs/architecture.md — Zielarchitektur, Pipeline-Stufen, Schnittstellen, Speicher- und Betriebsmodell.
+- d:/Testprojekt/Kompetenzkompass/docs/privacy-and-governance.md — Datenschutz, Rollenmodell, Audit, Bias- und Retention-Regeln.
+- d:/Testprojekt/Kompetenzkompass/docs/mvp-roadmap.md — Lieferphasen, Abhängigkeiten, Risiken und Verifikationspunkte.
 
 **Verification**
 1. Fachliche Walkthroughs mit Beispiel-Ausschreibung, Beispiel-CV und Beispiel-Interview durchführen und prüfen, ob alle Pflichtinformationen in die Zielschemas überführt werden können.
