@@ -19,40 +19,60 @@ function isPublicPath(pathname: string): boolean {
 }
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next({ request });
-
-  const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
-    db: { schema: getDbSchema() },
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet: Parameters<SetAllCookies>[0]) {
-        for (const { name, value, options } of cookiesToSet) {
-          request.cookies.set(name, value);
-          response.cookies.set(name, value, options);
-        }
-      },
-    },
-  });
-
-  // Refresh session — important for Server Components to see updated auth state
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
   const { pathname } = request.nextUrl;
 
-  // Redirect authenticated users away from login/register
-  if (session && (pathname === "/login" || pathname === "/register")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  let response = NextResponse.next({ request });
+
+  // If env is not configured (local/Vercel), never crash middleware.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseAnonKey) {
+    if (!isPublicPath(pathname) && pathname !== "/") {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirectTo", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return response;
   }
 
-  // Redirect unauthenticated users to login (except for public paths)
-  if (!session && !isPublicPath(pathname) && pathname !== "/") {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("redirectTo", pathname);
-    return NextResponse.redirect(loginUrl);
+  try {
+    const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
+      db: { schema: getDbSchema() },
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet: Parameters<SetAllCookies>[0]) {
+          for (const { name, value, options } of cookiesToSet) {
+            response.cookies.set(name, value, options);
+          }
+        },
+      },
+    });
+
+    // Refresh session — important for Server Components to see updated auth state
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    // Redirect authenticated users away from login/register
+    if (session && (pathname === "/login" || pathname === "/register")) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+
+    // Redirect unauthenticated users to login (except for public paths)
+    if (!session && !isPublicPath(pathname) && pathname !== "/") {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirectTo", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  } catch {
+    // Fail gracefully instead of throwing an invocation error in edge runtime.
+    if (!isPublicPath(pathname) && pathname !== "/") {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirectTo", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   return response;
