@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Briefcase, FolderOpen, Users, Zap, Plus, Settings, Shield } from "lucide-react";
+import { Briefcase, ChevronRight, FolderOpen, Users, Zap, Plus, Settings, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
@@ -9,17 +9,23 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PERMISSIONS } from "@/lib/auth/roles";
-import { fetchDashboardCounts } from "@/lib/db/service";
+import { fetchDashboardActivity, fetchDashboardCounts, type DashboardActivityItem } from "@/lib/db/service";
 
 export default function DashboardPage() {
   const { t, locale } = useI18n();
-  const { user, can } = useAuth();
+  const { user, can, isLoading } = useAuth();
 
   const [counts, setCounts] = useState({ projects: 0, candidates: 0, activePostings: 0, recentMatches: 0 });
+  const [activity, setActivity] = useState<DashboardActivityItem[]>([]);
 
   useEffect(() => {
+    if (isLoading || !user) {
+      return;
+    }
+
     fetchDashboardCounts().then(setCounts).catch(() => {});
-  }, []);
+    fetchDashboardActivity().then(setActivity).catch(() => setActivity([]));
+  }, [isLoading, user]);
 
   const stats = [
     { icon: FolderOpen, label: t("dashboard.projectsCount", { count: counts.projects }), href: "/projects", color: "text-moss" },
@@ -104,39 +110,123 @@ export default function DashboardPage() {
         </div>
       </Card>
 
-      {/* Recent activity placeholder */}
+      {/* Recent activity */}
       <Card>
         <CardHeader title={t("dashboard.recentActivity")} />
         <div className="mt-4 space-y-3">
-          <ActivityItem
-            icon={<Zap className="h-4 w-4 text-amber-600" />}
-            text={locale === "de" ? "Mehrfach-Matching: 10 Bewerber für Kompetenzkompass MVP" : "Batch matching: 10 candidates for Kompetenzkompass MVP"}
-            detail={locale === "de" ? "3 geeignet, 4 bedingt geeignet - vor 2 Stunden" : "3 suitable, 4 partially suitable - 2 hours ago"}
-          />
-          <ActivityItem
-            icon={<FolderOpen className="h-4 w-4 text-moss" />}
-            text={locale === "de" ? "Neues Projekt: Frontend-Relaunch" : "New project: frontend relaunch"}
-            detail={locale === "de" ? "Erstellt von Demo-Benutzer - vor 5 Stunden" : "Created by demo user - 5 hours ago"}
-          />
-          <ActivityItem
-            icon={<Users className="h-4 w-4 text-rust" />}
-            text={locale === "de" ? "Kandidat hinzugefügt: Anna Schmidt" : "Candidate added: Anna Schmidt"}
-            detail={locale === "de" ? "CV hochgeladen - gestern" : "CV uploaded - yesterday"}
-          />
+          {activity.length === 0 ? (
+            <div className="rounded-lg border border-ink/5 bg-fog/30 p-4 text-sm text-ink/60">
+              {locale === "de" ? "Noch keine Aktivitäten vorhanden." : "No recent activity yet."}
+            </div>
+          ) : (
+            activity.map((item) => (
+              <ActivityItem
+                key={item.id}
+                href={item.href}
+                isStale={Boolean(item.isStale)}
+                icon={item.type === "match"
+                  ? <Zap className="h-4 w-4 text-amber-600" />
+                  : item.type === "project"
+                    ? <FolderOpen className="h-4 w-4 text-moss" />
+                    : item.type === "posting"
+                      ? <Briefcase className="h-4 w-4 text-indigo-600" />
+                      : <Users className="h-4 w-4 text-rust" />}
+                text={localizeActivityTitle(item, locale)}
+                detail={localizeActivityDetail(item, locale)}
+              />
+            ))
+          )}
         </div>
       </Card>
     </div>
   );
 }
 
-function ActivityItem({ icon, text, detail }: { icon: React.ReactNode; text: string; detail: string }) {
+function localizeActivityTitle(item: DashboardActivityItem, locale: "de" | "en") {
+  if (locale === "en") {
+    return item.title;
+  }
+
+  if (item.type === "match") {
+    return item.title.replace("Match run for", "Matching für");
+  }
+  if (item.type === "project") {
+    return item.title.replace("Project created:", "Projekt erstellt:");
+  }
+  if (item.type === "posting") {
+    return item.title.replace("Posting updated:", "Ausschreibung aktualisiert:");
+  }
+
+  return item.title.replace("Candidate added:", "Kandidat hinzugefügt:");
+}
+
+function localizeActivityDetail(item: DashboardActivityItem, locale: "de" | "en") {
+  const timeLabel = formatRelativeTime(item.created_at, locale);
+
+  const localizedDetail = item.isStale
+    ? (locale === "de"
+      ? "Verknüpfte Daten wurden verändert oder sind nicht mehr vollständig verfügbar"
+      : "Linked data has changed or is no longer fully available")
+    : item.detail;
+
+  if (locale === "en") {
+    return `${localizedDetail} - ${timeLabel}`;
+  }
+
+  return `${localizedDetail
+    .replace("score", "Score")
+    .replace("New project record added", "Neuer Projektdatensatz hinzugefügt")
+    .replace("Candidate profile is available for review", "Kandidatenprofil ist zur Prüfung verfügbar")
+    .replace("Status:", "Status:")
+  } - ${timeLabel}`;
+}
+
+function formatRelativeTime(value: string, locale: "de" | "en") {
+  const timestamp = new Date(value).getTime();
+  const now = Date.now();
+  const diffMinutes = Math.round((timestamp - now) / 60000);
+  const absMinutes = Math.abs(diffMinutes);
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+
+  if (absMinutes < 60) {
+    return formatter.format(diffMinutes, "minute");
+  }
+
+  const diffHours = Math.round(diffMinutes / 60);
+  if (Math.abs(diffHours) < 24) {
+    return formatter.format(diffHours, "hour");
+  }
+
+  const diffDays = Math.round(diffHours / 24);
+  return formatter.format(diffDays, "day");
+}
+
+function ActivityItem({
+  icon,
+  text,
+  detail,
+  href,
+  isStale,
+}: {
+  icon: React.ReactNode;
+  text: string;
+  detail: string;
+  href: string;
+  isStale: boolean;
+}) {
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-ink/5 bg-fog/30 p-3">
+    <Link
+      href={href}
+      className="group flex items-start gap-3 rounded-lg border border-ink/5 bg-fog/30 p-3 transition hover:border-moss/20 hover:bg-white hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/40"
+      aria-label={`${text} - ${detail}`}
+    >
       <div className="mt-0.5">{icon}</div>
-      <div>
+      <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-ink">{text}</p>
         <p className="text-xs text-ink/60">{detail}</p>
+        {isStale && <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-amber-700">Fallback navigation</p>}
       </div>
-    </div>
+      <ChevronRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-ink/30 transition group-hover:text-moss" />
+    </Link>
   );
 }

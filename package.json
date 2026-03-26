@@ -8,11 +8,14 @@
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "typecheck": "tsc --noEmit",
+    "qa:ai": "tsx scripts/qa-ai.ts",
+    "db:backfill:match-runs": "tsx scripts/backfill-match-runs.ts",
     "db:seed": "node scripts/seed.mjs",
     "db:seed:test": "set SEED_SCHEMA=test&& node scripts/seed.mjs",
     "db:seed:public": "set SEED_SCHEMA=public&& node scripts/seed.mjs"
   },
   "dependencies": {
+    "@google/genai": "^1.46.0",
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.49.4",
     "clsx": "^2.1.1",
@@ -32,6 +35,7 @@
     "postcss": "^8.5.3",
     "supabase": "^2.84.1",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.2"
   }
 }

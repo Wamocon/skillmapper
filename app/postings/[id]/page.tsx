@@ -8,11 +8,24 @@ import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MockBadge } from "@/components/mock-badge";
 import { SkillTree, mapRequirementNodes } from "@/components/skill-tree";
 import { analyzePosting } from "@/lib/mock-skillmapper";
-import { fetchPostingById, fetchProjectById, fetchRoleById } from "@/lib/db/service";
-import type { DbJobPosting, DbProject, DbProjectRole } from "@/lib/db/types";
+import { toMockPostingAnalysis } from "@/lib/ai/ui-adapters";
+import type { PostingExtractionResult } from "@/lib/ai/extraction";
+import { fetchPostingById, fetchProjectById, fetchRoleById, fetchMatchRunsForPosting, fetchCandidateById } from "@/lib/db/service";
+import type { DbJobPosting, DbProject, DbProjectRole, DbMatchRun, DbCandidate } from "@/lib/db/types";
+
+function safeParseSummary(summary: unknown): Record<string, unknown> | null {
+  if (!summary) return null;
+  if (typeof summary === "object" && summary !== null) return summary as Record<string, unknown>;
+  if (typeof summary !== "string") return null;
+  try {
+    const parsed = JSON.parse(summary);
+    return typeof parsed === "object" && parsed !== null ? parsed as Record<string, unknown> : null;
+  } catch {
+    return null;
+  }
+}
 
 const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
   active: "success",
@@ -39,6 +52,7 @@ export default function PostingDetailPage() {
   const [posting, setPosting] = useState<DbJobPosting | null>(null);
   const [project, setProject] = useState<DbProject | null>(null);
   const [role, setRole] = useState<DbProjectRole | null>(null);
+  const [matchRuns, setMatchRuns] = useState<Array<DbMatchRun & { candidateName: string }>>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,12 +60,20 @@ export default function PostingDetailPage() {
       .then(async (p) => {
         setPosting(p);
         if (!p) return;
-        const [proj, roleData] = await Promise.all([
+        const [proj, roleData, runs] = await Promise.all([
           fetchProjectById(p.project_id),
           fetchRoleById(p.role_id),
+          fetchMatchRunsForPosting(p.id),
         ]);
         setProject(proj);
         setRole(roleData);
+
+        // Enrich match runs with candidate names
+        const candidateIds = [...new Set(runs.map((r) => r.candidate_id))];
+        const candidateResults = await Promise.all(candidateIds.map((id) => fetchCandidateById(id)));
+        const nameMap = new Map<string, string>();
+        candidateResults.forEach((c) => { if (c) nameMap.set(c.id, c.full_name); });
+        setMatchRuns(runs.map((r) => ({ ...r, candidateName: nameMap.get(r.candidate_id) ?? "Unknown" })));
       })
       .finally(() => setLoading(false));
   }, [postingId]);
@@ -66,7 +88,14 @@ export default function PostingDetailPage() {
   }
 
   const analysis = posting && role
-    ? analyzePosting(posting.title, posting.raw_text ?? posting.description ?? "", role.title, posting.extension_mode)
+    ? posting.mapped_profile
+      ? toMockPostingAnalysis(
+        posting.mapped_profile as unknown as PostingExtractionResult,
+        posting.title,
+        role.title,
+        posting.extension_mode,
+      )
+      : analyzePosting(posting.title, posting.raw_text ?? posting.description ?? "", role.title, posting.extension_mode)
     : null;
 
   if (!posting || !project || !analysis) {
@@ -106,7 +135,7 @@ export default function PostingDetailPage() {
               </Badge>
             }
           />
-          <MockBadge />
+          <Badge variant={posting.mapped_profile ? "info" : "mock"}>{posting.mapped_profile ? "AI" : "Mock"}</Badge>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3 text-sm text-ink/60">
@@ -162,6 +191,54 @@ export default function PostingDetailPage() {
             ? `Modus: ${posting.extension_mode}. Attribute können zuerst gemockt und danach manuell + KI-gestützt erweitert werden.`
             : `Mode: ${posting.extension_mode}. Attributes can be mocked first and then extended manually with AI assistance.`}
         </p>
+      </Card>
+
+      {/* Match history */}
+      <Card>
+        <CardHeader
+          title={locale === "de" ? "Matching-Ergebnisse" : "Match results"}
+          subtitle={locale === "de" ? `${matchRuns.length} Matching-Läufe für diese Ausschreibung` : `${matchRuns.length} match runs for this posting`}
+          action={<Zap className="h-5 w-5 text-amber-600" />}
+        />
+        {matchRuns.length === 0 ? (
+          <p className="mt-4 text-sm text-ink/50">{locale === "de" ? "Noch keine Matching-Ergebnisse vorhanden." : "No match results yet."}</p>
+        ) : (
+          <div className="mt-4 space-y-2">
+            {matchRuns.map((run) => {
+              const summaryData = run.summary
+                ? safeParseSummary(run.summary)
+                : null;
+              const recommendation = summaryData?.recommendation as string | undefined;
+
+              return (
+                <Link
+                  key={run.id}
+                  href={`/matching?matchRun=${run.id}`}
+                  className="flex items-center justify-between rounded-xl border border-ink/10 bg-fog/25 p-4 transition hover:border-moss/30 hover:bg-white hover:shadow-sm"
+                >
+                  <div>
+                    <p className="font-semibold text-ink">{run.candidateName}</p>
+                    <p className="mt-1 text-xs text-ink/50">
+                      {new Date(run.created_at).toLocaleDateString(locale === "de" ? "de-DE" : "en-US", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-heading text-xl text-ink">{run.score}%</span>
+                    {recommendation && (
+                      <Badge variant={recommendation === "geeignet" ? "success" : recommendation === "bedingt geeignet" ? "warning" : "error"}>
+                        {recommendation === "geeignet"
+                          ? locale === "de" ? "Geeignet" : "Suitable"
+                          : recommendation === "bedingt geeignet"
+                            ? locale === "de" ? "Bedingt" : "Partial"
+                            : locale === "de" ? "Nicht geeignet" : "Not suitable"}
+                      </Badge>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </Card>
 
       {/* Actions */}

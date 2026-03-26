@@ -24,7 +24,7 @@ function Toast({ notification, onDismiss }: { notification: AppNotification; onD
   return (
     <div
       className={clsx(
-        "flex items-start gap-3 rounded-xl border p-4 shadow-lg animate-rise",
+        "pointer-events-auto flex items-start gap-3 rounded-2xl border p-4 shadow-lg animate-rise backdrop-blur-sm",
         config.className,
       )}
       role="alert"
@@ -32,7 +32,7 @@ function Toast({ notification, onDismiss }: { notification: AppNotification; onD
       <Icon className="mt-0.5 h-5 w-5 flex-shrink-0" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold">{notification.title}</p>
-        <p className="text-sm opacity-80">{notification.message}</p>
+        <p className="text-sm leading-5 opacity-80 whitespace-pre-wrap break-words">{notification.message}</p>
       </div>
       <button
         type="button"
@@ -52,10 +52,12 @@ export function NotificationToasts() {
   if (visible.length === 0) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 w-96 max-w-[calc(100vw-2rem)]">
+    <div className="pointer-events-none fixed inset-x-0 top-20 z-[100] flex justify-center px-4 md:top-24">
+      <div className="flex w-full max-w-2xl flex-col gap-3">
       {visible.map((n) => (
         <Toast key={n.id} notification={n} onDismiss={() => remove(n.id)} />
       ))}
+      </div>
     </div>
   );
 }

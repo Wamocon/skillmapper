@@ -78,7 +78,8 @@ Wenn ≥ 1 `must`-Anforderung den Status `"gap"` hat: Setze `recommendation: "ni
 Berechne den Gesamtscore nach folgender Formel:
 
 ```
-score_per_req = (candidate_level / target_level) * weight * status_factor
+score_ratio = min(candidate_level / target_level, 1.0)
+score_per_req = score_ratio * weight * status_factor
 
 status_factor:
   "matched"  → 1.0
@@ -89,6 +90,7 @@ total_score = Σ(score_per_req) / Σ(weight) * 100
 ```
 
 Runde `total_score` auf eine Dezimalstelle. Clamp: 0.0–100.0.
+Überqualifikation darf den gewichteten Beitrag einer einzelnen Anforderung nicht über deren Gewicht hinaus erhöhen.
 
 ### Schritt 3 — Empfehlung ableiten
 

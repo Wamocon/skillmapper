@@ -20,6 +20,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const showDemoCredentials = process.env.NODE_ENV !== "production";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -71,6 +72,13 @@ export default function LoginPage() {
             {loading ? t("common.loading") : t("common.login")}
           </Button>
         </form>
+
+        {showDemoCredentials && (
+          <div className="mt-4 rounded-xl border border-ink/10 bg-fog/40 p-4 text-sm text-ink/75">
+            <p className="font-semibold text-ink">Testzugang</p>
+            <p className="mt-1">admin@kompetenzkompass.de / ChangeMe!12345</p>
+          </div>
+        )}
 
         <div className="mt-6 space-y-2 text-center text-sm text-ink/60">
           <p>

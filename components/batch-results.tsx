@@ -116,14 +116,19 @@ function MatchDetailPanel({
       {/* Score summary */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <ScoreCard
-          label={locale === "de" ? "Gesamt-Score" : "Total score"}
+          label={locale === "de" ? "Match-Score" : "Match score"}
           value={`${entry.score}%`}
           color={entry.score >= 75 ? "green" : entry.score >= 50 ? "yellow" : "red"}
         />
         <ScoreCard
           label={locale === "de" ? "Empfehlung" : "Recommendation"}
-          value={entry.recommendation === "geeignet" ? (locale === "de" ? "Geeignet" : "Suitable") : entry.recommendation === "bedingt geeignet" ? (locale === "de" ? "Bedingt" : "Partial") : (locale === "de" ? "Nicht geeignet" : "Not suitable")}
+          value={entry.recommendation === "geeignet" ? (locale === "de" ? "Geeignet" : "Suitable") : entry.recommendation === "bedingt geeignet" ? (locale === "de" ? "Bedingt geeignet" : "Partially suitable") : (locale === "de" ? "Nicht geeignet" : "Not suitable")}
           color={entry.recommendation === "geeignet" ? "green" : entry.recommendation === "bedingt geeignet" ? "yellow" : "red"}
+        />
+        <ScoreCard
+          label={locale === "de" ? "Pflichtabdeckung" : "Must coverage"}
+          value={`${entry.mustCoverage}%`}
+          color={entry.mustCoverage === 100 ? "green" : entry.mustCoverage >= 60 ? "yellow" : "red"}
         />
         <ScoreCard
           label="Must-Gaps"
@@ -131,8 +136,18 @@ function MatchDetailPanel({
           color={entry.criticalGaps === 0 ? "green" : "red"}
         />
         <ScoreCard label={locale === "de" ? "Lücken ges." : "Total gaps"} value={String(entry.totalGaps)} color="neutral" />
-        <ScoreCard label={locale === "de" ? "Treffer" : "Matches"} value={String(entry.totalOverlaps)} color="green" />
       </div>
+
+      {entry.needsHumanReview && (
+        <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+          <p className="font-semibold">{locale === "de" ? "Menschliche Prüfung empfohlen" : "Human review recommended"}</p>
+          <p className="mt-1 text-amber-800/80">
+            {locale === "de"
+              ? "Mindestens eine Pflichtanforderung ist nur teilweise belegt. Nutzen Sie die Begründungen und Interviewfragen, bevor Sie final entscheiden."
+              : "At least one required criterion is only partially covered. Use the reasoning and interview prompts before making a final decision."}
+          </p>
+        </div>
+      )}
 
       {/* Header comparison */}
       <div className="grid gap-4 sm:grid-cols-2">
@@ -296,7 +311,7 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
   const REC_TABS: { key: RecFilter; label: string }[] = [
     { key: "all", label: locale === "de" ? `Alle (${entries.length})` : `All (${entries.length})` },
     { key: "geeignet", label: locale === "de" ? `Geeignet (${recCounts.geeignet})` : `Suitable (${recCounts.geeignet})` },
-    { key: "bedingt geeignet", label: locale === "de" ? `Bedingt (${recCounts.bedingt})` : `Partial (${recCounts.bedingt})` },
+    { key: "bedingt geeignet", label: locale === "de" ? `Bedingt geeignet (${recCounts.bedingt})` : `Partially suitable (${recCounts.bedingt})` },
     { key: "nicht geeignet", label: locale === "de" ? `Nicht geeignet (${recCounts.nicht})` : `Not suitable (${recCounts.nicht})` },
   ];
 
@@ -358,13 +373,16 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
 
           {/* Min score */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-ink/55">{locale === "de" ? "Min. Score:" : "Min score:"}</span>
+            <span className="text-xs font-semibold text-ink/55">{locale === "de" ? "Min. Match-Score:" : "Min match score:"}</span>
             <input
               type="number"
               min={0}
               max={100}
               value={minScore}
-              onChange={(e) => setMinScore(Number(e.target.value))}
+              onChange={(e) => {
+                const nextValue = Number(e.target.value);
+                setMinScore(Number.isNaN(nextValue) ? 0 : Math.max(0, Math.min(100, nextValue)));
+              }}
               className="w-16 rounded-lg border border-ink/20 px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-moss/40"
             />
             <span className="text-xs text-ink/50">%</span>
@@ -401,9 +419,12 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
                   dir={sortDir}
                   onClick={toggleSort}
                 />
-                <SortHeader col="score" label="Score" current={sortCol} dir={sortDir} onClick={toggleSort} />
+                <SortHeader col="score" label={locale === "de" ? "Match-Score" : "Match score"} current={sortCol} dir={sortDir} onClick={toggleSort} />
                 <th className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-ink/45">
                   {locale === "de" ? "Empfehlung" : "Recommendation"}
+                </th>
+                <th className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-ink/45">
+                  {locale === "de" ? "Pflichtabdeckung" : "Must coverage"}
                 </th>
                 <SortHeader
                   col="mustGaps"
@@ -414,9 +435,6 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
                 />
                 <th className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-ink/45">
                   {locale === "de" ? "Lücken" : "Gaps"}
-                </th>
-                <th className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider text-ink/45">
-                  {locale === "de" ? "Treffer" : "Matches"}
                 </th>
                 <th className="px-3 py-2" />
               </tr>
@@ -478,7 +496,7 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
                                     ? "bg-amber-500"
                                     : "bg-rust",
                               )}
-                              style={{ width: `${entry.score}%` }}
+                                style={{ width: `${Math.max(0, Math.min(100, entry.score))}%` }}
                             />
                           </div>
                           <span
@@ -498,22 +516,27 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
 
                       {/* Recommendation */}
                       <td className="px-3 py-3">
-                        <Badge
-                          variant={
-                            entry.recommendation === "geeignet"
-                              ? "success"
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge
+                            variant={
+                              entry.recommendation === "geeignet"
+                                ? "success"
+                                : entry.recommendation === "bedingt geeignet"
+                                  ? "warning"
+                                  : "error"
+                            }
+                          >
+                            {entry.recommendation === "geeignet"
+                              ? locale === "de" ? "Geeignet" : "Suitable"
                               : entry.recommendation === "bedingt geeignet"
-                                ? "warning"
-                                : "error"
-                          }
-                        >
-                          {entry.recommendation === "geeignet"
-                            ? locale === "de" ? "Geeignet" : "Suitable"
-                            : entry.recommendation === "bedingt geeignet"
-                              ? locale === "de" ? "Bedingt" : "Partial"
-                              : locale === "de" ? "Nicht geeignet" : "Not suitable"}
-                        </Badge>
+                                ? locale === "de" ? "Bedingt geeignet" : "Partially suitable"
+                                : locale === "de" ? "Nicht geeignet" : "Not suitable"}
+                          </Badge>
+                          {entry.needsHumanReview && <Badge variant="info">{locale === "de" ? "Prüfen" : "Review"}</Badge>}
+                        </div>
                       </td>
+
+                      <td className="px-3 py-3 text-xs font-semibold tabular-nums text-ink/70">{entry.mustCoverage}%</td>
 
                       {/* Must-gaps */}
                       <td className="px-3 py-3">
@@ -529,9 +552,6 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
 
                       {/* Total gaps */}
                       <td className="px-3 py-3 text-xs text-ink/65 tabular-nums">{entry.totalGaps}</td>
-
-                      {/* Overlaps */}
-                      <td className="px-3 py-3 text-xs text-ink/65 tabular-nums">{entry.totalOverlaps}</td>
 
                       {/* Expand toggle */}
                       <td className="px-3 py-3">

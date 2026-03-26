@@ -8,10 +8,11 @@ import { fetchCurrentUserProfile } from "@/lib/db/service";
 
 interface AuthContextValue {
   user: DbUser | null;
+  isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   can: (permission: Permission) => boolean;
   updateUser: (updates: Partial<DbUser>) => void;
 }
@@ -26,34 +27,72 @@ export interface RegisterData {
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
+const AUTH_BOOTSTRAP_TIMEOUT_MS = 2000;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<DbUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
+    let isActive = true;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-    // Bootstrap: load existing session on mount
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        const profile = await fetchCurrentUserProfile(session.user.id);
-        setUser(profile);
+    function finishBootstrap() {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
       }
-    });
 
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        if (session?.user) {
-          const profile = await fetchCurrentUserProfile(session.user.id);
+      if (isActive) {
+        setIsLoading(false);
+      }
+    }
+
+    async function applySession(session: Awaited<ReturnType<typeof supabase.auth.getSession>>["data"]["session"]) {
+      try {
+        if (!isActive) {
+          return;
+        }
+
+        if (!session?.user) {
+          setUser(null);
+          return;
+        }
+
+        const profile = await fetchCurrentUserProfile(session.user.id);
+        if (isActive) {
           setUser(profile);
-        } else {
+        }
+      } catch {
+        if (isActive) {
           setUser(null);
         }
+      } finally {
+        finishBootstrap();
+      }
+    }
+
+    timeoutId = setTimeout(() => {
+      if (isActive) {
+        setUser(null);
+        setIsLoading(false);
+      }
+    }, AUTH_BOOTSTRAP_TIMEOUT_MS);
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        void applySession(session);
       },
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isActive = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      subscription.unsubscribe();
+    };
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
@@ -84,9 +123,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     const supabase = createClient();
-    supabase.auth.signOut();
+    await supabase.auth.signOut();
+    setUser(null);
   }, []);
 
   const can = useCallback(
@@ -107,6 +147,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
+      isLoading,
       isAuthenticated: !!user,
       login,
       register,
@@ -114,7 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       can,
       updateUser,
     }),
-    [user, login, register, logout, can, updateUser],
+    [user, isLoading, login, register, logout, can, updateUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

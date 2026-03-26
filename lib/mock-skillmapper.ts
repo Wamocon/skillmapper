@@ -25,7 +25,7 @@ export type CandidateSkill = {
 export type MappingResult = {
   sourceLabel: string;
   sourceType: "project" | "candidate";
-  mocked: true;
+  mocked: boolean;
   extractedCount: number;
 };
 
@@ -45,7 +45,7 @@ export type ScoreReason = {
 };
 
 export type MatchResult = {
-  mocked: true;
+  mocked: boolean;
   totalScore: number;
   recommendation: "geeignet" | "bedingt geeignet" | "nicht geeignet";
   overlaps: string[];
@@ -753,6 +753,8 @@ export type BatchMatchEntry = {
   totalProjectMonths: number;
   score: number;
   recommendation: MatchResult["recommendation"];
+  mustCoverage: number;
+  needsHumanReview: boolean;
   criticalGaps: number;
   totalGaps: number;
   totalOverlaps: number;
@@ -760,6 +762,20 @@ export type BatchMatchEntry = {
   candidateProfile: CandidateProfile;
   questions: InterviewQuestion[];
 };
+
+function calculateMustCoverageFromMatch(result: MatchResult): number {
+  const mustRequirements = result.details.filter((detail) => detail.requirement.mustHave);
+  if (mustRequirements.length === 0) {
+    return 100;
+  }
+
+  const coveredMustRequirements = mustRequirements.filter((detail) => detail.status === "matched" || detail.status === "partial").length;
+  return Math.round((coveredMustRequirements / mustRequirements.length) * 100);
+}
+
+function requiresHumanReview(result: MatchResult): boolean {
+  return result.details.some((detail) => detail.requirement.mustHave && detail.status === "partial");
+}
 
 type BatchCandidateInput = {
   id: string;
@@ -799,6 +815,8 @@ export function runBatchMatch(
       totalProjectMonths: candidate.totalProjectMonths,
       score: result.totalScore,
       recommendation: result.recommendation,
+      mustCoverage: calculateMustCoverageFromMatch(result),
+      needsHumanReview: requiresHumanReview(result),
       criticalGaps: result.details.filter((d) => d.requirement.mustHave && d.status === "gap").length,
       totalGaps: result.gaps.length,
       totalOverlaps: result.overlaps.length,
@@ -840,6 +858,8 @@ export function runBatchMatchForPosting(
       totalProjectMonths: candidate.totalProjectMonths,
       score: result.totalScore,
       recommendation: result.recommendation,
+      mustCoverage: calculateMustCoverageFromMatch(result),
+      needsHumanReview: requiresHumanReview(result),
       criticalGaps: result.details.filter((d) => d.requirement.mustHave && d.status === "gap").length,
       totalGaps: result.gaps.length,
       totalOverlaps: result.overlaps.length,

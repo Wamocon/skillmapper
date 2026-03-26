@@ -11,10 +11,10 @@ export default function HomePage() {
   const { locale } = useI18n();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" suppressHydrationWarning>
       {/* Hero */}
-      <section className="animate-rise rounded-3xl border border-ink/10 bg-fog/70 p-8 shadow-panel md:p-12">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <section className="animate-rise rounded-3xl border border-ink/10 bg-fog/70 p-8 shadow-panel md:p-12" suppressHydrationWarning>
+        <div className="flex flex-wrap items-center justify-between gap-3" suppressHydrationWarning>
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-rust">
             {locale === "de" ? "Skill-Matching-Plattform" : "Skill matching platform"}
           </p>

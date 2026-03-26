@@ -196,3 +196,68 @@ export interface DbPhoneVerification {
   expires_at: string;
   created_at: string;
 }
+
+// ─── Interview Sets (AI-generated) ──────────────────────────────────────────
+
+export interface DbInterviewSet {
+  id: string;
+  match_run_id: string;
+  posting_id: string;
+  candidate_id: string;
+  tenant_id: string;
+  interviewer_user_id: string | null;
+  total_questions: number;
+  recommended_order: string[];
+  order_rationale: string | null;
+  generation_notes: string | null;
+  created_at: string;
+}
+
+// ─── Interview Questions ────────────────────────────────────────────────────
+
+export type InterviewQuestionPriority = "high" | "medium" | "low";
+export type InterviewQuestionCategory = "technical" | "behavioral" | "motivational" | "contextual";
+
+export interface DbInterviewQuestion {
+  id: string;
+  interview_set_id: string;
+  sort_order: number;
+  question: string;
+  goal: string;
+  expected_evidence: string;
+  based_on: string;
+  priority: InterviewQuestionPriority;
+  category: InterviewQuestionCategory;
+  follow_up_hint: string | null;
+  rubric: Record<string, string> | null;
+  response_rating: number | null;
+  response_notes: string | null;
+  created_at: string;
+}
+
+// ─── AI Extraction Log ──────────────────────────────────────────────────────
+
+export type AIOperationType =
+  | "posting_extraction"
+  | "candidate_extraction"
+  | "single_match"
+  | "multi_match"
+  | "interview_generation";
+
+export type AIEntityType = "job_posting" | "candidate" | "match_run" | "interview_set";
+
+export interface DbAIExtractionLog {
+  id: string;
+  tenant_id: string;
+  user_id: string | null;
+  operation_type: AIOperationType;
+  entity_type: AIEntityType;
+  entity_id: string;
+  model_used: string;
+  input_tokens: number | null;
+  output_tokens: number | null;
+  duration_ms: number | null;
+  status: "success" | "error" | "partial";
+  error_message: string | null;
+  created_at: string;
+}
