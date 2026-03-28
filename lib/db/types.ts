@@ -20,8 +20,7 @@ export type Locale = "de" | "en";
 export type AttributeExtensionMode = "mock" | "manual-ai-assisted";
 
 // ─── User & Auth ────────────────────────────────────────────────────────────
-export type ProjectMaturity = "idea" | "pilot" | "rollout" | "scale";
-export type ProjectPhase = "discovery" | "delivery" | "stabilization";
+export type ProjectPhase = "requirements" | "design" | "implementation" | "testing" | "deployment" | "maintenance";
 
 // ─── User & Auth ────────────────────────────────────────────────────────────
 export interface DbUser {
@@ -71,7 +70,6 @@ export interface DbProject {
   // Domain-specific fields (migration 004)
   duration_months: number;
   industry: string;
-  maturity: ProjectMaturity;
   phase: ProjectPhase;
   constraints: string[];
   additional_attributes: string[];
@@ -118,6 +116,7 @@ export interface DbProjectRole {
 // ─── Job Postings (Ausschreibungen) ─────────────────────────────────────────
 
 export type PostingStatus = "draft" | "active" | "paused" | "closed" | "filled";
+export type PostingPriority = "high" | "medium" | "low";
 
 export interface DbJobPosting {
   id: string;
@@ -134,14 +133,14 @@ export interface DbJobPosting {
   created_by: string;
   created_at: string;
   updated_at: string;
-    // Domain-specific fields (migration 004)
-    duration_months: number;
-    industry: string;
-    maturity: ProjectMaturity;
-    phase: ProjectPhase;
-    constraints: string[];
-    additional_attributes: string[];
-  }
+  priority: PostingPriority;
+  // Domain-specific fields (migration 004)
+  duration_months: number;
+  industry: string;
+  phase: ProjectPhase;
+  constraints: string[];
+  additional_attributes: string[];
+}
 
 // ─── Match Runs ─────────────────────────────────────────────────────────────
 
@@ -233,6 +232,23 @@ export interface DbInterviewQuestion {
   response_rating: number | null;
   response_notes: string | null;
   created_at: string;
+}
+
+// ─── Candidate Comments ─────────────────────────────────────────────────────
+
+export type CommentStatus = "active" | "archived";
+
+export interface DbCandidateComment {
+  id: string;
+  candidate_id: string;
+  tenant_id: string;
+  section: string;
+  text: string;
+  author_name: string;
+  author_id: string;
+  status: CommentStatus;
+  created_at: string;
+  edited_at: string | null;
 }
 
 // ─── AI Extraction Log ──────────────────────────────────────────────────────

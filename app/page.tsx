@@ -13,14 +13,14 @@ export default function HomePage() {
   return (
     <div className="space-y-8" suppressHydrationWarning>
       {/* Hero */}
-      <section className="animate-rise rounded-3xl border border-ink/10 bg-fog/70 p-8 shadow-panel md:p-12" suppressHydrationWarning>
+      <section className="animate-rise rounded-3xl border border-ink/10 bg-fog/70 p-5 shadow-panel sm:p-8 md:p-12" suppressHydrationWarning>
         <div className="flex flex-wrap items-center justify-between gap-3" suppressHydrationWarning>
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-rust">
             {locale === "de" ? "Skill-Matching-Plattform" : "Skill matching platform"}
           </p>
           <Badge variant="mock">{locale === "de" ? "Mock-Modus" : "Mock mode"}</Badge>
         </div>
-        <h1 className="mt-4 max-w-4xl font-heading text-5xl leading-tight text-ink md:text-7xl">
+        <h1 className="mt-4 max-w-4xl font-heading text-3xl leading-tight text-ink sm:text-5xl md:text-7xl">
           {locale === "de"
             ? "Projekte und Kandidaten intelligent matchen."
             : "Match projects and candidates intelligently."}

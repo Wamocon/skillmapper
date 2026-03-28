@@ -25,10 +25,10 @@ export default function AnleitungPage() {
   const { locale } = useI18n();
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10 md:px-10">
-      <section className="rounded-3xl border border-ink/10 bg-fog/70 p-8 shadow-panel md:p-12">
+    <main className="mx-auto max-w-6xl px-4 py-10 md:px-10">
+      <section className="rounded-3xl border border-ink/10 bg-fog/70 p-5 shadow-panel sm:p-8 md:p-12">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-rust">{locale === "de" ? "Nutzungsanleitung" : "User guide"}</p>
-        <h1 className="mt-3 font-heading text-5xl text-ink md:text-6xl">{locale === "de" ? "So nutzt du Kompetenzkompass mit strukturiertem Mapping" : "How to use Kompetenzkompass with structured mapping"}</h1>
+        <h1 className="mt-3 font-heading text-3xl text-ink sm:text-5xl md:text-6xl">{locale === "de" ? "So nutzt du Kompetenzkompass mit strukturiertem Mapping" : "How to use Kompetenzkompass with structured mapping"}</h1>
         <p className="mt-4 max-w-3xl text-lg text-ink/80">
           {locale === "de"
             ? "Diese Seite zeigt den lokalen Workflow mit Projekt-, Rollen- und Ausschreibungs-Schema, Kompetenzrad-Visualisierung sowie begründetem Score-Matching (Pflicht/Optional-Logik). Kandidaten werden gegen einzelne Ausschreibungen gematcht, die ihrerseits Projektkontext erben. Einzelmatching und Mehrfach-Matching teilen sich denselben Ausschreibungskontext. Alle Ergebnisse sind derzeit simuliert (Mock), aber der Prozess ist bereits produktnah aufgebaut."
@@ -60,12 +60,12 @@ export default function AnleitungPage() {
         <StepCard
           step="Step 1"
           title={locale === "de" ? "Projekt und Rollen erfassen" : "Capture project and roles"}
-          detail={locale === "de" ? "Neben Titel und Text werden Dauer, Branche, Reifegrad, Phase und Rahmenbedingungen erfasst. Für jedes Projekt werden Rollen (z.\u00A0B. Frontend-Entwickler, QA Lead) angelegt, die mit Platzhaltern oder echten Kandidaten besetzt werden können." : "In addition to title and text, duration, industry, maturity, phase, and constraints are captured. Roles (e.g. frontend developer, QA lead) are created per project and can be filled with placeholders or real candidates."}
+          detail={locale === "de" ? "Neben Titel und Text werden Dauer, Branche, Projektphase (nach SDLC: Anforderungsanalyse, Design, Implementierung, Testing, Deployment, Wartung) und Rahmenbedingungen erfasst. Für jedes Projekt werden Rollen (z.\u00A0B. Frontend-Entwickler, QA Lead) angelegt, die mit Platzhaltern oder echten Kandidaten besetzt werden können. Rollen können direkt in der Projektansicht angelegt und Felder dort inline bearbeitet werden." : "In addition to title and text, duration, industry, project phase (SDLC: Requirements, Design, Implementation, Testing, Deployment, Maintenance), and constraints are captured. Roles (e.g. frontend developer, QA lead) are created per project and can be filled with placeholders or real candidates. Roles can be created directly in the project view and fields can be edited inline."}
         />
         <StepCard
           step="Step 2"
           title={locale === "de" ? "Ausschreibungen mit Skill-Anforderungen erstellen" : "Create job postings with skill requirements"}
-          detail={locale === "de" ? "Jede Rolle kann eine oder mehrere Ausschreibungen enthalten. Ausschreibungen erben den Projektkontext, enthalten aber eigene Detail-Anforderungen (Tools, Hard Skills, Soft Skills, Zertifizierungen) mit Pflicht/Optional-Klassifikation. Jede Ausschreibung durchläuft einen Status: Entwurf → Aktiv → Pausiert → Geschlossen → Besetzt." : "Each role can have one or more job postings. Postings inherit project context but contain their own detailed requirements (tools, hard skills, soft skills, certifications) with required/optional classification. Each posting follows a status lifecycle: draft → active → paused → closed → filled."}
+          detail={locale === "de" ? "Jede Rolle kann eine oder mehrere Ausschreibungen enthalten. Ausschreibungen erben den Projektkontext, enthalten aber eigene Detail-Anforderungen (Tools, Hard Skills, Soft Skills, Zertifizierungen) mit Pflicht/Optional-Klassifikation. Jede Ausschreibung durchläuft einen Status: Entwurf → Aktiv → Pausiert → Geschlossen → Besetzt. Ausschreibungen haben eine Priorität (Hoch, Mittel, Niedrig), die farblich hervorgehoben wird. Neue Ausschreibungen können direkt auf der Ausschreibungen-Seite erstellt werden. Filter für Status, Priorität und Branche sind verfügbar." : "Each role can have one or more job postings. Postings inherit project context but contain their own detailed requirements (tools, hard skills, soft skills, certifications) with required/optional classification. Each posting follows a status lifecycle: draft → active → paused → closed → filled. Postings have a priority (High, Medium, Low) displayed with color coding. New postings can be created directly on the postings page. Filters for status, priority, and industry are available."}
         />
         <StepCard
           step="Step 3"

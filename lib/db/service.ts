@@ -31,6 +31,7 @@ import type {
   DbInterviewSet,
   DbInterviewQuestion,
   DbAIExtractionLog,
+  DbCandidateComment,
 } from "@/lib/db/types";
 
 // ─── Projects ────────────────────────────────────────────────────────────────
@@ -168,6 +169,34 @@ export async function fetchRoleById(id: string): Promise<DbProjectRole | null> {
     .eq("id", id)
     .single();
   if (error) return null;
+  return data as DbProjectRole;
+}
+
+export async function createRole(
+  role: Omit<DbProjectRole, "id" | "created_at" | "updated_at">,
+): Promise<DbProjectRole> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("project_roles")
+    .insert(role)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as DbProjectRole;
+}
+
+export async function updateRole(
+  id: string,
+  updates: Partial<Omit<DbProjectRole, "id" | "created_at">>,
+): Promise<DbProjectRole> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("project_roles")
+    .update({ ...updates, updated_at: new Date().toISOString() })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
   return data as DbProjectRole;
 }
 
@@ -589,4 +618,66 @@ export async function fetchAILogs(limit = 50): Promise<DbAIExtractionLog[]> {
     .limit(limit);
   if (error) throw error;
   return (data ?? []) as DbAIExtractionLog[];
+}
+
+// ─── Candidate Comments ────────────────────────────────────────────────────
+
+export async function fetchCommentsForCandidate(candidateId: string): Promise<DbCandidateComment[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("candidate_comments")
+    .select("*")
+    .eq("candidate_id", candidateId)
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as DbCandidateComment[];
+}
+
+export async function createCandidateComment(
+  comment: Omit<DbCandidateComment, "id" | "created_at" | "edited_at">,
+): Promise<DbCandidateComment> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("candidate_comments")
+    .insert(comment)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as DbCandidateComment;
+}
+
+export async function updateCandidateComment(
+  id: string,
+  text: string,
+): Promise<DbCandidateComment> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("candidate_comments")
+    .update({ text, edited_at: new Date().toISOString() })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as DbCandidateComment;
+}
+
+export async function archiveCandidateComment(id: string): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("candidate_comments")
+    .update({ status: "archived", edited_at: new Date().toISOString() })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+// ─── Match Runs (all) ──────────────────────────────────────────────────────
+
+export async function fetchAllMatchRuns(): Promise<DbMatchRun[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("match_runs")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as DbMatchRun[];
 }

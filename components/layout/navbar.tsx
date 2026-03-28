@@ -15,6 +15,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { useNotifications } from "@/lib/notifications/context";
 import { Badge } from "@/components/ui/badge";
+import { BrandMark } from "@/components/layout/brand-mark";
 
 export function Navbar() {
   const { t, locale, setLocale } = useI18n();
@@ -29,9 +30,10 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-fog/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
         {/* Logo */}
-        <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2">
-          <span className="font-heading text-2xl text-ink">Kompetenzkompass</span>
-          <Badge variant="mock">Mock</Badge>
+        <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2 min-w-0">
+          <BrandMark className="h-8 w-8 shrink-0" />
+          <span className="font-heading text-lg sm:text-2xl text-ink truncate">Kompetenzkompass</span>
+          <Badge variant="mock" className="hidden sm:inline-flex">Mock</Badge>
         </Link>
 
         {/* Desktop nav */}
@@ -59,7 +61,7 @@ export function Navbar() {
         )}
 
         {/* Right side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           {/* Language toggle */}
           <button
             type="button"

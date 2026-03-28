@@ -1,14 +1,10 @@
 import type { DbCandidate, DbProject, DbProjectRole, DbJobPosting } from "@/lib/db/types";
 
-export type ProjectMaturity = "idea" | "pilot" | "rollout" | "scale";
-export type ProjectPhase = "discovery" | "delivery" | "stabilization";
 export type RequirementExtensionMode = "mock" | "manual-ai-assisted";
 
 export interface MockProjectRecord extends DbProject {
   duration_months: number;
   industry: string;
-  maturity: ProjectMaturity;
-  phase: ProjectPhase;
   constraints: string[];
   additional_attributes: string[];
 }
@@ -20,8 +16,6 @@ export type PostingStatus = "draft" | "active" | "paused" | "closed" | "filled";
 export interface MockJobPostingRecord extends DbJobPosting {
   duration_months: number;
   industry: string;
-  maturity: ProjectMaturity;
-  phase: ProjectPhase;
   constraints: string[];
   additional_attributes: string[];
 }
@@ -58,8 +52,7 @@ export const MOCK_PROJECTS: MockProjectRecord[] = [
     updated_at: "2026-03-20T10:00:00Z",
     duration_months: 9,
     industry: "HR-Tech",
-    maturity: "pilot",
-    phase: "delivery",
+    phase: "implementation",
     constraints: ["Remote first", "DSGVO", "Budgetdeckel"],
     additional_attributes: ["Stakeholder-Komplexität", "Reiseanteil"],
   },
@@ -80,8 +73,7 @@ export const MOCK_PROJECTS: MockProjectRecord[] = [
     updated_at: "2026-03-18T14:00:00Z",
     duration_months: 6,
     industry: "E-Commerce",
-    maturity: "rollout",
-    phase: "discovery",
+    phase: "design",
     constraints: ["Hybrid", "Go-live Fixtermin"],
     additional_attributes: ["Barrierefreiheitsniveau"],
   },
@@ -102,8 +94,7 @@ export const MOCK_PROJECTS: MockProjectRecord[] = [
     updated_at: "2026-03-01T09:00:00Z",
     duration_months: 12,
     industry: "FinTech",
-    maturity: "scale",
-    phase: "stabilization",
+    phase: "maintenance",
     constraints: ["On-Prem", "Auditpflicht"],
     additional_attributes: ["Bereitschaftsdienst"],
   },
@@ -413,10 +404,10 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     created_by: "mock-user-001",
     created_at: "2026-03-20T10:30:00Z",
     updated_at: "2026-03-20T10:30:00Z",
+    priority: "high",
     duration_months: 9,
     industry: "HR-Tech",
-    maturity: "pilot",
-    phase: "delivery",
+    phase: "implementation",
     constraints: ["Remote first", "DSGVO", "Budgetdeckel"],
     additional_attributes: ["Stakeholder-Komplexität", "Reiseanteil"],
   },
@@ -436,10 +427,10 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     created_by: "mock-user-001",
     created_at: "2026-03-20T11:00:00Z",
     updated_at: "2026-03-20T11:00:00Z",
+    priority: "medium",
     duration_months: 9,
     industry: "HR-Tech",
-    maturity: "pilot",
-    phase: "delivery",
+    phase: "implementation",
     constraints: ["Remote first", "DSGVO"],
     additional_attributes: ["Stakeholder-Komplexität"],
   },
@@ -459,10 +450,10 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     created_by: "mock-user-001",
     created_at: "2026-03-18T14:30:00Z",
     updated_at: "2026-03-18T14:30:00Z",
+    priority: "medium",
     duration_months: 6,
     industry: "E-Commerce",
-    maturity: "rollout",
-    phase: "discovery",
+    phase: "design",
     constraints: ["Hybrid", "Go-live Fixtermin"],
     additional_attributes: ["Barrierefreiheitsniveau"],
   },
@@ -482,10 +473,10 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     created_by: "mock-user-001",
     created_at: "2026-02-10T09:30:00Z",
     updated_at: "2026-03-15T09:00:00Z",
+    priority: "low",
     duration_months: 12,
     industry: "FinTech",
-    maturity: "scale",
-    phase: "stabilization",
+    phase: "maintenance",
     constraints: ["On-Prem", "Auditpflicht"],
     additional_attributes: ["Bereitschaftsdienst"],
   },
@@ -505,10 +496,10 @@ export const MOCK_JOB_POSTINGS: MockJobPostingRecord[] = [
     created_by: "mock-user-001",
     created_at: "2026-03-20T11:30:00Z",
     updated_at: "2026-03-21T08:00:00Z",
+    priority: "medium",
     duration_months: 9,
     industry: "HR-Tech",
-    maturity: "pilot",
-    phase: "delivery",
+    phase: "testing",
     constraints: ["Remote first", "DSGVO"],
     additional_attributes: [],
   },

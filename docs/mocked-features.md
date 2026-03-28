@@ -8,7 +8,7 @@ Transparent list of which implementations are currently simulated.
 ## Aktiv gemockt / Actively mocked
 
 1. Dokumentextraktion für PDF, DOCX, XLSX.
-2. Projektanalyse mit Kopfdaten-Mapping (Dauer, Branche, Reifegrad, Phase, Rahmenbedingungen).
+2. Projektanalyse mit Kopfdaten-Mapping (Dauer, Branche, Phase nach SDLC, Rahmenbedingungen).
 3. **Rollen-Management**: Projektmitglieder/Positionen mit Besetzungsstatus (offen, Platzhalter, besetzt).
 4. **Ausschreibungen (Job Postings)**: Ausschreibungen pro Rolle mit eigenem Anforderungsprofil, Statusmodell und vererbtem Projektkontext.
 5. Kategorisiertes Requirement-Mapping (Tools, Hard Skills, Soft Skills, Zertifizierungen).

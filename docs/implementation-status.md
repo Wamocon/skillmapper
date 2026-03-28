@@ -2,7 +2,7 @@
 
 ## Last update
 
-- Date: 2026-03-25
+- Date: 2026-03-26
 - Stage: Supabase-connected MVP with schema strategy, RLS and seeded test data pipeline
 - Stack: Next.js, Tailwind, Supabase, Vercel-ready
 
@@ -16,16 +16,17 @@
 - **Roles and job postings (Ausschreibungen) model implemented:**
   - Projects contain roles (team positions) with fill status: open, placeholder, filled.
   - Each role can have one or more job postings (Ausschreibungen).
-  - Postings inherit project context (duration, industry, maturity, phase, constraints).
+  - Postings inherit project context (duration, industry, phase, constraints).
   - Postings contain their own detailed skill requirements.
   - Postings have a status lifecycle: draft → active → paused → closed / filled.
+  - Postings support priority levels (high, medium, low) with color-coded display.
   - Postings support raw text upload.
 - **Matching rewired to postings:**
   - Matching hub now selects active postings instead of projects.
   - Both single matching and batch matching work against posting requirements.
   - Posting analysis inherits project header data and derives requirements from posting text.
 - Structured project mapping implemented:
-  - duration, industry, project maturity, project phase, framework conditions
+  - duration, industry, project phase (SDLC: Requirements, Design, Implementation, Testing, Deployment, Maintenance), framework conditions
 - Requirement mapping implemented with categories:
   - tool knowledge, hard skills, soft skills, certifications
 - Requirement classification with Pflicht/Optional badges.
@@ -36,7 +37,13 @@
 - Batch matching with filterable multiselect, sortable results, drilldown.
 - Extension workflow implemented in mock.
 - Supabase schema extended with `project_roles` and `job_postings` tables.
-- Domain fields (`duration_months`, `industry`, `maturity`, `phase`, `constraints`, `additional_attributes`) added for projects/candidates/postings.
+- Domain fields (`duration_months`, `industry`, `phase`, `constraints`, `additional_attributes`) added for projects/candidates/postings.
+- Posting priority field (`high`, `medium`, `low`) with color-coded card display.
+- Dashboard match results table: clickable match count shows all match runs in a sortable table.
+- Project detail view: inline editing of all fields with permission check, direct role creation in Roles & Postings section.
+- Postings page: create new postings, full filter bar (status, priority, industry), prominent color-coded status/priority badges.
+- Candidate detail view: inline editing with permission check, comments system with timestamps, author tracking, editing and archiving.
+- Candidate comments stored in `candidate_comments` table with RLS.
 - RLS moved from placeholder policies to tenant-based policies using `auth.uid()` helpers.
 - `test` schema created for local development and seeded workflow.
 - DB service layer implemented in `lib/db/service.ts`.
@@ -76,6 +83,7 @@
 
 ## Change log
 
+- 2026-03-26: Dashboard match results table, project/candidate inline editing, comments system, posting filters/priorities, SDLC phase model, removed Reifegrad.
 - 2026-03-24: Rebranding rollout to Kompetenzkompass and landingpage briefing bundle added.
 - 2026-03-25: Roles and postings model implemented. Matching rewired to postings.
 - 2026-03-24: Matching hub with single and batch flows added across app navigation and docs.

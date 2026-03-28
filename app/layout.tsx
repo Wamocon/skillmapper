@@ -71,6 +71,19 @@ const hydrationAttributeCleanupScript = `
 export const metadata: Metadata = {
   title: "Kompetenzkompass",
   description: "Kompetenzkompass – Skill-Matching-Plattform für Projekte und Kandidaten.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
+  openGraph: {
+    title: "Kompetenzkompass",
+    description: "Kompetenzkompass – Skill-Matching-Plattform für Projekte und Kandidaten.",
+    images: [
+      {
+        url: "/icon.svg",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -51,18 +51,18 @@ export function Breadcrumb() {
   });
 
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-ink/60">
-      <Link href="/dashboard" className="flex items-center gap-1 hover:text-ink transition">
+    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 overflow-hidden text-sm text-ink/60">
+      <Link href="/dashboard" className="flex flex-shrink-0 items-center gap-1 hover:text-ink transition">
         <Home className="h-3.5 w-3.5" />
         <span className="sr-only">{t("breadcrumb.home")}</span>
       </Link>
       {crumbs.map((crumb, index) => (
-        <span key={crumb.href} className="flex items-center gap-1.5">
-          <ChevronRight className="h-3.5 w-3.5 text-ink/30" />
+        <span key={crumb.href} className="flex min-w-0 items-center gap-1.5">
+          <ChevronRight className="h-3.5 w-3.5 flex-shrink-0 text-ink/30" />
           {index === crumbs.length - 1 ? (
-            <span className="font-semibold text-ink/80">{crumb.label}</span>
+            <span className="truncate font-semibold text-ink/80">{crumb.label}</span>
           ) : (
-            <Link href={crumb.href} className="hover:text-ink transition">
+            <Link href={crumb.href} className="truncate hover:text-ink transition">
               {crumb.label}
             </Link>
           )}

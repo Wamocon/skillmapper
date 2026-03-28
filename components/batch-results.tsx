@@ -114,7 +114,7 @@ function MatchDetailPanel({
   return (
     <div className="space-y-4 py-2">
       {/* Score summary */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <ScoreCard
           label={locale === "de" ? "Match-Score" : "Match score"}
           value={`${entry.score}%`}

@@ -11,7 +11,7 @@ export function Card({ children, className, padding = "md" }: CardProps) {
   const paddingClasses = {
     sm: "p-4",
     md: "p-6",
-    lg: "p-8 md:p-12",
+    lg: "p-5 sm:p-8 md:p-12",
   };
 
   return (
@@ -37,7 +37,7 @@ export function CardHeader({ title, subtitle, action }: CardHeaderProps) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div>
-        <h2 className="font-heading text-3xl text-ink">{title}</h2>
+        <h2 className="font-heading text-xl sm:text-2xl md:text-3xl text-ink">{title}</h2>
         {subtitle && <p className="mt-1 text-sm text-ink/70">{subtitle}</p>}
       </div>
       {action}

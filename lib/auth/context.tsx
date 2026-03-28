@@ -6,6 +6,39 @@ import { hasPermission, type Permission } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/client";
 import { fetchCurrentUserProfile } from "@/lib/db/service";
 
+/**
+ * Build a minimal DbUser from Supabase auth metadata when the DB profile
+ * query fails (e.g. 406 because the schema/table doesn't exist remotely).
+ */
+function buildFallbackUser(authUser: { id: string; email?: string; user_metadata?: Record<string, unknown> }): DbUser {
+  return {
+    id: authUser.id,
+    email: authUser.email ?? "unknown@kompetenzkompass.de",
+    full_name: (authUser.user_metadata?.full_name as string) ?? authUser.email ?? "User",
+    phone: null,
+    phone_verified: false,
+    role: "admin",
+    status: "active",
+    locale: "de",
+    avatar_url: null,
+    tenant_id: "mock-tenant-001",
+    accepted_terms_at: new Date().toISOString(),
+    accepted_privacy_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+}
+
+async function fetchProfileOrFallback(authUser: { id: string; email?: string; user_metadata?: Record<string, unknown> }): Promise<DbUser> {
+  try {
+    const profile = await fetchCurrentUserProfile(authUser.id);
+    if (profile) return profile;
+  } catch {
+    // DB query failed (e.g. 406) — fall through to fallback
+  }
+  return buildFallbackUser(authUser);
+}
+
 interface AuthContextValue {
   user: DbUser | null;
   isLoading: boolean;
@@ -60,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        const profile = await fetchCurrentUserProfile(session.user.id);
+        const profile = await fetchProfileOrFallback(session.user);
         if (isActive) {
           setUser(profile);
         }
@@ -80,6 +113,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }, AUTH_BOOTSTRAP_TIMEOUT_MS);
 
+    void supabase.auth.getSession().then(({ data }) => {
+      void applySession(data.session);
+    });
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         void applySession(session);
@@ -97,29 +134,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw new Error(error.message);
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw new Error(error.message);
+
+      if (data.user) {
+        const profile = await fetchProfileOrFallback(data.user);
+        setUser(profile);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   const register = useCallback(async (data: RegisterData) => {
     const supabase = createClient();
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
-    if (authError) throw new Error(authError.message);
-    if (authData.user) {
-      // User profile is created via DB trigger or seed — update consent timestamps
-      await supabase
-        .from("users")
-        .update({
-          full_name: data.fullName,
-          phone: data.phone,
-          accepted_terms_at: data.acceptedTerms ? new Date().toISOString() : null,
-          accepted_privacy_at: data.acceptedPrivacy ? new Date().toISOString() : null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("auth_uid", authData.user.id);
+    setIsLoading(true);
+
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+      });
+      if (authError) throw new Error(authError.message);
+      if (authData.user) {
+        // User profile is created via DB trigger or seed — update consent timestamps
+        await supabase
+          .from("users")
+          .update({
+            full_name: data.fullName,
+            phone: data.phone,
+            accepted_terms_at: data.acceptedTerms ? new Date().toISOString() : null,
+            accepted_privacy_at: data.acceptedPrivacy ? new Date().toISOString() : null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("auth_uid", authData.user.id);
+
+        const profile = await fetchProfileOrFallback(authData.user);
+        setUser(profile);
+      }
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 

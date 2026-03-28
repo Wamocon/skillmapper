@@ -158,9 +158,9 @@ export default function PostingDetailPage() {
           <li>{locale === "de" ? "Projekt" : "Project"}: <span className="font-medium">{project.title}</span></li>
           <li>{locale === "de" ? "Dauer" : "Duration"}: {analysis.header.durationMonths} {locale === "de" ? "Monate" : "months"}</li>
           <li>{locale === "de" ? "Branche" : "Industry"}: {analysis.header.industry}</li>
-          <li>{locale === "de" ? "Reifegrad" : "Maturity"}: {analysis.header.maturityLevel}</li>
           <li>{locale === "de" ? "Projektphase" : "Project phase"}: {analysis.header.projectPhase}</li>
           <li>{locale === "de" ? "Rahmenbedingungen" : "Constraints"}: {analysis.header.conditions.join(", ")}</li>
+          {posting.priority && <li>{locale === "de" ? "Priorität" : "Priority"}: <Badge variant={posting.priority === "high" ? "error" : posting.priority === "medium" ? "warning" : "info"}>{posting.priority === "high" ? (locale === "de" ? "Hoch" : "High") : posting.priority === "medium" ? (locale === "de" ? "Mittel" : "Medium") : (locale === "de" ? "Niedrig" : "Low")}</Badge></li>}
         </ul>
       </Card>
 

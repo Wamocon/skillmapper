@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kompetenzkompass — Logo-Varianten</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: #181818;
+      color: #f5f0e7;
+      padding: 56px 32px 80px;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+    header { max-width: 1140px; margin: 0 auto 64px; text-align: center; }
+    header .eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #9a3412; margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 2.2rem; font-weight: 300; letter-spacing: 0.05em; color: #f5f0e7;
+      margin-bottom: 12px;
+    }
+    header p { font-size: 0.8rem; color: #666; line-height: 1.7; }
+    .palette {
+      display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;
+    }
+    .swatch {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.7rem; color: #888;
+    }
+    .swatch-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    /* ── Section labels ──────────────────────────────── */
+    .section-label {
+      max-width: 1140px; margin: 0 auto 22px;
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: #555;
+    }
+    .section-spacer { height: 60px; }
+
+    /* ── Icon Grid ───────────────────────────────────── */
+    .icon-grid {
+      max-width: 1140px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 18px;
+    }
+    .icon-card {
+      background: #232323;
+      border: 1px solid #2e2e2e;
+      border-radius: 20px;
+      padding: 30px 18px 22px;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      transition: border-color 0.2s;
+    }
+    .icon-card:hover { border-color: #3d3d3d; }
+    .icon-card svg { width: 130px; height: 130px; display: block; }
+    .icon-card .card-body { text-align: center; }
+    .icon-card h3 { font-size: 0.88rem; font-weight: 600; color: #f5f0e7; margin-bottom: 5px; }
+    .icon-card p { font-size: 0.72rem; color: #777; line-height: 1.55; }
+    .badge {
+      display: inline-block; font-size: 0.62rem; padding: 3px 9px;
+      border-radius: 5px; letter-spacing: 0.07em; text-transform: uppercase;
+    }
+    .badge-recommend { background: #2a1a10; color: #9a3412; }
+    .badge-neutral    { background: #1e2320; color: #294f3f; }
+    .badge-dark       { background: #0e1817; color: #4a7a6a; }
+    .badge-bold       { background: #1c1510; color: #7a5a4a; }
+    .badge-alt        { background: #1a1a22; color: #6070a0; }
+    .badge-rose       { background: #1e1a1a; color: #7a4040; }
+
+    /* ── Wordmark Section ────────────────────────────── */
+    .wordmark-section {
+      max-width: 1140px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .wm-row {
+      border-radius: 14px; padding: 22px 28px;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .wm-row svg { width: 44px; height: 44px; flex-shrink: 0; }
+    .wm-info { flex: 1; }
+    .wm-name { font-size: 1.4rem; letter-spacing: 0.07em; font-weight: 400; }
+    .wm-sub  { font-size: 0.72rem; letter-spacing: 0.09em; margin-top: 3px; opacity: 0.55; }
+    .wm-label { font-size: 0.65rem; color: #888; }
+    .wm-light { background: #f5f0e7; }
+    .wm-light .wm-name { font-family: Georgia, 'Times New Roman', serif; color: #122620; }
+    .wm-light .wm-sub  { color: #294f3f; }
+    .wm-ink   { background: #122620; }
+    .wm-ink   .wm-name { font-family: Georgia, 'Times New Roman', serif; color: #f5f0e7; }
+    .wm-ink   .wm-sub  { color: #e9dfcf; }
+    .wm-fog   { background: #e9dfcf; }
+    .wm-fog   .wm-name { font-family: Georgia, 'Times New Roman', serif; color: #122620; }
+    .wm-fog   .wm-sub  { color: #294f3f; }
+    .wm-label { font-size: 0.65rem; color: #888; min-width: 90px; text-align: right; }
+
+    /* ── Size Strip ──────────────────────────────────── */
+    .size-strip {
+      max-width: 1140px; margin: 0 auto;
+      background: #232323; border: 1px solid #2e2e2e; border-radius: 20px;
+      padding: 36px 40px; display: flex; align-items: flex-end; gap: 36px; flex-wrap: wrap;
+    }
+    .size-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .size-item span { font-size: 0.68rem; color: #666; letter-spacing: 0.06em; }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      max-width: 1140px; margin: 64px auto 0; text-align: center;
+      font-size: 0.72rem; color: #444; line-height: 1.8;
+    }
+    footer a { color: #9a3412; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+<header>
+  <div class="eyebrow">Kompetenzkompass · Logokonzept</div>
+  <h1>Logo-Varianten Vergleich</h1>
+  <p>6 Symbolmark-Varianten · Wortmarken-Kombinationen · Größenverlauf<br>
+     Vektoren direkt einsetzbar in Figma / Illustrator</p>
+  <div class="palette">
+    <div class="swatch"><div class="swatch-dot" style="background:#122620"></div> Ink #122620</div>
+    <div class="swatch"><div class="swatch-dot" style="background:#294f3f"></div> Moss #294f3f</div>
+    <div class="swatch"><div class="swatch-dot" style="background:#9a3412"></div> Rust #9a3412</div>
+    <div class="swatch"><div class="swatch-dot" style="background:#f5f0e7; border-color:#555"></div> Canvas #f5f0e7</div>
+    <div class="swatch"><div class="swatch-dot" style="background:#e9dfcf; border-color:#555"></div> Fog #e9dfcf</div>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1 — SYMBOLMARK VARIANTEN
+══════════════════════════════════════════════════════════ -->
+<p class="section-label">01 — Symbolmark-Varianten</p>
+<div class="icon-grid">
+
+  <!-- VARIANT A: Radar Compass (Primary) ─────────────────── -->
+  <div class="icon-card">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Hintergrund -->
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <!-- Äußerer Radar-Ring -->
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <!-- Innerer Radar-Ring -->
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <!-- Achslinien: vertikal + horizontal -->
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <!-- Achslinien: diagonal -->
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <!-- Kompassnadel Nord (Terrakotta) -->
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <!-- Kompassnadel Süd (Ink) -->
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <!-- Mittelpunkt -->
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <div class="card-body">
+      <h3>Variant A</h3>
+      <p>Radar-Kompass<br>4 Achsen + Doppelring</p>
+    </div>
+    <span class="badge badge-recommend">Empfehlung</span>
+  </div>
+
+  <!-- VARIANT B: Competency Wheel (6 Spokes) ─────────────── -->
+  <div class="icon-card">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <!-- Äußerer Ring -->
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.26"/>
+      <!-- 6 Speichen -->
+      <!-- 0° N  --> <line x1="60" y1="60" x2="60"   y2="14"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <!-- 60° NE--> <line x1="60" y1="60" x2="99.8" y2="37"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <!-- 120°SE--> <line x1="60" y1="60" x2="99.8" y2="83"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <!-- 180°S --> <line x1="60" y1="60" x2="60"   y2="106" stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <!-- 240°SW--> <line x1="60" y1="60" x2="20.2" y2="83"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <!-- 300°NW--> <line x1="60" y1="60" x2="20.2" y2="37"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <!-- Nord-Speiche verlängert (Terrakotta) -->
+      <line x1="60" y1="60" x2="60" y2="8" stroke="#9a3412" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Pfeilspitze Nord -->
+      <polygon points="60,4 55,17 65,17" fill="#9a3412"/>
+      <!-- Mittelpunkt -->
+      <circle cx="60" cy="60" r="5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.2" fill="#e9dfcf"/>
+    </svg>
+    <div class="card-body">
+      <h3>Variant B</h3>
+      <p>Kompetenzrad<br>6-Speichen Wheel</p>
+    </div>
+    <span class="badge badge-neutral">Wheel</span>
+  </div>
+
+  <!-- VARIANT C: Diamond + Gauge Arc ─────────────────────── -->
+  <div class="icon-card">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <!-- Nord-Diamant (Terrakotta) -->
+      <polygon points="60,12 50,56 70,56" fill="#9a3412"/>
+      <!-- Süd-Diamant (Ink) -->
+      <polygon points="60,68 50,56 70,56" fill="#122620"/>
+      <!-- Dünne Kreuzlinie -->
+      <line x1="60" y1="12" x2="60" y2="68" stroke="none"/>
+      <!-- Mittelpunkt (überdeckt Basis) -->
+      <circle cx="60" cy="57" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="57" r="2.5" fill="#e9dfcf"/>
+      <!-- Gauge-Bogen: center(60,100) r=26, obere Hälfte -->
+      <!-- M 34,100 A 26,26 0 0,0 86,100  (sweep=0 = counter-clockwise = geht nach oben) -->
+      <path d="M 34,100 A 26,26 0 0,0 86,100" fill="none" stroke="#294f3f" stroke-width="2" stroke-linecap="round"/>
+      <!-- Tick links: outer(43.6,81.6) → inner(47.9,85.9) -->
+      <line x1="43.6" y1="81.6" x2="47.9" y2="85.9" stroke="#122620" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Tick rechts: outer(76.4,81.6) → inner(72.1,85.9) -->
+      <line x1="76.4" y1="81.6" x2="72.1" y2="85.9" stroke="#122620" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Score-Marker (Terrakotta) am Bogen-Top -->
+      <circle cx="60" cy="74" r="3.5" fill="#9a3412"/>
+      <!-- Bogen-Enden -->
+      <circle cx="34" cy="100" r="2.2" fill="#294f3f"/>
+      <circle cx="86" cy="100" r="2.2" fill="#294f3f"/>
+    </svg>
+    <div class="card-body">
+      <h3>Variant C</h3>
+      <p>Diamant-Nadel<br>mit Gauge-Skala</p>
+    </div>
+    <span class="badge badge-neutral">Gauge</span>
+  </div>
+
+  <!-- VARIANT D: Dark Mode ────────────────────────────────── -->
+  <div class="icon-card">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Dunkler Hintergrund -->
+      <rect width="120" height="120" rx="22" fill="#122620"/>
+      <!-- Äußerer Radar-Ring -->
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#f5f0e7" stroke-width="1.5" opacity="0.18"/>
+      <!-- Innerer Radar-Ring -->
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#f5f0e7" stroke-width="1" opacity="0.14"/>
+      <!-- Achslinien -->
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#f5f0e7" stroke-width="1" opacity="0.13"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#f5f0e7" stroke-width="1" opacity="0.13"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#f5f0e7" stroke-width="0.8" opacity="0.09"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#f5f0e7" stroke-width="0.8" opacity="0.09"/>
+      <!-- Kompassnadel Nord (Terrakotta — unverändert) -->
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <!-- Kompassnadel Süd (Creme/Fog) -->
+      <polygon points="60,95 52,60 68,60" fill="#e9dfcf"/>
+      <!-- Mittelpunkt -->
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#122620"/>
+    </svg>
+    <div class="card-body">
+      <h3>Variant D</h3>
+      <p>Dark Mode<br>Invertiert</p>
+    </div>
+    <span class="badge badge-dark">Dark</span>
+  </div>
+
+  <!-- VARIANT E: Favicon Bold ─────────────────────────────── -->
+  <div class="icon-card">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <!-- Fetter äußerer Ring -->
+      <circle cx="60" cy="60" r="43" fill="none" stroke="#122620" stroke-width="3.5"/>
+      <!-- Fette Kompassnadel Nord -->
+      <polygon points="60,10 50,62 70,62" fill="#9a3412"/>
+      <!-- Fette Kompassnadel Süd -->
+      <polygon points="60,100 50,62 70,62" fill="#122620"/>
+      <!-- Fetter Mittelpunkt -->
+      <circle cx="60" cy="60" r="7.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="3.5" fill="#f5f0e7"/>
+    </svg>
+    <div class="card-body">
+      <h3>Variant E</h3>
+      <p>Favicon Bold<br>Mikroversion</p>
+    </div>
+    <span class="badge badge-bold">Favicon</span>
+  </div>
+
+  <!-- VARIANT F: Compass Rose (4 Richtungen) ─────────────── -->
+  <div class="icon-card">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <!-- Subtiler äußerer Ring -->
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <!-- Kreuzlinien -->
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="0.8" opacity="0.14"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="0.8" opacity="0.14"/>
+      <!-- Nord-Diamant (Terrakotta, lang) -->
+      <polygon points="60,10 53,60 67,60" fill="#9a3412"/>
+      <!-- Süd-Diamant (Ink, kürzer) -->
+      <polygon points="60,92 53,60 67,60" fill="#122620"/>
+      <!-- Ost-Diamant (Moss, kurz) -->
+      <polygon points="98,60 60,53 60,67" fill="#294f3f" opacity="0.75"/>
+      <!-- West-Diamant (Moss, kurz) -->
+      <polygon points="22,60 60,53 60,67" fill="#294f3f" opacity="0.75"/>
+      <!-- Mittelpunkt -->
+      <circle cx="60" cy="60" r="5.5" fill="#122620"/>
+      <circle cx="60" cy="60" r="2.5" fill="#f5f0e7"/>
+    </svg>
+    <div class="card-body">
+      <h3>Variant F</h3>
+      <p>Compass Rose<br>4-Richtungs-Nadeln</p>
+    </div>
+    <span class="badge badge-rose">Rose</span>
+  </div>
+
+</div><!-- /icon-grid -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2 — WORTMARKEN-KOMBINATIONEN
+══════════════════════════════════════════════════════════ -->
+<div class="section-spacer"></div>
+<p class="section-label">02 — Wortmarken-Kombinationen (Variant A als Symbol)</p>
+<div class="wordmark-section">
+
+  <!-- LIGHT (Canvas) -->
+  <div class="wm-row wm-light">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <div class="wm-info">
+      <div class="wm-name">Kompetenzkompass</div>
+      <div class="wm-sub">Die Explainable-Matching-Plattform</div>
+    </div>
+    <div class="wm-label">Canvas · Hell</div>
+  </div>
+
+  <!-- INK (Dark) -->
+  <div class="wm-row wm-ink">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#122620"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#f5f0e7" stroke-width="1.5" opacity="0.18"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#f5f0e7" stroke-width="1" opacity="0.14"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#f5f0e7" stroke-width="1" opacity="0.13"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#f5f0e7" stroke-width="1" opacity="0.13"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#f5f0e7" stroke-width="0.8" opacity="0.09"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#f5f0e7" stroke-width="0.8" opacity="0.09"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#e9dfcf"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#122620"/>
+    </svg>
+    <div class="wm-info">
+      <div class="wm-name">Kompetenzkompass</div>
+      <div class="wm-sub">Die Explainable-Matching-Plattform</div>
+    </div>
+    <div class="wm-label" style="color:#555;">Ink · Dunkel</div>
+  </div>
+
+  <!-- FOG (Mid-Tone) -->
+  <div class="wm-row wm-fog">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#e9dfcf"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <div class="wm-info">
+      <div class="wm-name">Kompetenzkompass</div>
+      <div class="wm-sub">Die Explainable-Matching-Plattform</div>
+    </div>
+    <div class="wm-label">Fog · Ton-in-Ton</div>
+  </div>
+
+  <!-- Kurzname "Kompass" -->
+  <div class="wm-row wm-light" style="border: 2px dashed #ccc6b5;">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <div class="wm-info">
+      <div class="wm-name" style="font-size:1.15rem; letter-spacing:0.1em;">Kompass</div>
+      <div class="wm-sub" style="font-size:0.7rem;">Kurzform für UI-Labels und enge Layouts</div>
+    </div>
+    <div class="wm-label" style="color:#999;">Kurzname</div>
+  </div>
+
+</div><!-- /wordmark-section -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3 — GRÖSSENVERLAUF (Variant A skaliert)
+══════════════════════════════════════════════════════════ -->
+<div class="section-spacer"></div>
+<p class="section-label">03 — Größenverlauf Variant A — Erkennbarkeit prüfen</p>
+<div class="size-strip">
+
+  <!-- 128px -->
+  <div class="size-item">
+    <svg viewBox="0 0 120 120" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <span>128 px</span>
+  </div>
+
+  <!-- 64px -->
+  <div class="size-item">
+    <svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <span>64 px</span>
+  </div>
+
+  <!-- 32px -->
+  <div class="size-item">
+    <svg viewBox="0 0 120 120" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <span>32 px</span>
+  </div>
+
+  <!-- 16px (Favicon-Test) — hier Variant E Bold besser geeignet -->
+  <div class="size-item">
+    <svg viewBox="0 0 120 120" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="43" fill="none" stroke="#122620" stroke-width="3.5"/>
+      <polygon points="60,10 50,62 70,62" fill="#9a3412"/>
+      <polygon points="60,100 50,62 70,62" fill="#122620"/>
+      <circle cx="60" cy="60" r="7.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="3.5" fill="#f5f0e7"/>
+    </svg>
+    <span>16 px (Variant E)</span>
+  </div>
+
+  <div style="flex:1; min-width:120px; font-size:0.72rem; color:#666; line-height:1.8; align-self:center; padding-left:8px;">
+    <strong style="color:#888; display:block; margin-bottom:6px;">Hinweis</strong>
+    Bei 32 px und kleiner: Variant E (Bold) statt Variant A verwenden.
+    Die feinen Radar-Linien werden unter 32 px visuell zu schwach.
+  </div>
+
+</div><!-- /size-strip -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 4 — VARIANTEN AUF DUNKLEM HINTERGRUND
+══════════════════════════════════════════════════════════ -->
+<div class="section-spacer"></div>
+<p class="section-label">04 — Alle Varianten auf Ink-Hintergrund</p>
+<div class="icon-grid" style="background:#122620; border-radius:20px; padding:28px;">
+
+  <!-- A dark ctx -->
+  <div class="icon-card" style="background:#1a3028; border-color:#1f3a2e;">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#122620" stroke-width="0.8" opacity="0.13"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#122620"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#e9dfcf"/>
+    </svg>
+    <div class="card-body"><h3>A · Light</h3><p>auf Ink-BG</p></div>
+  </div>
+
+  <!-- D on dark ctx -->
+  <div class="icon-card" style="background:#1a3028; border-color:#1f3a2e;">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#122620"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#f5f0e7" stroke-width="1.5" opacity="0.18"/>
+      <circle cx="60" cy="60" r="27" fill="none" stroke="#f5f0e7" stroke-width="1" opacity="0.14"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#f5f0e7" stroke-width="1" opacity="0.13"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#f5f0e7" stroke-width="1" opacity="0.13"/>
+      <line x1="27.5" y1="27.5" x2="92.5" y2="92.5" stroke="#f5f0e7" stroke-width="0.8" opacity="0.09"/>
+      <line x1="92.5" y1="27.5" x2="27.5" y2="92.5" stroke="#f5f0e7" stroke-width="0.8" opacity="0.09"/>
+      <polygon points="60,12 52,60 68,60" fill="#9a3412"/>
+      <polygon points="60,95 52,60 68,60" fill="#e9dfcf"/>
+      <circle cx="60" cy="60" r="5.5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.5" fill="#122620"/>
+    </svg>
+    <div class="card-body"><h3>D · Dark</h3><p>auf Ink-BG (tonal)</p></div>
+  </div>
+
+  <!-- B on dark ctx -->
+  <div class="icon-card" style="background:#1a3028; border-color:#1f3a2e;">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1.5" opacity="0.26"/>
+      <line x1="60" y1="60" x2="60"   y2="14"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <line x1="60" y1="60" x2="99.8" y2="37"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <line x1="60" y1="60" x2="99.8" y2="83"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <line x1="60" y1="60" x2="60"   y2="106" stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <line x1="60" y1="60" x2="20.2" y2="83"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <line x1="60" y1="60" x2="20.2" y2="37"  stroke="#122620" stroke-width="1.3" opacity="0.32"/>
+      <line x1="60" y1="60" x2="60" y2="8" stroke="#9a3412" stroke-width="2.2" stroke-linecap="round"/>
+      <polygon points="60,4 55,17 65,17" fill="#9a3412"/>
+      <circle cx="60" cy="60" r="5" fill="#294f3f"/>
+      <circle cx="60" cy="60" r="2.2" fill="#e9dfcf"/>
+    </svg>
+    <div class="card-body"><h3>B · Wheel</h3><p>auf Ink-BG</p></div>
+  </div>
+
+  <!-- F on dark ctx -->
+  <div class="icon-card" style="background:#1a3028; border-color:#1f3a2e;">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#f5f0e7"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#122620" stroke-width="1" opacity="0.18"/>
+      <line x1="60" y1="14" x2="60" y2="106" stroke="#122620" stroke-width="0.8" opacity="0.14"/>
+      <line x1="14" y1="60" x2="106" y2="60" stroke="#122620" stroke-width="0.8" opacity="0.14"/>
+      <polygon points="60,10 53,60 67,60" fill="#9a3412"/>
+      <polygon points="60,92 53,60 67,60" fill="#122620"/>
+      <polygon points="98,60 60,53 60,67" fill="#294f3f" opacity="0.75"/>
+      <polygon points="22,60 60,53 60,67" fill="#294f3f" opacity="0.75"/>
+      <circle cx="60" cy="60" r="5.5" fill="#122620"/>
+      <circle cx="60" cy="60" r="2.5" fill="#f5f0e7"/>
+    </svg>
+    <div class="card-body"><h3>F · Rose</h3><p>auf Ink-BG</p></div>
+  </div>
+
+</div><!-- /section 4 grid -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer>
+  <p>Kompetenzkompass · Logokonzept SVG · Stand März 2026</p>
+  <p style="margin-top:6px;">
+    Vektoren aus dieser Datei entnehmen → in Figma oder Illustrator nachbauen →
+    aus Vektorquelle alle Exportformate ableiten (siehe
+    <a href="logo-design-prompts.md">logo-design-prompts.md</a>).
+  </p>
+  <p style="margin-top:6px;">
+    Für AI-generierte Varianten: Prompts aus
+    <a href="logo-design-prompts.md">logo-design-prompts.md</a>
+    in Midjourney v6 oder Ideogram v2 eingeben.
+  </p>
+</footer>
+
+</body>
+</html>

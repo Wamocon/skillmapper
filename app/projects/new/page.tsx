@@ -2,11 +2,35 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Plus, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import { useNotifications } from "@/lib/notifications/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Input, Textarea, Select } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+const SDLC_PHASES = [
+  { value: "requirements", de: "Anforderungsanalyse", en: "Requirements" },
+  { value: "design", de: "Design", en: "Design" },
+  { value: "implementation", de: "Implementierung", en: "Implementation" },
+  { value: "testing", de: "Testing", en: "Testing" },
+  { value: "deployment", de: "Deployment", en: "Deployment" },
+  { value: "maintenance", de: "Wartung", en: "Maintenance" },
+];
+
+const PROJECT_STATUSES = [
+  { value: "draft", de: "Entwurf", en: "Draft" },
+  { value: "active", de: "Aktiv", en: "Active" },
+  { value: "archived", de: "Archiviert", en: "Archived" },
+];
+
+const AVAILABLE_ATTRIBUTES = [
+  "stakeholder_anzahl", "reiseanteil", "remote_anteil",
+  "compliance_level", "sicherheitsstufe", "teamgroesse",
+  "budget_rahmen", "agile_methodik", "ci_cd",
+  "cloud_provider", "dokumentationssprache", "barrierefreiheit",
+];
 
 export default function NewProjectPage() {
   const { t, locale } = useI18n();
@@ -20,15 +44,33 @@ export default function NewProjectPage() {
     rawText: "",
     durationMonths: "6",
     industry: "",
-    maturity: "pilot",
-    phase: "delivery",
+    phase: "requirements",
+    status: "draft",
     extensionMode: "mock" as "mock" | "manual-ai-assisted",
-    customAttributes: "stakeholder_anzahl=3\nreiseanteil=20%",
   });
+  const [selectedAttributes, setSelectedAttributes] = useState<Set<string>>(new Set());
+  const [customAttrInput, setCustomAttrInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  function toggleAttribute(attr: string) {
+    setSelectedAttributes((prev) => {
+      const next = new Set(prev);
+      if (next.has(attr)) next.delete(attr);
+      else next.add(attr);
+      return next;
+    });
+  }
+
+  function addCustomAttribute() {
+    const trimmed = customAttrInput.trim();
+    if (trimmed && !selectedAttributes.has(trimmed) && !AVAILABLE_ATTRIBUTES.includes(trimmed)) {
+      setSelectedAttributes((prev) => new Set(prev).add(trimmed));
+      setCustomAttrInput("");
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -78,16 +120,15 @@ export default function NewProjectPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <Select label={locale === "de" ? "Reifegrad" : "Maturity"} value={form.maturity} onChange={(e) => update("maturity", e.target.value)}>
-              <option value="idea">{locale === "de" ? "Idee" : "Idea"}</option>
-              <option value="pilot">Pilot</option>
-              <option value="rollout">Rollout</option>
-              <option value="scale">Scale</option>
+            <Select label={locale === "de" ? "Projektphase (SDLC)" : "Project phase (SDLC)"} value={form.phase} onChange={(e) => update("phase", e.target.value)}>
+              {SDLC_PHASES.map((p) => (
+                <option key={p.value} value={p.value}>{locale === "de" ? p.de : p.en}</option>
+              ))}
             </Select>
-            <Select label={locale === "de" ? "Projektphase" : "Project phase"} value={form.phase} onChange={(e) => update("phase", e.target.value)}>
-              <option value="discovery">Discovery</option>
-              <option value="delivery">Delivery</option>
-              <option value="stabilization">{locale === "de" ? "Stabilisierung" : "Stabilization"}</option>
+            <Select label={locale === "de" ? "Status" : "Status"} value={form.status} onChange={(e) => update("status", e.target.value)}>
+              {PROJECT_STATUSES.map((s) => (
+                <option key={s.value} value={s.value}>{locale === "de" ? s.de : s.en}</option>
+              ))}
             </Select>
           </div>
 
@@ -106,12 +147,54 @@ export default function NewProjectPage() {
             className="h-40"
           />
 
-          <Textarea
-            label={locale === "de" ? "Benutzerdefinierte Attribute (key=value je Zeile)" : "Custom attributes (key=value per line)"}
-            value={form.customAttributes}
-            onChange={(e) => update("customAttributes", e.target.value)}
-            className="h-24"
-          />
+          {/* Clickable custom attributes */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-ink/80">
+              {locale === "de" ? "Benutzerdefinierte Attribute" : "Custom attributes"}
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {AVAILABLE_ATTRIBUTES.map((attr) => (
+                <button
+                  key={attr}
+                  type="button"
+                  onClick={() => toggleAttribute(attr)}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                    selectedAttributes.has(attr)
+                      ? "border-moss/40 bg-moss/10 text-moss"
+                      : "border-ink/20 bg-white text-ink/60 hover:border-ink/30 hover:bg-fog/30"
+                  }`}
+                >
+                  {selectedAttributes.has(attr) ? "✓ " : ""}{attr.replace(/_/g, " ")}
+                </button>
+              ))}
+            </div>
+
+            {/* Custom added attributes */}
+            {[...selectedAttributes].filter((a) => !AVAILABLE_ATTRIBUTES.includes(a)).length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {[...selectedAttributes].filter((a) => !AVAILABLE_ATTRIBUTES.includes(a)).map((attr) => (
+                  <Badge key={attr} variant="info" className="gap-1">
+                    {attr}
+                    <button type="button" onClick={() => toggleAttribute(attr)} className="ml-1 hover:text-rust">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            <div className="flex gap-2 mt-2">
+              <Input
+                placeholder={locale === "de" ? "Eigenes Attribut hinzufügen..." : "Add custom attribute..."}
+                value={customAttrInput}
+                onChange={(e) => setCustomAttrInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCustomAttribute(); } }}
+              />
+              <Button type="button" variant="secondary" size="sm" onClick={addCustomAttribute} disabled={!customAttrInput.trim()}>
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
 
           <div className="space-y-1">
             <label className="block text-sm font-semibold text-ink/80">{locale === "de" ? "Datei hochladen" : "Upload file"}</label>

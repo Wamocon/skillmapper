@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { useNotifications } from "@/lib/notifications/context";
@@ -10,12 +10,21 @@ import { Card } from "@/components/ui/card";
 import { Input, Select, Checkbox } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { VerificationMethod } from "@/lib/db/types";
+import { BrandMark } from "@/components/layout/brand-mark";
+
+function getRedirectTarget(redirectTo: string | null) {
+  if (!redirectTo || !redirectTo.startsWith("/") || redirectTo.startsWith("//")) {
+    return "/dashboard";
+  }
+
+  return redirectTo;
+}
 
 export default function RegisterPage() {
   const { t, locale } = useI18n();
-  const { register } = useAuth();
+  const { register, user, isLoading } = useAuth();
   const { push } = useNotifications();
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [form, setForm] = useState({
     fullName: "",
@@ -33,6 +42,15 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [phoneVerified, setPhoneVerified] = useState(false);
+  const redirectTarget = getRedirectTarget(searchParams.get("redirectTo"));
+
+  useEffect(() => {
+    if (isLoading || !user) {
+      return;
+    }
+
+    window.location.assign(redirectTarget);
+  }, [isLoading, redirectTarget, user]);
 
   function update(field: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -92,7 +110,6 @@ export default function RegisterPage() {
         acceptedPrivacy: form.acceptPrivacy,
       });
       push("success", t("auth.registerTitle"), locale === "de" ? "Konto erfolgreich erstellt" : "Account created successfully");
-      router.push("/dashboard");
     } catch {
       push("error", t("auth.registerTitle"), locale === "de" ? "Registrierung fehlgeschlagen" : "Registration failed");
     } finally {
@@ -103,7 +120,13 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center py-8">
       <Card className="w-full max-w-lg">
-        <h1 className="font-heading text-4xl text-ink">{t("auth.registerTitle")}</h1>
+        <div className="mb-4 flex items-center gap-3">
+          <BrandMark className="h-10 w-10 shrink-0" withContainer />
+          <div>
+            <p className="text-xs uppercase tracking-[0.18em] text-rust">Kompetenzkompass</p>
+          </div>
+        </div>
+        <h1 className="font-heading text-2xl text-ink sm:text-4xl">{t("auth.registerTitle")}</h1>
         <p className="mt-2 text-sm text-ink/70">{t("auth.registerSubtitle")}</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">

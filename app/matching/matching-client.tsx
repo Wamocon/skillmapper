@@ -163,7 +163,7 @@ function SingleMatchResults({
             subtitle={`${postingTitle} · ${matchResult.totalScore}% ${locale === "de" ? "Match-Score" : "match score"}`}
             action={<RecommendationBadge recommendation={matchResult.recommendation} />}
           />
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <AIBadge />
             <Button variant="secondary" onClick={onRerun}>
               {locale === "de" ? "Erneut berechnen" : "Run again"}
@@ -174,7 +174,7 @@ function SingleMatchResults({
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-5">
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           <SummaryStat label={locale === "de" ? "Match-Score" : "Match score"} value={`${matchResult.totalScore}%`} />
           <SummaryStat label={locale === "de" ? "Pflichtabdeckung" : "Must coverage"} value={`${mustCoverage}%`} />
           <SummaryStat label={locale === "de" ? "Pflicht-Lücken" : "Must-have gaps"} value={criticalGaps} />
