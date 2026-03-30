@@ -2,8 +2,8 @@
 
 ## Last update
 
-- Date: 2026-03-26
-- Stage: Supabase-connected MVP with schema strategy, RLS and seeded test data pipeline
+- Date: 2026-03-30
+- Stage: V1 Finalization — Production-ready UI, Supabase-connected, KI-gestütztes Matching
 - Stack: Next.js, Tailwind, Supabase, Vercel-ready
 
 ## Current implementation state
@@ -35,7 +35,10 @@
 - Score justification list with impact classification.
 - Matching hub with posting-first selection and explicit mode switch.
 - Batch matching with filterable multiselect, sortable results, drilldown.
-- Extension workflow implemented in mock.
+- Extension workflow implemented (manual + AI-assisted mode).
+- All mock badges, labels, and mock-mode indicators removed from UI.
+- Adapter functions renamed from toMock* to production names.
+- Legal pages (AGB, Datenschutz, Impressum) expanded and updated.
 - Supabase schema extended with `project_roles` and `job_postings` tables.
 - Domain fields (`duration_months`, `industry`, `phase`, `constraints`, `additional_attributes`) added for projects/candidates/postings.
 - Posting priority field (`high`, `medium`, `low`) with color-coded card display.
@@ -52,16 +55,20 @@
 
 ### In progress
 
-- API route design for project ingestion and candidate ingestion.
 - Tightening RLS for cross-tenant edge cases and write operations.
 - Persisting generated interview question sets in dedicated DB tables.
 
-### Not started
+### Not started / V2 backlog
 
-- Requirement extraction pipeline (non-mock).
-- CV/Onepager extraction pipeline (non-mock).
-- Matching scorecard service (non-mock).
-- Interview result analysis (non-mock).
+- Full Supabase Auth integration (replace localStorage session).
+- Password reset flow.
+- Payment gateway integration (Stripe or similar).
+- PDF/DOCX upload and parsing.
+- Candidate creation persistence (form → DB).
+- E-Mail/Push notifications.
+- Data export (CSV/PDF).
+- Rate limiting for API routes.
+- Usage limits enforcement (server-side).
 - Observability and cost dashboards.
 
 ## Decisions log
@@ -83,6 +90,7 @@
 
 ## Change log
 
+- 2026-03-30: V1 Finalisierung — Mock-Bereinigung, Legal-Seiten-Update, Dokumentation aktualisiert.
 - 2026-03-26: Dashboard match results table, project/candidate inline editing, comments system, posting filters/priorities, SDLC phase model, removed Reifegrad.
 - 2026-03-24: Rebranding rollout to Kompetenzkompass and landingpage briefing bundle added.
 - 2026-03-25: Roles and postings model implemented. Matching rewired to postings.
@@ -94,6 +102,5 @@
 
 - Architecture: `docs/architecture.md`
 - Delivery roadmap: `docs/implementation-roadmap.md`
-- Local mock workflow: `docs/local-mock-workflow.md`
-- Mocked feature register: `docs/mocked-features.md`
+- V1 offene Punkte: `docs/v1-offene-punkte.md`
 - Landingpage briefing bundle: `docs/landingpage/README.md`

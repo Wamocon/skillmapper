@@ -87,7 +87,7 @@
   },
   "ui_requirements": {
     "mandatory_elements": [
-      "Mock-Kennzeichnung wo relevant",
+      "KI-Kennzeichnung bei generierten Ergebnissen",
       "Score-Erklaerung in jedem Ergebnis",
       "sichtbare Trennung Pflicht vs Optional",
       "klare CTA-Hierarchie"

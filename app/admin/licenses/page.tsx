@@ -12,7 +12,7 @@ export default function AdminLicensesPage() {
   const { t, locale } = useI18n();
   const { push } = useNotifications();
 
-  // Mock current plan
+  // Current plan - will be loaded from tenant subscription in production
   const currentPlan = "starter";
 
   function handleUpgrade(planType: string) {
@@ -20,8 +20,8 @@ export default function AdminLicensesPage() {
       "info",
       t("licensing.upgrade"),
       locale === "de"
-        ? `Upgrade auf ${planType} - In Produktion wird hier der Zahlungsprozess gestartet`
-        : `Upgrade to ${planType} - in production the payment flow will start here`,
+        ? `Upgrade auf ${planType} wird vorbereitet.`
+        : `Preparing upgrade to ${planType}.`,
     );
   }
 

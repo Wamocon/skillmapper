@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { ArrowRight, Zap, Shield, Globe } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -18,7 +17,6 @@ export default function HomePage() {
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-rust">
             {locale === "de" ? "Skill-Matching-Plattform" : "Skill matching platform"}
           </p>
-          <Badge variant="mock">{locale === "de" ? "Mock-Modus" : "Mock mode"}</Badge>
         </div>
         <h1 className="mt-4 max-w-4xl font-heading text-3xl leading-tight text-ink sm:text-5xl md:text-7xl">
           {locale === "de"

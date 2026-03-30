@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input, Textarea, Select } from "@/components/ui/input";
 import { SkillTree, mapCandidateSkillNodes } from "@/components/skill-tree";
 import { analyzeCandidate } from "@/lib/mock-skillmapper";
-import { toMockCandidateProfile } from "@/lib/ai/ui-adapters";
+import { toCandidateProfile } from "@/lib/ai/ui-adapters";
 import type { CandidateExtractionResult } from "@/lib/ai/extraction";
 import { PERMISSIONS } from "@/lib/auth/roles";
 import {
@@ -101,7 +101,7 @@ export default function CandidateDetailPage() {
 
   const profile = candidate
     ? candidate.mapped_profile
-      ? toMockCandidateProfile(
+      ? toCandidateProfile(
         candidate.mapped_profile as unknown as CandidateExtractionResult,
         candidate.full_name,
         candidate.extension_mode,
@@ -161,7 +161,7 @@ export default function CandidateDetailPage() {
               <p className="text-sm text-ink/60">{candidate.email}</p>
               <p className="text-xs text-ink/50">{locale === "de" ? `${candidate.location} - Verfügbar in ${candidate.availability_weeks} Wochen` : `${candidate.location} - Available in ${candidate.availability_weeks} weeks`}</p>
             </div>
-            <Badge variant={candidate.mapped_profile ? "info" : "mock"}>{candidate.mapped_profile ? "AI" : "Mock"}</Badge>
+            <Badge variant={candidate.mapped_profile ? "info" : "warning"}>{candidate.mapped_profile ? "AI" : (locale === "de" ? "Ausstehend" : "Pending")}</Badge>
           </div>
         )}
       </Card>
@@ -204,7 +204,7 @@ export default function CandidateDetailPage() {
 
       <Card>
         <CardHeader title={locale === "de" ? "Erweiterung von Bewerberdaten" : "Candidate data extension"} />
-        <p className="mt-3 text-sm text-ink/75">{locale === "de" ? `Modus: ${candidate.extension_mode}. Profildaten können zuerst gemockt, danach manuell + KI-gestützt erweitert werden.` : `Mode: ${candidate.extension_mode}. Profile data can be mocked first and then extended manually with AI assistance.`}</p>
+        <p className="mt-3 text-sm text-ink/75">{locale === "de" ? `Modus: ${candidate.extension_mode === "manual-ai-assisted" ? "Manuell + KI-gestützt" : "Standard"}. Profildaten werden manuell erfasst und KI-gestützt erweitert.` : `Mode: ${candidate.extension_mode === "manual-ai-assisted" ? "Manual + AI-assisted" : "Standard"}. Profile data is captured manually and extended with AI assistance.`}</p>
         <p className="mt-2 text-sm text-ink/75">{locale === "de" ? "Vorschläge" : "Suggestions"}: {profile.additionalAttributes.join(", ")}</p>
       </Card>
 

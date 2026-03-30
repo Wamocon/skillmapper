@@ -34,7 +34,7 @@ const SDLC_PHASES = [
   { value: "maintenance", de: "Wartung", en: "Maintenance" },
 ];
 
-const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
+const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info"> = {
   active: "success",
   draft: "warning",
   paused: "info",
@@ -301,7 +301,7 @@ export default function ProjectDetailPage() {
 
       <Card>
         <CardHeader title={locale === "de" ? "Erweiterung von Anforderungen" : "Requirement extension"} />
-        <p className="mt-3 text-sm text-ink/75">{locale === "de" ? `Modus: ${project.extension_mode}. Attribute können zuerst gemockt und danach manuell + KI-gestützt erweitert werden.` : `Mode: ${project.extension_mode}. Attributes can be mocked first and then extended manually with AI assistance.`}</p>
+        <p className="mt-3 text-sm text-ink/75">{locale === "de" ? `Modus: ${project.extension_mode === "manual-ai-assisted" ? "Manuell + KI-gestützt" : "Standard"}. Attribute werden manuell erfasst und KI-gestützt erweitert.` : `Mode: ${project.extension_mode === "manual-ai-assisted" ? "Manual + AI-assisted" : "Standard"}. Attributes are captured manually and extended with AI assistance.`}</p>
         <p className="mt-2 text-sm text-ink/75">{locale === "de" ? "Empfohlene Zusatzattribute" : "Recommended additional attributes"}: {analysis.additionalAttributes.join(", ")}</p>
       </Card>
 

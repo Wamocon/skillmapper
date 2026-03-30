@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { useNotifications } from "@/lib/notifications/context";
@@ -25,6 +25,7 @@ export default function RegisterPage() {
   const { register, user, isLoading } = useAuth();
   const { push } = useNotifications();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [form, setForm] = useState({
     fullName: "",
@@ -49,8 +50,8 @@ export default function RegisterPage() {
       return;
     }
 
-    window.location.assign(redirectTarget);
-  }, [isLoading, redirectTarget, user]);
+    router.push(redirectTarget);
+  }, [isLoading, redirectTarget, router, user]);
 
   function update(field: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));

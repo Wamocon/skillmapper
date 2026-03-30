@@ -80,7 +80,7 @@
       "Anforderungs- und Skill-Mapping in strukturierter Form",
       "Matching mit Ueberschneidungen, Luecken und Begruendung",
       "Interviewleitfaden aus identifizierten Gaps",
-      "Transparenter Mock-/Produktionsstatus je Funktion"
+      "Transparenter Funktionsstatus und Versionierung"
     ],
     "forbidden_claims": [
       "Vollautomatische Kandidatenauswahl ohne menschliche Pruefung",
@@ -96,7 +96,7 @@
       "Datenschutz- und Auditfaehigkeit"
     ],
     "ui_requirements": [
-      "Deutliche Kennzeichnung von Mock-Ergebnissen",
+      "Deutliche Kennzeichnung von KI-generierten Ergebnissen",
       "Hinweis auf evidenzbasierte Interpretation",
       "Klare Trennung zwischen Daten und Empfehlung"
     ]

@@ -31,8 +31,8 @@ export default function AnleitungPage() {
         <h1 className="mt-3 font-heading text-3xl text-ink sm:text-5xl md:text-6xl">{locale === "de" ? "So nutzt du Kompetenzkompass mit strukturiertem Mapping" : "How to use Kompetenzkompass with structured mapping"}</h1>
         <p className="mt-4 max-w-3xl text-lg text-ink/80">
           {locale === "de"
-            ? "Diese Seite zeigt den lokalen Workflow mit Projekt-, Rollen- und Ausschreibungs-Schema, Kompetenzrad-Visualisierung sowie begründetem Score-Matching (Pflicht/Optional-Logik). Kandidaten werden gegen einzelne Ausschreibungen gematcht, die ihrerseits Projektkontext erben. Einzelmatching und Mehrfach-Matching teilen sich denselben Ausschreibungskontext. Alle Ergebnisse sind derzeit simuliert (Mock), aber der Prozess ist bereits produktnah aufgebaut."
-            : "This page shows the local workflow with project, role, and job posting schemas, competency wheel visualization, and explainable score matching (required/optional logic). Candidates are matched against individual job postings which inherit project context. Single matching and batch matching share the same posting context. All results are currently simulated (mock), but the process already reflects a production-oriented structure."}
+            ? "Diese Seite zeigt den Workflow mit Projekt-, Rollen- und Ausschreibungs-Schema, Kompetenzrad-Visualisierung sowie begründetem Score-Matching (Pflicht/Optional-Logik). Kandidaten werden gegen einzelne Ausschreibungen gematcht, die ihrerseits Projektkontext erben. Einzelmatching und Mehrfach-Matching teilen sich denselben Ausschreibungskontext."
+            : "This page shows the workflow with project, role, and job posting schemas, competency wheel visualization, and explainable score matching (required/optional logic). Candidates are matched against individual job postings which inherit project context. Single matching and batch matching share the same posting context."}
         </p>
         <Link href="/" className="mt-6 inline-block rounded-xl bg-moss px-4 py-2 font-semibold text-white hover:bg-moss/90">
           {locale === "de" ? "Zur App zurück" : "Back to the app"}
@@ -60,7 +60,7 @@ export default function AnleitungPage() {
         <StepCard
           step="Step 1"
           title={locale === "de" ? "Projekt und Rollen erfassen" : "Capture project and roles"}
-          detail={locale === "de" ? "Neben Titel und Text werden Dauer, Branche, Projektphase (nach SDLC: Anforderungsanalyse, Design, Implementierung, Testing, Deployment, Wartung) und Rahmenbedingungen erfasst. Für jedes Projekt werden Rollen (z.\u00A0B. Frontend-Entwickler, QA Lead) angelegt, die mit Platzhaltern oder echten Kandidaten besetzt werden können. Rollen können direkt in der Projektansicht angelegt und Felder dort inline bearbeitet werden." : "In addition to title and text, duration, industry, project phase (SDLC: Requirements, Design, Implementation, Testing, Deployment, Maintenance), and constraints are captured. Roles (e.g. frontend developer, QA lead) are created per project and can be filled with placeholders or real candidates. Roles can be created directly in the project view and fields can be edited inline."}
+          detail={locale === "de" ? "Neben Titel und Text werden Dauer, Branche, Projektphase (nach SDLC: Anforderungsanalyse, Design, Implementierung, Testing, Deployment, Wartung) und Rahmenbedingungen erfasst. Für jedes Projekt werden Rollen (z.\u00A0B. Frontend-Entwickler, QA Lead) angelegt, die mit Kandidaten besetzt werden können. Rollen können direkt in der Projektansicht angelegt und Felder dort inline bearbeitet werden." : "In addition to title and text, duration, industry, project phase (SDLC: Requirements, Design, Implementation, Testing, Deployment, Maintenance), and constraints are captured. Roles (e.g. frontend developer, QA lead) are created per project and can be filled with candidates. Roles can be created directly in the project view and fields can be edited inline."}
         />
         <StepCard
           step="Step 2"
@@ -83,7 +83,7 @@ export default function AnleitungPage() {
         <StepCard
           step="Step 5"
           title={locale === "de" ? "Erweiterungsmodus nutzen" : "Use extension mode"}
-          detail={locale === "de" ? "Attribute für Anforderungen und Nutzerdaten können im Modus Mock oder Manuell + KI-gestützt erweitert werden." : "Attributes for requirements and user data can be extended in mock mode or manual + AI-assisted mode."}
+          detail={locale === "de" ? "Attribute für Anforderungen und Nutzerdaten werden manuell erfasst und KI-gestützt erweitert." : "Attributes for requirements and user data are captured manually and extended with AI assistance."}
         />
         <StepCard
           step="Step 6"
@@ -106,12 +106,12 @@ export default function AnleitungPage() {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-dashed border-rust/40 bg-rust/5 p-6">
-        <h2 className="font-heading text-3xl">{locale === "de" ? "Wichtige Hinweise" : "Important notes"}</h2>
+      <section className="mt-8 rounded-2xl border border-ink/10 bg-fog/70 p-6 shadow-panel">
+        <h2 className="font-heading text-3xl">{locale === "de" ? "Hinweise" : "Notes"}</h2>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-ink/80">
-          <li>{locale === "de" ? "Alle Extraktionen, Scores und Interviewbewertungen sind derzeit MOCK-Ergebnisse." : "All extractions, scores, and interview assessments are currently mock results."}</li>
-          <li>{locale === "de" ? "Die Datenstruktur ist bereits auf produktive Persistenz vorbereitet (Supabase-JSON-Attribute)." : "The data structure is already prepared for production persistence (Supabase JSON attributes)."}</li>
-          <li>{locale === "de" ? "Echte Parser, APIs und KI-Services werden in den nächsten Iterationen angebunden." : "Real parsers, APIs, and AI services will be integrated in the next iterations."}</li>
+          <li>{locale === "de" ? "Extraktionen, Scores und Interviewbewertungen werden KI-gestützt erstellt." : "Extractions, scores, and interview assessments are generated with AI assistance."}</li>
+          <li>{locale === "de" ? "Die Datenstruktur nutzt produktive Persistenz (Supabase mit Row-Level Security)." : "The data structure uses production persistence (Supabase with Row-Level Security)."}</li>
+          <li>{locale === "de" ? "Die Plattform wird kontinuierlich weiterentwickelt." : "The platform is being continuously developed."}</li>
         </ul>
       </section>
     </main>

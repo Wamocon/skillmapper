@@ -1,42 +1,20 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { DbUser } from "@/lib/db/types";
 import { hasPermission, type Permission } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/client";
 import { fetchCurrentUserProfile } from "@/lib/db/service";
 
-/**
- * Build a minimal DbUser from Supabase auth metadata when the DB profile
- * query fails (e.g. 406 because the schema/table doesn't exist remotely).
- */
-function buildFallbackUser(authUser: { id: string; email?: string; user_metadata?: Record<string, unknown> }): DbUser {
-  return {
-    id: authUser.id,
-    email: authUser.email ?? "unknown@kompetenzkompass.de",
-    full_name: (authUser.user_metadata?.full_name as string) ?? authUser.email ?? "User",
-    phone: null,
-    phone_verified: false,
-    role: "admin",
-    status: "active",
-    locale: "de",
-    avatar_url: null,
-    tenant_id: "mock-tenant-001",
-    accepted_terms_at: new Date().toISOString(),
-    accepted_privacy_at: new Date().toISOString(),
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  };
-}
+const PROFILE_RETRY_DELAYS_MS = [0, 200, 500];
 
-async function fetchProfileOrFallback(authUser: { id: string; email?: string; user_metadata?: Record<string, unknown> }): Promise<DbUser> {
-  try {
-    const profile = await fetchCurrentUserProfile(authUser.id);
+async function fetchProfileWithRetry(authUid: string): Promise<DbUser | null> {
+  for (const delay of PROFILE_RETRY_DELAYS_MS) {
+    if (delay > 0) await new Promise((r) => setTimeout(r, delay));
+    const profile = await fetchCurrentUserProfile(authUid);
     if (profile) return profile;
-  } catch {
-    // DB query failed (e.g. 406) — fall through to fallback
   }
-  return buildFallbackUser(authUser);
+  return null;
 }
 
 interface AuthContextValue {
@@ -65,6 +43,8 @@ const AUTH_BOOTSTRAP_TIMEOUT_MS = 2000;
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<DbUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  // Ref to prevent onAuthStateChange from overwriting user set by login()/register()
+  const loginSetUserRef = useRef(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -88,12 +68,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return;
         }
 
+        // If login() or register() already set the user, skip re-fetch
+        // to avoid overwriting with a failed DB query
+        if (loginSetUserRef.current) {
+          loginSetUserRef.current = false;
+          finishBootstrap();
+          return;
+        }
+
         if (!session?.user) {
           setUser(null);
           return;
         }
 
-        const profile = await fetchProfileOrFallback(session.user);
+        const profile = await fetchProfileWithRetry(session.user.id);
         if (isActive) {
           setUser(profile);
         }
@@ -141,7 +129,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (error) throw new Error(error.message);
 
       if (data.user) {
-        const profile = await fetchProfileOrFallback(data.user);
+        const profile = await fetchProfileWithRetry(data.user.id);
+        if (!profile) throw new Error("Benutzerprofil konnte nicht geladen werden. Bitte prüfen Sie die Datenbankverbindung.");
+        loginSetUserRef.current = true;
         setUser(profile);
       }
     } finally {
@@ -172,8 +162,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           })
           .eq("auth_uid", authData.user.id);
 
-        const profile = await fetchProfileOrFallback(authData.user);
-        setUser(profile);
+        const profile = await fetchProfileWithRetry(authData.user.id);
+        if (profile) {
+          loginSetUserRef.current = true;
+          setUser(profile);
+        }
       }
     } finally {
       setIsLoading(false);
