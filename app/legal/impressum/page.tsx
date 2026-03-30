@@ -7,13 +7,15 @@ export default function ImpressumPage() {
   const { t, locale } = useI18n();
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="legal-card-wrapper">
       <Card padding="lg">
+        <span className="legal-kicker">Rechtliches</span>
         <CardHeader
           title={t("legal.impressum")}
           subtitle={t("legal.lastUpdated", { date: "30.03.2026" })}
         />
-        <article className="prose prose-sm mt-6 max-w-none text-ink/80">
+        <article className="legal-article mt-6 max-w-none">
           <h3>{locale === "de" ? "Angaben gemäß § 5 TMG" : "Information pursuant to Section 5 TMG"}</h3>
           <p>
             WAMOCON GmbH<br />
@@ -62,6 +64,7 @@ export default function ImpressumPage() {
           </p>
         </article>
       </Card>
+      </div>
     </div>
   );
 }

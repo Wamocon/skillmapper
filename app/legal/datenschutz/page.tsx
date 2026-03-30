@@ -7,13 +7,15 @@ export default function DatenschutzPage() {
   const { t, locale } = useI18n();
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="legal-card-wrapper">
       <Card padding="lg">
+        <span className="legal-kicker">Rechtliches</span>
         <CardHeader
           title={t("legal.datenschutz")}
           subtitle={t("legal.lastUpdated", { date: "30.03.2026" })}
         />
-        <article className="prose prose-sm mt-6 max-w-none text-ink/80">
+        <article className="legal-article mt-6 max-w-none">
           {locale === "de" ? (
             <>
               <h3>1. Verantwortlicher</h3>
@@ -215,6 +217,7 @@ export default function DatenschutzPage() {
           )}
         </article>
       </Card>
+      </div>
     </div>
   );
 }
