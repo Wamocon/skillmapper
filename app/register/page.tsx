@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
@@ -21,6 +21,14 @@ function getRedirectTarget(redirectTo: string | null) {
 }
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center" />}>
+      <RegisterContent />
+    </Suspense>
+  );
+}
+
+function RegisterContent() {
   const { t, locale } = useI18n();
   const { register, user, isLoading } = useAuth();
   const { push } = useNotifications();
