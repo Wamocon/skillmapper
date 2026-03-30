@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SkillTree, mapRequirementNodes } from "@/components/skill-tree";
 import { analyzePosting } from "@/lib/mock-skillmapper";
-import { toMockPostingAnalysis } from "@/lib/ai/ui-adapters";
+import { toPostingAnalysis } from "@/lib/ai/ui-adapters";
 import type { PostingExtractionResult } from "@/lib/ai/extraction";
 import { fetchPostingById, fetchProjectById, fetchRoleById, fetchMatchRunsForPosting, fetchCandidateById } from "@/lib/db/service";
 import type { DbJobPosting, DbProject, DbProjectRole, DbMatchRun, DbCandidate } from "@/lib/db/types";
@@ -27,7 +27,7 @@ function safeParseSummary(summary: unknown): Record<string, unknown> | null {
   }
 }
 
-const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
+const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info"> = {
   active: "success",
   draft: "warning",
   paused: "info",
@@ -89,7 +89,7 @@ export default function PostingDetailPage() {
 
   const analysis = posting && role
     ? posting.mapped_profile
-      ? toMockPostingAnalysis(
+      ? toPostingAnalysis(
         posting.mapped_profile as unknown as PostingExtractionResult,
         posting.title,
         role.title,
@@ -135,7 +135,7 @@ export default function PostingDetailPage() {
               </Badge>
             }
           />
-          <Badge variant={posting.mapped_profile ? "info" : "mock"}>{posting.mapped_profile ? "AI" : "Mock"}</Badge>
+          <Badge variant={posting.mapped_profile ? "info" : "warning"}>{posting.mapped_profile ? "AI" : (locale === "de" ? "Ausstehend" : "Pending")}</Badge>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3 text-sm text-ink/60">
@@ -188,8 +188,8 @@ export default function PostingDetailPage() {
         <CardHeader title={locale === "de" ? "Erweiterungsmodus" : "Extension mode"} />
         <p className="mt-3 text-sm text-ink/75">
           {locale === "de"
-            ? `Modus: ${posting.extension_mode}. Attribute können zuerst gemockt und danach manuell + KI-gestützt erweitert werden.`
-            : `Mode: ${posting.extension_mode}. Attributes can be mocked first and then extended manually with AI assistance.`}
+            ? `Modus: ${posting.extension_mode === "manual-ai-assisted" ? "Manuell + KI-gestützt" : "Standard"}. Attribute werden manuell erfasst und KI-gestützt erweitert.`
+            : `Mode: ${posting.extension_mode === "manual-ai-assisted" ? "Manual + AI-assisted" : "Standard"}. Attributes are captured manually and extended with AI assistance.`}
         </p>
       </Card>
 

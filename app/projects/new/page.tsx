@@ -46,7 +46,7 @@ export default function NewProjectPage() {
     industry: "",
     phase: "requirements",
     status: "draft",
-    extensionMode: "mock" as "mock" | "manual-ai-assisted",
+    extensionMode: "manual-ai-assisted" as "manual-ai-assisted",
   });
   const [selectedAttributes, setSelectedAttributes] = useState<Set<string>>(new Set());
   const [customAttrInput, setCustomAttrInput] = useState("");
@@ -133,7 +133,6 @@ export default function NewProjectPage() {
           </div>
 
           <Select label={locale === "de" ? "Erweiterungsmodus (Attribute)" : "Extension mode (attributes)"} value={form.extensionMode} onChange={(e) => update("extensionMode", e.target.value)}>
-            <option value="mock">Mock</option>
             <option value="manual-ai-assisted">{locale === "de" ? "Manuell + KI-gestützt" : "Manual + AI-assisted"}</option>
           </Select>
 

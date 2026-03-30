@@ -1,6 +1,6 @@
 # Kompetenzkompass
 
-Kompetenzkompass ist jetzt auf eine echte Supabase-Datenbank angebunden (inkl. RLS, Rollenmodell, Rollen/Ausschreibungen, Matching-Daten).
+Kompetenzkompass ist eine KI-gestützte Skill-Matching-Plattform, angebunden an eine Supabase-Datenbank (inkl. RLS, Rollenmodell, Rollen/Ausschreibungen, Matching-Daten).
 
 ## Quick start
 
@@ -13,7 +13,7 @@ Open `http://localhost:3000`.
 
 ## Current workflow
 
-Der aktuelle Workflow läuft datenbankgestützt (kein reiner Mock-Modus mehr in den Kernseiten):
+Der aktuelle Workflow läuft vollständig datenbankgestützt:
 
 - Project upload/input with header mapping:
   - duration
@@ -39,7 +39,7 @@ Der aktuelle Workflow läuft datenbankgestützt (kein reiner Mock-Modus mehr in 
 - Matching hub with two execution modes:
   - single matching for one candidate in one project context
   - batch matching for multiple candidates in the same project context
-- Extension mode for attributes and user data: `mock` und `manual-ai-assisted`
+- Extension mode for attributes and user data: `manual-ai-assisted`
 
 Batch matching can be opened from project cards, project detail pages, dashboard quick actions, and the matching page itself.
 
@@ -102,10 +102,9 @@ Additional docs:
 
 - `docs/system-dokumentation-und-testzugang.md`
 - `docs/architecture.md`
-- `docs/local-mock-workflow.md`
-- `docs/mocked-features.md`
 - `docs/skills-inventory.md`
 - `docs/github-migration-plan.md`
+- `docs/v1-offene-punkte.md`
 - `docs/landingpage/README.md`
 - `docs/landingpage/01-strategie-fachlich-marketing.de.json`
 - `docs/landingpage/02-copydeck-landingpage.de.json`

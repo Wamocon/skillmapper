@@ -39,7 +39,6 @@ const de = {
   "common.language": "Sprache",
   "common.german": "Deutsch",
   "common.english": "Englisch",
-  "common.mock": "Mock",
   "common.home": "Startseite",
 
   // ─── Breadcrumbs ────────────────────────────────────────────────────────
@@ -242,7 +241,6 @@ const en: Record<keyof typeof de, string> = {
   "common.language": "Language",
   "common.german": "German",
   "common.english": "English",
-  "common.mock": "Mock",
   "common.home": "Home",
 
   // ─── Breadcrumbs ────────────────────────────────────────────────────────

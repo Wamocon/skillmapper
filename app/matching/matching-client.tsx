@@ -27,7 +27,7 @@ import {
   runSingleMatchViaApi,
   AIRequestError,
 } from "@/lib/ai/client";
-import { fromStoredMatchSummary, toBatchEntries, toMockCandidateProfile, toMockInterviewQuestions, toMockMatchResult, toMockPostingAnalysis } from "@/lib/ai/ui-adapters";
+import { fromStoredMatchSummary, toBatchEntries, toCandidateProfile, toInterviewQuestions, toMatchResult, toPostingAnalysis } from "@/lib/ai/ui-adapters";
 import type { CandidateExtractionResult, PostingExtractionResult } from "@/lib/ai/extraction";
 import {
   fetchActivePostings,
@@ -490,7 +490,7 @@ export default function MatchingPage() {
                   : undefined,
               })),
             };
-            questions = toMockInterviewQuestions(questionSet);
+            questions = toInterviewQuestions(questionSet);
           }
         } catch {
           // Interview questions are optional
@@ -500,7 +500,7 @@ export default function MatchingPage() {
         let postingAnalysis: PostingAnalysis | null = null;
         if (posting?.mapped_profile) {
           const role = await fetchRoleById(posting.role_id);
-          postingAnalysis = toMockPostingAnalysis(
+          postingAnalysis = toPostingAnalysis(
             posting.mapped_profile as unknown as PostingExtractionResult,
             posting.title,
             role?.title ?? "",
@@ -511,7 +511,7 @@ export default function MatchingPage() {
         // Build candidate profile from DB
         let candidateProfile: CandidateProfile | null = null;
         if (candidate?.mapped_profile) {
-          candidateProfile = toMockCandidateProfile(
+          candidateProfile = toCandidateProfile(
             candidate.mapped_profile as unknown as CandidateExtractionResult,
             candidate.full_name,
             "manual-ai-assisted",
@@ -521,22 +521,22 @@ export default function MatchingPage() {
         setSinglePostingAnalysis(postingAnalysis ?? {
           postingLabel: posting?.title ?? "Posting",
           roleTitle: "",
-          mapping: { sourceLabel: "", sourceType: "project", mocked: true, extractedCount: 0 },
+          mapping: { sourceLabel: "", sourceType: "project", mocked: false, extractedCount: 0 },
           header: { durationMonths: 0, industry: "", maturityLevel: "pilot", projectPhase: "delivery", conditions: [] },
           requirements: matchResult.details.map((d) => d.requirement),
           additionalAttributes: [],
-          extensionMode: "mock",
+          extensionMode: "manual-ai-assisted",
           extensionAttributes: [],
         });
         setSingleCandidateProfile(candidateProfile ?? {
-          mapping: { sourceLabel: candidate?.full_name ?? "", sourceType: "candidate", mocked: true, extractedCount: 0 },
+          mapping: { sourceLabel: candidate?.full_name ?? "", sourceType: "candidate", mocked: false, extractedCount: 0 },
           header: { location: candidate?.location ?? "", availabilityWeeks: 0, totalProjectMonths: 0, totalExperienceYears: 0 },
           hardSkills: [],
           softSkills: [],
           toolSkills: [],
           certifications: [],
           additionalAttributes: [],
-          extensionMode: "mock",
+          extensionMode: "manual-ai-assisted",
           extensionAttributes: [],
         });
         setSingleMatchResult(matchResult);
@@ -587,25 +587,25 @@ export default function MatchingPage() {
         ensureCandidateExtraction(selectedCandidate, forceRefresh),
       ]);
 
-      const postingAnalysis = toMockPostingAnalysis(
+      const postingAnalysis = toPostingAnalysis(
         postingExtraction,
         selectedPosting.title,
         selectedRole.title,
         "manual-ai-assisted",
       );
-      const candidateProfile = toMockCandidateProfile(
+      const candidateProfile = toCandidateProfile(
         candidateExtraction,
         selectedCandidate.full_name,
         "manual-ai-assisted",
       );
 
       const matchResponse = await runSingleMatchViaApi(selectedPosting.id, selectedCandidate.id);
-      const matchResult = toMockMatchResult(matchResponse.result, postingAnalysis, candidateProfile);
+      const matchResult = toMatchResult(matchResponse.result, postingAnalysis, candidateProfile);
 
       let interviewQuestions: InterviewQuestion[] = [];
       try {
         const interviewResponse = await generateInterviewQuestionsViaApi(matchResponse.matchRunId, 8);
-        interviewQuestions = toMockInterviewQuestions(interviewResponse.result);
+        interviewQuestions = toInterviewQuestions(interviewResponse.result);
       } catch (questionError) {
         const warning = formatAIError(questionError);
         push("warning", warning.title, warning.detail);
@@ -639,7 +639,7 @@ export default function MatchingPage() {
       setLoading(true);
       setActionFeedback(null);
       const postingExtraction = await ensurePostingExtraction(selectedPosting, selectedRole, forceRefresh);
-      const postingAnalysis = toMockPostingAnalysis(
+      const postingAnalysis = toPostingAnalysis(
         postingExtraction,
         selectedPosting.title,
         selectedRole.title,
@@ -656,7 +656,7 @@ export default function MatchingPage() {
       const profileMap = Object.fromEntries(
         extractedCandidates.map(({ candidate, extraction }) => [
           candidate.id,
-          toMockCandidateProfile(extraction, candidate.full_name, "manual-ai-assisted"),
+          toCandidateProfile(extraction, candidate.full_name, "manual-ai-assisted"),
         ]),
       ) as Record<string, CandidateProfile>;
 

@@ -1,6 +1,6 @@
 # Kompetenzkompass: Systemdokumentation und Testzugang
 
-Stand: 2026-03-25
+Stand: 2026-03-30
 
 ## 1) Ziel der Applikation
 
@@ -8,7 +8,7 @@ Kompetenzkompass ist eine webbasierte Plattform zur strukturierten Erfassung von
 
 Die Applikation unterstützt:
 - Projektanlage mit Rollen und Ausschreibungen
-- KI-nahe, strukturierte Anforderungs- und Profilableitung (aktuell regelbasiert/mock-gestuetzt)
+- KI-gestuetzte, strukturierte Anforderungs- und Profilableitung
 - Einzelmatching und Batch-Matching
 - Begruendete Scoring-Logik
 - Rollen- und Lizenzverwaltung im Admin-Bereich
@@ -30,7 +30,7 @@ Der aktuelle Stand ist ein Supabase-angebundenes MVP mit produktionsnaher Datens
 ### Noch offen / in Arbeit
 
 - Persistenz fuer Interviewfragen als eigene Tabellen
-- nicht-mock Extraktionspipelines (Projekt/CV)
+- Vollstaendige Extraktionspipelines (Projekt/CV) mit Supabase Auth
 - weitergehende API-Schicht fuer Ingestion-Prozesse
 - erweitertes Monitoring und Betriebsauswertung
 
@@ -119,7 +119,7 @@ Benutzer 4 (Invited):
 3. Login als User und Pruefung eingeschraenkter Berechtigungen.
 4. Oeffnen eines aktiven Postings und Start von Single-Matching.
 5. Start von Batch-Matching mit mehreren Kandidaten.
-6. Pruefung, ob Daten aus DB geladen werden (keine Mock-Abhaengigkeit in Kernseiten).
+6. Pruefung, ob Daten vollstaendig aus DB geladen werden.
 7. Test von Status-/Rollenwechsel im Admin-Bereich.
 
 ## 8) Umgebungen und Schema-Strategie

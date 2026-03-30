@@ -87,7 +87,7 @@ export default function DashboardPage() {
               {t("dashboard.welcome", { name: user?.full_name ?? "" })}
             </h1>
           </div>
-          <Badge variant="mock">Mock</Badge>
+
         </div>
       </section>
 

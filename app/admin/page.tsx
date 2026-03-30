@@ -27,7 +27,7 @@ export default function AdminPage() {
       <Card padding="lg">
         <CardHeader
           title={t("admin.title")}
-          action={<Badge variant="mock">Mock</Badge>}
+
         />
       </Card>
 

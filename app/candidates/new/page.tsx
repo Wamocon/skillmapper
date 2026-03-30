@@ -19,7 +19,7 @@ export default function NewCandidatePage() {
     cvText: "",
     availabilityWeeks: "4",
     location: "",
-    extensionMode: "mock" as "mock" | "manual-ai-assisted",
+    extensionMode: "manual-ai-assisted" as "manual-ai-assisted",
     customAttributes: "sprachlevel_de=C1\nreisebereitschaft=20%",
   });
   const [loading, setLoading] = useState(false);
@@ -61,7 +61,6 @@ export default function NewCandidatePage() {
           </div>
 
           <Select label={locale === "de" ? "Erweiterungsmodus (Nutzerdaten)" : "Extension mode (user data)"} value={form.extensionMode} onChange={(e) => update("extensionMode", e.target.value)}>
-            <option value="mock">Mock</option>
             <option value="manual-ai-assisted">{locale === "de" ? "Manuell + KI-gestützt" : "Manual + AI-assisted"}</option>
           </Select>
 

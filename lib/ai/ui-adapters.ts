@@ -38,7 +38,7 @@ function mapSkill(skill: ExtractedSkill): CandidateSkill {
   };
 }
 
-export function toMockPostingAnalysis(
+export function toPostingAnalysis(
   extraction: PostingExtractionResult,
   postingLabel: string,
   roleTitle: string,
@@ -76,7 +76,7 @@ export function toMockPostingAnalysis(
   };
 }
 
-export function toMockCandidateProfile(
+export function toCandidateProfile(
   extraction: CandidateExtractionResult,
   candidateName: string,
   extensionMode: "mock" | "manual-ai-assisted",
@@ -165,7 +165,7 @@ export function fromStoredMatchSummary(summary: Record<string, unknown>): {
   return { matchResult, postingAnalysis: null };
 }
 
-export function toMockMatchResult(result: MatchResultLike, postingAnalysis: PostingAnalysis, candidateProfile: CandidateProfile): MatchResult {
+export function toMatchResult(result: MatchResultLike, postingAnalysis: PostingAnalysis, candidateProfile: CandidateProfile): MatchResult {
   const candidateSkills = flattenSkills(candidateProfile);
   const normalizedScore = normalizeMatchScore(result.total_score);
   const normalizedRecommendation = getMatchRecommendation(result.details, normalizedScore);
@@ -200,7 +200,7 @@ export function toMockMatchResult(result: MatchResultLike, postingAnalysis: Post
   };
 }
 
-export function toMockInterviewQuestions(result: InterviewQuestionSet): InterviewQuestion[] {
+export function toInterviewQuestions(result: InterviewQuestionSet): InterviewQuestion[] {
   return result.questions.map((question) => ({
     id: question.id,
     question: question.question,
@@ -224,7 +224,7 @@ export function toBatchEntries(
       throw new Error(`Missing candidate profile adapter for ${entry.candidate_id}.`);
     }
 
-    const matchResult = toMockMatchResult(entry, postingAnalysis, profile);
+    const matchResult = toMatchResult(entry, postingAnalysis, profile);
 
     return {
       candidateId: candidate.id,

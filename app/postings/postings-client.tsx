@@ -11,12 +11,11 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea, Select } from "@/components/ui/input";
-import { MockBadge } from "@/components/mock-badge";
 import { PERMISSIONS } from "@/lib/auth/roles";
 import { fetchPostings, fetchProjectById, fetchRoleById, fetchProjects, fetchRolesForProject, createPosting } from "@/lib/db/service";
 import type { DbJobPosting, DbProject, DbProjectRole, PostingPriority } from "@/lib/db/types";
 
-const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info" | "mock"> = {
+const STATUS_VARIANT: Record<string, "success" | "warning" | "error" | "info"> = {
   active: "success",
   draft: "warning",
   paused: "info",
@@ -139,7 +138,7 @@ export function PostingsClientPage() {
         tenant_id: project?.tenant_id ?? "",
         raw_text: null,
         status: newForm.status as DbJobPosting["status"],
-        extension_mode: "mock",
+        extension_mode: "manual-ai-assisted",
         custom_attributes: null,
         mapped_profile: null,
         created_by: "",
@@ -194,7 +193,6 @@ export function PostingsClientPage() {
                   {locale === "de" ? "Neue Ausschreibung" : "New posting"}
                 </Button>
               )}
-              <MockBadge />
             </div>
           }
         />

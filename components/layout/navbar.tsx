@@ -14,7 +14,6 @@ import { useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { useNotifications } from "@/lib/notifications/context";
-import { Badge } from "@/components/ui/badge";
 import { BrandMark } from "@/components/layout/brand-mark";
 
 export function Navbar() {
@@ -33,7 +32,6 @@ export function Navbar() {
         <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2 min-w-0">
           <BrandMark className="h-8 w-8 shrink-0" />
           <span className="font-heading text-lg sm:text-2xl text-ink truncate">Kompetenzkompass</span>
-          <Badge variant="mock" className="hidden sm:inline-flex">Mock</Badge>
         </Link>
 
         {/* Desktop nav */}

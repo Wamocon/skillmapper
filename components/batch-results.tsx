@@ -7,7 +7,6 @@ import { useI18n } from "@/lib/i18n/context";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MockBadge } from "@/components/mock-badge";
 import { SkillTree, mapCandidateSkillNodes, mapRequirementNodes } from "@/components/skill-tree";
 import type { BatchMatchEntry, MatchDetail, ProjectAnalysis } from "@/lib/mock-skillmapper";
 
@@ -327,7 +326,6 @@ export function BatchResults({ projectTitle, projectAnalysis, entries, onBack }:
             />
           </div>
           <div className="flex items-center gap-3">
-            <MockBadge />
             <Button variant="secondary" onClick={onBack}>
               {locale === "de" ? "← Neue Auswahl" : "← New selection"}
             </Button>

@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 
-type BadgeVariant = "default" | "success" | "warning" | "error" | "info" | "mock";
+type BadgeVariant = "default" | "success" | "warning" | "error" | "info";
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -14,7 +14,6 @@ const variantClasses: Record<BadgeVariant, string> = {
   warning: "border-amber-500/40 bg-amber-500/10 text-amber-700",
   error: "border-rust/40 bg-rust/10 text-rust",
   info: "border-blue-500/40 bg-blue-100 text-blue-700",
-  mock: "border-rust/40 bg-rust/10 text-rust",
 };
 
 export function Badge({ children, variant = "default", className }: BadgeProps) {

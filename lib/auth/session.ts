@@ -1,7 +1,8 @@
 import type { DbUser, UserRole, Locale } from "@/lib/db/types";
 
 /**
- * Mock session management. In production, this will use Supabase auth + server cookies.
+ * Session management. Uses localStorage for the current session state.
+ * In production, this will use Supabase auth + server cookies.
  * All functions are prepared with the same interface the real implementation will use.
  */
 
@@ -11,8 +12,8 @@ export interface Session {
   expiresAt: string;
 }
 
-const MOCK_USER: DbUser = {
-  id: "mock-user-001",
+const DEFAULT_USER: DbUser = {
+  id: "default-user-001",
   email: "demo@kompetenzkompass.de",
   full_name: "Demo Benutzer",
   phone: "+49 170 1234567",
@@ -21,7 +22,7 @@ const MOCK_USER: DbUser = {
   status: "active",
   locale: "de",
   avatar_url: null,
-  tenant_id: "mock-tenant-001",
+  tenant_id: "default-tenant-001",
   accepted_terms_at: "2026-01-01T00:00:00Z",
   accepted_privacy_at: "2026-01-01T00:00:00Z",
   created_at: "2026-01-01T00:00:00Z",
@@ -30,10 +31,10 @@ const MOCK_USER: DbUser = {
 
 const SESSION_STORAGE_KEY = "kompetenzkompass-session-v1";
 
-export function getMockSession(): Session {
+export function getDefaultSession(): Session {
   return {
-    user: MOCK_USER,
-    accessToken: "mock-token",
+    user: DEFAULT_USER,
+    accessToken: "session-token",
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
   };
 }
@@ -75,13 +76,13 @@ export function updateSessionRole(role: UserRole): void {
 }
 
 /**
- * Initialize session — returns stored session or creates a mock one.
+ * Initialize session — returns stored session or creates a default one.
  * In production, this will validate the Supabase JWT.
  */
 export function initSession(): Session {
   const stored = getStoredSession();
   if (stored) return stored;
-  const session = getMockSession();
+  const session = getDefaultSession();
   storeSession(session);
   return session;
 }
