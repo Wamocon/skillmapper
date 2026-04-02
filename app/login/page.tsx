@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth/context";
 import { useNotifications } from "@/lib/notifications/context";
@@ -32,6 +32,7 @@ function LoginContent() {
   const { login, user, isLoading } = useAuth();
   const { push } = useNotifications();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -41,13 +42,28 @@ function LoginContent() {
   const showDemoCredentials = process.env.NODE_ENV !== "production";
   const redirectTarget = getRedirectTarget(searchParams.get("redirectTo"));
 
+  const navigateToTarget = useCallback(() => {
+    router.replace(redirectTarget);
+    router.refresh();
+
+    // In production, App Router can keep stale route payloads after auth changes.
+    // Fall back to a hard navigation if we are still on /login shortly after.
+    window.setTimeout(() => {
+      if (window.location.pathname === "/login") {
+        window.location.assign(redirectTarget);
+      }
+    }, 150);
+  }, [redirectTarget, router]);
+
   useEffect(() => {
     if (isLoading || !user) {
       return;
     }
 
-    router.push(redirectTarget);
-  }, [isLoading, redirectTarget, router, user]);
+    if (pathname === "/login") {
+      navigateToTarget();
+    }
+  }, [isLoading, navigateToTarget, pathname, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -56,6 +72,7 @@ function LoginContent() {
     try {
       await login(email, password);
       push("success", t("auth.loginTitle"), t("dashboard.welcome", { name: email }));
+      navigateToTarget();
     } catch {
       setError(
         locale === "de"

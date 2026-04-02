@@ -20,7 +20,7 @@ export default function HelpPage() {
             <div className="flex flex-col items-center text-center gap-3 py-4">
               <HelpCircle className="h-10 w-10 text-moss" />
               <h3 className="font-heading text-xl text-ink">{t("help.faqTitle")}</h3>
-              <p className="text-sm text-ink/60">Antworten auf häufig gestellte Fragen</p>
+              <p className="text-sm text-ink/60">{t("help.faqSubtitle")}</p>
             </div>
           </Card>
         </Link>
@@ -39,8 +39,8 @@ export default function HelpPage() {
           <Card className="transition hover:shadow-lg hover:-translate-y-0.5 h-full">
             <div className="flex flex-col items-center text-center gap-3 py-4">
               <Zap className="h-10 w-10 text-amber-600" />
-              <h3 className="font-heading text-xl text-ink">Matching-Modi</h3>
-              <p className="text-sm text-ink/60">Einzelmatching oder Mehrfach-Matching direkt im Matching Hub starten</p>
+              <h3 className="font-heading text-xl text-ink">{t("help.matchingTitle")}</h3>
+              <p className="text-sm text-ink/60">{t("help.matchingSubtitle")}</p>
             </div>
           </Card>
         </Link>

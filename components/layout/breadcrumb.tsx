@@ -19,6 +19,7 @@ const SEGMENT_LABELS: Record<string, TranslationKey> = {
   projects: "breadcrumb.projects",
   candidates: "breadcrumb.candidates",
   matching: "breadcrumb.matching",
+  notifications: "breadcrumb.notifications",
   settings: "breadcrumb.settings",
   admin: "breadcrumb.admin",
   users: "breadcrumb.users",
@@ -39,7 +40,11 @@ export function Breadcrumb() {
   const pathname = usePathname();
   const { t } = useI18n();
 
-  const segments = pathname.split("/").filter(Boolean);
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const segments = pathSegments.filter((segment, index) => {
+    // Hide the non-existent legal overview page from breadcrumbs on legal detail pages.
+    return !(segment === "legal" && index === 0 && pathSegments.length > 1);
+  });
 
   if (segments.length === 0) return null;
 

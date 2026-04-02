@@ -54,6 +54,7 @@ const de = {
   "breadcrumb.help": "Hilfe",
   "breadcrumb.faq": "FAQ",
   "breadcrumb.legal": "Rechtliches",
+  "breadcrumb.notifications": "Benachrichtigungen",
   "breadcrumb.agb": "AGB",
   "breadcrumb.datenschutz": "Datenschutz",
   "breadcrumb.impressum": "Impressum",
@@ -177,6 +178,8 @@ const de = {
   "settings.languageDescription": "Wählen Sie Ihre bevorzugte Sprache",
   "settings.notifications": "Benachrichtigungen",
   "settings.saved": "Einstellungen gespeichert",
+  "settings.profileSaved": "Profil erfolgreich gespeichert",
+  "settings.profileSaveFailed": "Profil konnte nicht gespeichert werden",
 
   // ─── Legal ──────────────────────────────────────────────────────────────
   "legal.agb": "Allgemeine Geschäftsbedingungen",
@@ -188,10 +191,13 @@ const de = {
   "help.title": "Hilfe & Support",
   "help.subtitle": "Finden Sie Antworten auf häufige Fragen",
   "help.faqTitle": "Häufig gestellte Fragen",
+  "help.faqSubtitle": "Antworten auf häufig gestellte Fragen",
   "help.contactTitle": "Kontakt",
   "help.contactText": "Haben Sie weitere Fragen? Kontaktieren Sie uns unter support@kompetenzkompass.de",
   "help.guideTitle": "Nutzungsanleitung",
   "help.guideSubtitle": "So nutzen Sie Kompetenzkompass",
+  "help.matchingTitle": "Matching-Modi",
+  "help.matchingSubtitle": "Einzelmatching oder Mehrfach-Matching direkt im Matching Hub starten",
 
   // ─── FAQ Items ──────────────────────────────────────────────────────────
   "faq.q1": "Was ist Kompetenzkompass?",
@@ -256,6 +262,7 @@ const en: Record<keyof typeof de, string> = {
   "breadcrumb.help": "Help",
   "breadcrumb.faq": "FAQ",
   "breadcrumb.legal": "Legal",
+  "breadcrumb.notifications": "Notifications",
   "breadcrumb.agb": "Terms of Service",
   "breadcrumb.datenschutz": "Privacy Policy",
   "breadcrumb.impressum": "Imprint",
@@ -379,6 +386,8 @@ const en: Record<keyof typeof de, string> = {
   "settings.languageDescription": "Choose your preferred language",
   "settings.notifications": "Notifications",
   "settings.saved": "Settings saved",
+  "settings.profileSaved": "Profile saved successfully",
+  "settings.profileSaveFailed": "Profile could not be saved",
 
   // ─── Legal ──────────────────────────────────────────────────────────────
   "legal.agb": "Terms of Service",
@@ -390,10 +399,13 @@ const en: Record<keyof typeof de, string> = {
   "help.title": "Help & Support",
   "help.subtitle": "Find answers to common questions",
   "help.faqTitle": "Frequently Asked Questions",
+  "help.faqSubtitle": "Answers to frequently asked questions",
   "help.contactTitle": "Contact",
   "help.contactText": "Have additional questions? Contact us at support@kompetenzkompass.de",
   "help.guideTitle": "User Guide",
   "help.guideSubtitle": "How to use Kompetenzkompass",
+  "help.matchingTitle": "Matching Modes",
+  "help.matchingSubtitle": "Start single matching or batch matching directly in the Matching Hub",
 
   // ─── FAQ Items ──────────────────────────────────────────────────────────
   "faq.q1": "What is Kompetenzkompass?",
