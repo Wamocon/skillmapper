@@ -348,6 +348,25 @@ export async function fetchCurrentUserProfile(authUid: string): Promise<DbUser |
   return data as DbUser;
 }
 
+export async function updateCurrentUserProfile(
+  userId: string,
+  updates: Pick<DbUser, "full_name" | "phone">,
+): Promise<DbUser> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("users")
+    .update({
+      full_name: updates.full_name,
+      phone: updates.phone,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", userId)
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data as DbUser;
+}
+
 export async function fetchUsersInTenant(): Promise<DbUser[]> {
   const supabase = createClient();
   const { data, error } = await supabase
